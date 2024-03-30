@@ -1,0 +1,128 @@
+/* 기본 스타일 설정 */
+body {
+    background-color: #494040; /* 배경을 어두운 색으로 설정 */
+    color: #fff; /* 텍스트 색상을 밝게 설정하여 대비 향상 */
+}
+
+/* 사이드바 스타일 */
+.sidebar {
+    width: 250px; /* 사이드바 너비 */
+    position: fixed;
+    left: calc((100% - 1400px) / 2); /* 컨테이너 왼쪽 여백 계산 */
+    top: 150px;
+    bottom: 0;
+    background-color: #494040; /* 사이드바 배경색 */
+    color: #ccc; /* 사이드바 텍스트 색상 */
+}
+.sidebar a {
+    display: block; /* 링크를 블록 요소로 만들어 줄 바꿈 효과를 줌 */
+    color: #dfe6ee; /* 링크 색상 */
+    text-decoration: none; /* 밑줄 없앰 */
+    margin-bottom: 10px; /* 링크 사이의 여백 */
+}
+.sidebar a:hover {
+    color: #c8d1db /* 링크에 마우스를 올렸을 때의 색상 */
+}
+.sidebar .sidebar-categories {
+    border-top: 1px solid #ddd; /* 상단에 경계선 추가 */
+    padding-top: 20px; /* 상단 여백 */
+}
+
+
+  
+
+/* 본문 내용 스타일 */
+.content {
+    margin-left: 250px; /* 사이드바 너비 + 20px 간격 */
+    margin-right: 200px; /* 오른쪽 여백 추가, 필요에 따라 조정 */
+    margin-top: 100px;
+    /* 기타 스타일 */
+  }
+
+/* 포스트 내 링크 색상 변경 */
+.content a {
+    color: #dfe6ee; /* 변경하고 싶은 색상 코드 */
+    text-decoration: none; /* 링크 밑줄 제거 (선택사항) */
+  }
+  
+  /* 포스트 내 링크에 마우스를 올렸을 때 색상 변경 */
+  .content a:hover {
+    color: #c8d1db; /* 마우스 오버 시 변경하고 싶은 색상 */
+  }
+  
+  .content.home-content {
+    margin-left: -15px; /* 홈페이지에서 사이드바와의 간격 조정 */
+    margin-right: 200px; /* 필요에 따라 조정 */
+    margin-top: 100px;
+}
+
+
+/* 프로필 이미지 스타일 */
+.profile-image {
+    width: 200px; /* 이미지 너비 */
+    height: 200px; /* 이미지 높이 */
+    border-radius: 50%; /* 이미지를 원형으로 만듦 */
+    display: block; /* 이미지를 블록 요소로 만듦 */
+    margin: 20px auto; /* 이미지를 가운데 정렬 */
+    object-fit: cover; /* 이미지 비율 유지 */
+}
+
+@media (max-width: 768px) {
+    .content {
+      margin-left: 20px; /* 모바일 환경에서의 사이드바와의 간격 */
+      margin-right: 20px; /* 모바일 환경에서의 오른쪽 여백 */
+    }
+  }
+  
+/* 블로그 상단 부분 */
+.blog-header {
+    text-align: center;
+    padding: 20px 0;
+    background-color: #494040; /* 배경색은 사이트 디자인에 맞게 조정 */
+  }
+  
+  .blog-name {
+    color: #fff; /* 글자색은 사이트 디자인에 맞게 조정 */
+    font-size: 40px; /* 폰트 크기는 취향에 맞게 조정 */
+    text-decoration: none; /* 밑줄 제거 */
+  }
+  
+.container {
+    max-width: 1200px; /* 최대 너비 설정 */
+    margin: 0 auto; /* 중앙 정렬 */
+    padding: 0 15px; /* 좌우 패딩 */
+}
+
+.site-header hr {
+    border: 0; /* 기본 테두리 제거 */
+    height: 1px; /* 선 높이 */
+    background-color: #683c3c; /* 선 색상 */
+    margin: 20px 0; /* 위아래 마진 */
+}
+
+.category-title {
+    cursor: pointer;
+    font-weight: bold;
+  }
+  
+  .category-posts {
+    padding-left: 20px;
+    display: none; /* 기본적으로 숨김 */
+  }
+
+.post-excerpt {
+    margin-top: 10px;
+}
+/* 개별 포스트 페이지의 제목과 날짜 스타일 */
+.post-header {
+    display: flex;
+    align-items: center; /* 세로 중앙 정렬 */
+}
+
+.post-date {
+    margin-left: 20px; /* 제목과 날짜 사이의 간격 */
+    white-space: nowrap; /* 날짜를 한 줄로 유지 */
+}
+
+
+
