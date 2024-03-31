@@ -8,7 +8,7 @@ bundle exec jekyll serve 를 통해 미리 확인 할 수 있다
 ---
 layout: post
 title: "title name"
-date: current date
+date: yyyy-mm-dd
 categories: categori name
 ---
 </pre>
