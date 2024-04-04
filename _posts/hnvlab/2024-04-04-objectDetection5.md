@@ -39,3 +39,7 @@ categories: hnvlab
 - box loss (loss_box_reg): 바운딩 박스 회귀 손실, 즉 모델이 객체의 위치와 크기를 얼마나 정확하게 예측하는지에 대한 손실입니다.
 - obj loss (loss_objectness): 객체 존재 여부 손실, 즉 모델이 특정 위치에 객체가 존재하는지 여부를 얼마나 잘 판단하는지에 대한 손실입니다.
 - rpn loss (loss_rpn_box_reg): Region Proposal Network (RPN)의 바운딩 박스 회귀 손실, 즉 RPN이 객체 후보 영역의 위치를 얼마나 정확하게 예측하는지에 대한 손실입니다.
+
+# indices = random.choices(range(len(dataset)), k=n_images)
+- 중복을 허용하여 랜덤으로 데이터셋에서 인덱스 선택
+

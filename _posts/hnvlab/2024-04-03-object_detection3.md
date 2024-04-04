@@ -61,14 +61,65 @@ print(f"Processing threshold: {args.threshold}")
 - matplotlib 등의 일부 다른 라이브러리나 이미지 처리 라이브러리는 이미지 데이터를 (높이, 너비, 채널) 형식(H, W, C)으로 사용
 
 ```python
-rect = patches.Rectangle(
-    (x1, y1), w, h, linewidth=1, edgecolor='green', facecolor='none' 
-)  # 사각형 모양의 패치를 생성합니다. 여기서 (x1, y1)은 사각형의 왼쪽 상단 모서리의 좌표를 나타내며, w와 h는 각각 사각형의 너비와 높이
-  # linewidth=1: 사각형의 테두리 두께를 지정
-  # edgecolor='green': 사각형의 테두리 색상을 지정
-  # facecolor='none': 사각형 내부의 색을 지정
-ax.add_patch(rect)  # 생성된 rect 사각형 패치를 현재의 축(ax)에 추가
+def visualize_dataset(image_dir: os.PathLike, csv_path: os.PathLike, save_dir: os.PathLike, n_images: int = 10) -> None:
+    """데이터셋 샘플 bbox 그려서 시각화
+    
+    :param save_dir: bbox 그린 그림 저장할 폴더 경로
+    :type save_dir: os.PathLike
+    """
+    if not os.path.exists(save_dir):
+        os.makedirs(save_dir)
+    else:
+        shutil.rmtree(save_dir)
+        os.makedirs(save_dir)
+
+    dataset = WheatDataset(
+        image_dir=image_dir,
+        csv_path=csv_path,
+        transform=transforms.ToTensor()
+    )
+
+    indices = random.choices(range(len(dataset)), k=n_images)
+    for i in indices:
+        image, target, image_id = dataset[i]
+        image = image.numpy().transpose(1, 2, 0)
+
+        plt.imshow(image)
+        ax = plt.gca()
+
+        for x1, y1, x2, y2 in target['boxes']:
+            w = x2 - x1
+            h = y2 - y1
+
+            category_id = 'wheat'
+
+            rect = patches.Rectangle(
+                (x1, y1), w, h, linewidth=1, edgecolor='green', facecolor='none' 
+            )  # 사각형 모양의 패치를 생성합니다. 여기서 (x1, y1)은 사각형의 왼쪽 상단 모서리의 좌표를 나타내며, w와 h는 각각 사각형의 너비와 높이
+              # linewidth=1: 사각형의 테두리 두께를 지정
+              # edgecolor='green': 사각형의 테두리 색상을 지정
+              # facecolor='none': 사각형 내부의 색을 지정
+            ax.add_patch(rect)  # 생성된 rect 사각형 패치를 현재의 축(ax)에 추가
+            ax.text(
+                x1, y1,
+                category_id,
+                c='white',
+                size=5,
+                path_effects=[pe.withStroke(linewidth=2, foreground='green')],
+                family='sans-serif',
+                weight='semibold',
+                va='top', ha='left',
+                bbox=dict(
+                    boxstyle='round',
+                    ec='green',
+                    fc='green',
+                )
+            )
+
+        plt.axis('off')
+        plt.savefig(os.path.join(save_dir, f'{image_id}.jpg'), dpi=150, bbox_inches='tight', pad_inches=0)
+        plt.clf()  #  현재 플롯 클리어
+
 ```
 
-#  plt.clf()  
-- 현재 플롯 클리어
+![visual](/assets/hnvimg/visual.png)  
