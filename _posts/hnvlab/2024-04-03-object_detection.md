@@ -5,7 +5,7 @@ date: 2024-04-03
 categories: hnvlab
 ---
 # src/dataset
-- 깃허브 주소 참고
+> 출처: https://github.com/hnvlab-syu/pytorch-course/tree/master/pytorch-course/object-detection/global-wheat-detection
     
 
 # Abstract Syntax Trees 
