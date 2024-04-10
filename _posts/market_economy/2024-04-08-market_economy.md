@@ -1,5 +1,5 @@
 ---
-title: "ch1"
+title: "시장경제 오티"
 date: 2024-04-08
 categories: market
 layout: post
