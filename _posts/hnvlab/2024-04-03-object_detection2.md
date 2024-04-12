@@ -2,7 +2,7 @@
 layout: post
 title: "utils of object-detection"
 date: 2024-04-03
-categories: hnvlab
+categories: hnv
 ---
 # defaultdict from collections
 

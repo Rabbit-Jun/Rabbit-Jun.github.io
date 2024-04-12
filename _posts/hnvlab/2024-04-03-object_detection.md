@@ -2,7 +2,7 @@
 layout: post
 title: "dataset of object-detection"
 date: 2024-04-03
-categories: hnvlab
+categories: hnv
 ---
 # src/dataset
 > 출처: https://github.com/hnvlab-syu/pytorch-course/tree/master/pytorch-course/object-detection/global-wheat-detection

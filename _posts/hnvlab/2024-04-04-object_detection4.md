@@ -2,7 +2,7 @@
 layout: post
 title: "model of object-detection"
 date: 2024-04-04
-categories: hnvlab
+categories: hnv
 ---
 
 # CNN
