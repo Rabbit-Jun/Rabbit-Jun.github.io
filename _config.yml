@@ -35,11 +35,6 @@ plugins:
   - jekyll-feed
 
 
-collections:
-  categories:
-    output: true
-    permalink: /category/:name/
-
 
 
 

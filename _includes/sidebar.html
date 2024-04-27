@@ -6,15 +6,15 @@
         <p>아직 모르는게 많아 열심히 공부중</p>
     </div>
     
-    <!-- 사이드바 내의 기타 내용 (예시로 비워둠) -->
-    <nav class="sidebar-nav">
-        <!-- 여기에 다른 네비게이션 링크나 사이드바 내용을 추가할 수 있습니다 -->
-    </nav>
-    
     <!-- 사이드바 카테고리 목록 -->
     <div class="sidebar-categories">
-        {% for category in site.categories %}
-        <a href="/category/{{ category[0] | slugify }}/">{{ category[0] }}</a>
-        {% endfor %}
+        <ul>
+            
+            <p>카테고리 수: {{ site.categories.size }}</p>
+            {% for category in site.categories %}
+            <li><a href="{{ '/category-' | append: category[0] | slugify }}">{{ category[0] }}</a></li>
+            {% endfor %}
+        </ul>
+        
     </div>
 </div>
