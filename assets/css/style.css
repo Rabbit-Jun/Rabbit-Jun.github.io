@@ -6,14 +6,15 @@ body {
 
 /* 사이드바 스타일 */
 .sidebar {
-    width: 250px; /* 사이드바 너비 */
-    position: fixed;
-    left: calc((100% - 1400px) / 2); /* 컨테이너 왼쪽 여백 계산 */
-    top: 150px;
-    bottom: 0;
-    background-color: #494040; /* 사이드바 배경색 */
-    color: #ccc; /* 사이드바 텍스트 색상 */
+  width: 15%; /* PC에서 사이드바는 전체 너비의 25% 차지 */
+  position: fixed;
+  left: calc((100% - 1400px) / 2);
+  top: 150px;
+  bottom: 0;
+  background-color: #494040;
+  color: #ccc;
 }
+
 .sidebar a {
     display: block; /* 링크를 블록 요소로 만들어 줄 바꿈 효과를 줌 */
     color: #dfe6ee; /* 링크 색상 */
@@ -32,101 +33,133 @@ body {
   
 
 /* 본문 내용 스타일 */
-.content {
-    margin-left: 250px; /* 사이드바 너비 + 20px 간격 */
-    margin-right: 200px; /* 오른쪽 여백 추가, 필요에 따라 조정 */
-    margin-top: 100px;
-    /* 기타 스타일 */
-  }
 
 /* 포스트 내 링크 색상 변경 */
 .content a {
-    color: #dfe6ee; /* 변경하고 싶은 색상 코드 */
-    text-decoration: none; /* 링크 밑줄 제거 (선택사항) */
-  }
-  
-  /* 포스트 내 링크에 마우스를 올렸을 때 색상 변경 */
-  .content a:hover {
-    color: #c8d1db; /* 마우스 오버 시 변경하고 싶은 색상 */
-  }
-  
-  .content.home-content {
-    margin-left: -15px; /* 홈페이지에서 사이드바와의 간격 조정 */
-    margin-right: 200px; /* 필요에 따라 조정 */
-    margin-top: 100px;
+  color: #dfe6ee; /* 변경하고 싶은 색상 코드 */
+  text-decoration: none; /* 링크 밑줄 제거 (선택사항) */
+}
+
+/* 포스트 내 링크에 마우스를 올렸을 때 색상 변경 */
+.content a:hover {
+  color: #c8d1db; /* 마우스 오버 시 변경하고 싶은 색상 */
+}
+
+.content.home-content {
+  margin-left: -15px; /* 홈페이지에서 사이드바와의 간격 조정 */
+  margin-right: 200px; /* 필요에 따라 조정 */
+  margin-top: 100px;
 }
 
 
 /* 프로필 이미지 스타일 */
 .profile-image {
-    width: 200px; /* 이미지 너비 */
-    height: 200px; /* 이미지 높이 */
-    border-radius: 50%; /* 이미지를 원형으로 만듦 */
-    display: block; /* 이미지를 블록 요소로 만듦 */
-    margin: 20px auto; /* 이미지를 가운데 정렬 */
-    object-fit: cover; /* 이미지 비율 유지 */
+  width: 200px; /* 이미지 너비 */
+  height: 200px; /* 이미지 높이 */
+  border-radius: 50%; /* 이미지를 원형으로 만듦 */
+  display: block; /* 이미지를 블록 요소로 만듦 */
+  margin: 20px auto; /* 이미지를 가운데 정렬 */
+  object-fit: cover; /* 이미지 비율 유지 */
 }
 
-@media (max-width: 768px) {
-    .content {
-      margin-left: 20px; /* 모바일 환경에서의 사이드바와의 간격 */
-      margin-right: 20px; /* 모바일 환경에서의 오른쪽 여백 */
-    }
-  }
-  
+
 /* 블로그 상단 부분 */
 .blog-header {
-    text-align: center;
-    padding: 20px 0;
-    background-color: #494040; /* 배경색은 사이트 디자인에 맞게 조정 */
-  }
-  
+  text-align: center;
+  padding: 20px 0;
+  background-color: #494040; /* 배경색은 사이트 디자인에 맞게 조정 */
+}
+
 .blog-name {
   color: #fff; /* 글자색은 사이트 디자인에 맞게 조정 */
   font-size: 40px; /* 폰트 크기는 취향에 맞게 조정 */
   text-decoration: none; /* 밑줄 제거 */
 }
 
-  
+
 .container {
-    max-width: 1200px; /* 최대 너비 설정 */
-    margin: 0 auto; /* 중앙 정렬 */
-    padding: 0 15px; /* 좌우 패딩 */
+  max-width: 1200px; /* 최대 너비 설정 */
+  margin: 0 auto; /* 중앙 정렬 */
+  padding: 0 15px; /* 좌우 패딩 */
 }
 .container a:hover{
   color: #c8d1db;
 }
 
 .site-header hr {
-    border: 0; /* 기본 테두리 제거 */
-    height: 1px; /* 선 높이 */
-    background-color: #683c3c; /* 선 색상 */
-    margin: 20px 0; /* 위아래 마진 */
+  border: 0; /* 기본 테두리 제거 */
+  height: 1px; /* 선 높이 */
+  background-color: #683c3c; /* 선 색상 */
+  margin: 20px 0; /* 위아래 마진 */
 }
 
 .category-title {
-    cursor: pointer;
-    font-weight: bold;
-  }
-  
-  .category-posts {
-    padding-left: 20px;
-    display: none; /* 기본적으로 숨김 */
-  }
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.category-posts {
+  padding-left: 20px;
+  display: none; /* 기본적으로 숨김 */
+}
 
 .post-excerpt {
-    margin-top: 10px;
+  margin-top: 10px;
 }
 /* 개별 포스트 페이지의 제목과 날짜 스타일 */
 .post-header {
-    display: flex;
-    align-items: center; /* 세로 중앙 정렬 */
+  display: flex;
+  align-items: center; /* 세로 중앙 정렬 */
+  padding-left: 100px;
 }
 
 .post-date {
-    margin-left: 20px; /* 제목과 날짜 사이의 간격 */
-    white-space: nowrap; /* 날짜를 한 줄로 유지 */
+  margin-left: 20px; /* 제목과 날짜 사이의 간격 */
+  white-space: nowrap; /* 날짜를 한 줄로 유지 */
 }
 
 
+/* 화면 비율 조정 */
+img, video {
+  max-width: 100%; /* 이미지와 비디오가 부모 요소의 최대 너비를 넘지 않도록 설정 */
+  height: auto; /* 높이는 자동으로 조절되도록 설정 */
+}
+
+/* 모바일 디바이스를 위한 스타일 */
+@media (max-width: 768px) {
+  .sidebar {
+      width: 100%;  /* 모바일 화면에서는 사이드바가 화면 전체를 차지 */
+      position: fixed; /* 사이드바를 화면에 고정 */
+      height: 100%;  /* 전체 높이 */
+      top: 0;  /* 상단에 위치 */
+      left: 0;  /* 왼쪽에 위치 */
+      z-index: 1000;  /* 다른 요소들 위에 위치하도록 z-index 설정 */
+  }
+
+  .content {
+      margin-top: 20px;  /* 사이드바 아래에 컨텐츠가 위치하도록 마진 추가 */
+      padding-top: 50px;  /* 상단 패딩 추가 */
+      width: 100%;  /* 전체 너비 사용 */
+  }
+}
+
+
+/* 중간 크기의 화면 (태블릿)을 위한 스타일 */
+@media (min-width: 769px) and (max-width: 1200px) {
+  .sidebar {
+      width: 30%; /* 태블릿에서는 사이드바가 조금 더 넓게 설정 */
+      left: 0; /* 왼쪽 여백 조정 */
+      top: 0;
+  }
+
+  .content {
+      margin-left: 30%; /* 사이드바 너비에 맞춘 컨텐츠 영역 마진 조정 */
+      width: 70%; /* 남은 너비를 컨텐츠 영역이 차지 */
+  }
+}
+
+.content {
+  margin-left: 25%; /* 사이드바 너비만큼 마진을 줘서 컨텐츠가 겹치지 않도록 설정 */
+  width: 75%; /* 남은 너비를 컨텐츠 영역이 차지 */
+}
 
