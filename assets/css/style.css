@@ -6,9 +6,9 @@ body {
 
 /* 사이드바 스타일 */
 .sidebar {
-  width: 15%; /* PC에서 사이드바는 전체 너비의 25% 차지 */
+  width: 15%; 
   position: fixed;
-  left: calc((100% - 1400px) / 2);
+  left: calc((90% - 1400px) / 2);
   top: 150px;
   bottom: 0;
   background-color: #494040;
@@ -45,11 +45,13 @@ body {
   color: #c8d1db; /* 마우스 오버 시 변경하고 싶은 색상 */
 }
 
-.content.home-content {
-  margin-left: -15px; /* 홈페이지에서 사이드바와의 간격 조정 */
-  margin-right: 200px; /* 필요에 따라 조정 */
-  margin-top: 100px;
+.posts{
+  position: fixed;
+  left: calc((90% - 700px) / 2);
+  top: 150px;
 }
+
+
 
 
 /* 프로필 이미지 스타일 */
@@ -74,6 +76,8 @@ body {
   color: #fff; /* 글자색은 사이트 디자인에 맞게 조정 */
   font-size: 40px; /* 폰트 크기는 취향에 맞게 조정 */
   text-decoration: none; /* 밑줄 제거 */
+  margin-left: -100px;
+  
 }
 
 
@@ -103,6 +107,8 @@ body {
   display: none; /* 기본적으로 숨김 */
 }
 
+
+
 .post-excerpt {
   margin-top: 10px;
 }
@@ -110,7 +116,8 @@ body {
 .post-header {
   display: flex;
   align-items: center; /* 세로 중앙 정렬 */
-  padding-left: 100px;
+  
+  
 }
 
 .post-date {
@@ -118,6 +125,9 @@ body {
   white-space: nowrap; /* 날짜를 한 줄로 유지 */
 }
 
+.post-box{
+  padding-left: 30%;
+}
 
 /* 화면 비율 조정 */
 img, video {
@@ -125,41 +135,4 @@ img, video {
   height: auto; /* 높이는 자동으로 조절되도록 설정 */
 }
 
-/* 모바일 디바이스를 위한 스타일 */
-@media (max-width: 768px) {
-  .sidebar {
-      width: 100%;  /* 모바일 화면에서는 사이드바가 화면 전체를 차지 */
-      position: fixed; /* 사이드바를 화면에 고정 */
-      height: 100%;  /* 전체 높이 */
-      top: 0;  /* 상단에 위치 */
-      left: 0;  /* 왼쪽에 위치 */
-      z-index: 1000;  /* 다른 요소들 위에 위치하도록 z-index 설정 */
-  }
-
-  .content {
-      margin-top: 20px;  /* 사이드바 아래에 컨텐츠가 위치하도록 마진 추가 */
-      padding-top: 50px;  /* 상단 패딩 추가 */
-      width: 100%;  /* 전체 너비 사용 */
-  }
-}
-
-
-/* 중간 크기의 화면 (태블릿)을 위한 스타일 */
-@media (min-width: 769px) and (max-width: 1200px) {
-  .sidebar {
-      width: 30%; /* 태블릿에서는 사이드바가 조금 더 넓게 설정 */
-      left: 0; /* 왼쪽 여백 조정 */
-      top: 0;
-  }
-
-  .content {
-      margin-left: 30%; /* 사이드바 너비에 맞춘 컨텐츠 영역 마진 조정 */
-      width: 70%; /* 남은 너비를 컨텐츠 영역이 차지 */
-  }
-}
-
-.content {
-  margin-left: 25%; /* 사이드바 너비만큼 마진을 줘서 컨텐츠가 겹치지 않도록 설정 */
-  width: 75%; /* 남은 너비를 컨텐츠 영역이 차지 */
-}
 
