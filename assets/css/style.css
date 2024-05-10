@@ -136,3 +136,19 @@ img, video {
 }
 
 
+/* 모바일 화면 비율 조정 */
+
+@media (max-width: 1000px) {
+  .blog-name{
+    padding-left: 20%; }
+  
+  .sidebar {
+    padding-left: 40%;
+  }
+
+  .posts{
+    padding-left: 25%;
+  }
+}
+
+

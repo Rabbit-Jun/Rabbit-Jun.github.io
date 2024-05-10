@@ -9,8 +9,6 @@
     <!-- 사이드바 카테고리 목록 -->
     <div class="sidebar-categories">
         <ul>
-            
-            <p>카테고리 수: {{ site.categories.size }}</p>
             {% for category in site.categories %}
             <li><a href="/category/{{ category[0] }}">{{ category[0] }}</a></li>
             {% endfor %}
