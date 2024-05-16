@@ -1,0 +1,18 @@
+<div class="sidebar">
+    <!-- 프로필 정보 -->
+    <div class="profile">
+        <img src="/assets/images/profile.jpg" alt="프로필 이미지" class="profile-image">
+        <h2>juneon</h2>
+        <p>아직 모르는게 많아 열심히 공부중</p>
+    </div>
+    
+    <!-- 사이드바 카테고리 목록 -->
+    <div class="sidebar-categories">
+        <ul>
+            {% for category in site.categories %}
+            <li><a href="/category/{{ category[0] }}">{{ category[0] }}</a></li>
+            {% endfor %}
+        </ul>
+        
+    </div>
+</div>
