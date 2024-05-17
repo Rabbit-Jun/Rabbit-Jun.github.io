@@ -1,11 +1,95 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2024-05-16T13:30:56+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">RabbitJun’s Blog</title><subtitle>Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.</subtitle><entry><title type="html">merge &amp;amp; checkout</title><link href="http://localhost:4000/git/2024/05/16/first.html" rel="alternate" type="text/html" title="merge &amp;amp; checkout" /><published>2024-05-16T00:00:00+09:00</published><updated>2024-05-16T00:00:00+09:00</updated><id>http://localhost:4000/git/2024/05/16/first</id><content type="html" xml:base="http://localhost:4000/git/2024/05/16/first.html"><![CDATA[<h1 id="how-to-merge-different-branches">How to Merge Different Branches</h1>
-<p>Firstly, before merging, you need to commit your changes using Git. If you haven’t committed, you’ll face an error message prompting you to make a commit.</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2024-05-17T13:33:33+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">RabbitJun’s Blog</title><subtitle>Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.</subtitle><entry><title type="html">code expression and upload img</title><link href="http://localhost:4000/git/2024/05/17/markdown_syntax.html" rel="alternate" type="text/html" title="code expression and upload img" /><published>2024-05-17T00:00:00+09:00</published><updated>2024-05-17T00:00:00+09:00</updated><id>http://localhost:4000/git/2024/05/17/markdown_syntax</id><content type="html" xml:base="http://localhost:4000/git/2024/05/17/markdown_syntax.html"><![CDATA[<h1 id="markdown-synatx">Markdown synatx</h1>
+<p>A backtick (`) is used to denote code. To highlight a line of code, wrap it in backticks:</p>
+<pre>
+`apt upgrade`
+</pre>
+<p>Additionally, you can display code that has been used:</p>
+<pre>  
+```python
+print("Hello, world!")
+```
+</pre>
 
-<p>Secondly, once you’ve committed your changes, switch to the branch you want to integrate with another branch by typing <code class="language-plaintext highlighter-rouge">git checkout &lt;your_branch_name&gt;</code>in the terminal. This command lets you switch to the desired branch.</p>
+<h1 id="image-upload">Image Upload</h1>
+
+<p>To describe an image, use the following syntax in Markdown:<br />
+<code class="language-plaintext highlighter-rouge">![description of image](path_to_image) </code></p>
+<hr />
+
+<p><img src="/assets/gitimg/upload_img.png" alt="upload_img_method" /></p>
+
+<hr />
+
+<p><strong>Ensure you include the file extension for the image.</strong></p>
+
+<p>I found it cumbersome to write long paths, so I used an environment variable.</p>
+<pre>  
+`export BLOG='path_to_image_directory`
+</pre>
+
+<p>Unfortunately, this did not work in Markdown. 😢<br />
+However, the good news is that writing paths can be easy.<br />
+Simply start with / to navigate from the root directory or use relative paths directly from the current directory.</p>
+
+<p>I attempted to use relative paths, but it didn’t work well because it depends on the current position, which can lead to unexpected errors.</p>]]></content><author><name></name></author><category term="git" /><summary type="html"><![CDATA[Markdown synatx A backtick (`) is used to denote code. To highlight a line of code, wrap it in backticks: `apt upgrade` Additionally, you can display code that has been used: ```python print("Hello, world!") ```]]></summary></entry><entry><title type="html">frequently used</title><link href="http://localhost:4000/vim/2024/05/17/frequently.html" rel="alternate" type="text/html" title="frequently used" /><published>2024-05-17T00:00:00+09:00</published><updated>2024-05-17T00:00:00+09:00</updated><id>http://localhost:4000/vim/2024/05/17/frequently</id><content type="html" xml:base="http://localhost:4000/vim/2024/05/17/frequently.html"><![CDATA[<h3 id="frequently-used-vim-shortcuts">Frequently Used Vim Shortcuts</h3>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">i</code> - Enter insert mode.</li>
+  <li><code class="language-plaintext highlighter-rouge">Esc</code> - Switch to normal mode.</li>
+  <li><code class="language-plaintext highlighter-rouge">:w</code> - Save the current file.</li>
+  <li><code class="language-plaintext highlighter-rouge">:q</code> - Quit the file without saving.</li>
+  <li><code class="language-plaintext highlighter-rouge">:wq</code> - Save and quit the file.</li>
+  <li><code class="language-plaintext highlighter-rouge">dd</code> - Cut the current line.</li>
+  <li><code class="language-plaintext highlighter-rouge">yy</code> - Copy the current line.</li>
+  <li><code class="language-plaintext highlighter-rouge">p</code> - Paste from clipboard below the current line.</li>
+  <li><code class="language-plaintext highlighter-rouge">/</code> - Search within the document.</li>
+  <li><code class="language-plaintext highlighter-rouge">u</code> - Undo the last action.</li>
+  <li><code class="language-plaintext highlighter-rouge">Ctrl+R</code> - Redo the previously undone action.</li>
+  <li><code class="language-plaintext highlighter-rouge">w</code> - Move to the start of the next word.</li>
+  <li><code class="language-plaintext highlighter-rouge">b</code> - Move back to the start of the previous word.</li>
+  <li><code class="language-plaintext highlighter-rouge">e</code> - Move to the end of the current word.</li>
+  <li><code class="language-plaintext highlighter-rouge">0</code> - Move to the start of the current line.</li>
+  <li><code class="language-plaintext highlighter-rouge">G</code> - Go to the end of the document.</li>
+  <li><code class="language-plaintext highlighter-rouge">gg</code> - Go to the start of the document.</li>
+  <li><code class="language-plaintext highlighter-rouge">:number</code> - Go to the specified line number.</li>
+  <li><code class="language-plaintext highlighter-rouge">Ctrl+F</code> - Move forward one screen.</li>
+  <li><code class="language-plaintext highlighter-rouge">Ctrl+B</code> - Move backward one screen.</li>
+  <li><code class="language-plaintext highlighter-rouge">^</code> - Move to the first non-blank character of the line.</li>
+  <li><code class="language-plaintext highlighter-rouge">$</code> - Move to the end of the line.</li>
+  <li><code class="language-plaintext highlighter-rouge">r</code> - Replace a single character.</li>
+  <li><code class="language-plaintext highlighter-rouge">R</code> - Enter replace mode.</li>
+  <li><code class="language-plaintext highlighter-rouge">c</code> - Change (replace) from the cursor to the end of a command specifier.
+    <ul>
+      <li><strong>Example</strong>:
+        <ul>
+          <li><code class="language-plaintext highlighter-rouge">cw</code> changes the current word.</li>
+          <li><code class="language-plaintext highlighter-rouge">ci)</code> changes everything inside the parentheses.</li>
+          <li><code class="language-plaintext highlighter-rouge">cc</code> changes the entire current line.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>]]></content><author><name></name></author><category term="vim" /><summary type="html"><![CDATA[Frequently Used Vim Shortcuts i - Enter insert mode. Esc - Switch to normal mode. :w - Save the current file. :q - Quit the file without saving. :wq - Save and quit the file. dd - Cut the current line. yy - Copy the current line. p - Paste from clipboard below the current line. / - Search within the document. u - Undo the last action. Ctrl+R - Redo the previously undone action. w - Move to the start of the next word. b - Move back to the start of the previous word. e - Move to the end of the current word. 0 - Move to the start of the current line. G - Go to the end of the document. gg - Go to the start of the document. :number - Go to the specified line number. Ctrl+F - Move forward one screen. Ctrl+B - Move backward one screen. ^ - Move to the first non-blank character of the line. $ - Move to the end of the line. r - Replace a single character. R - Enter replace mode. c - Change (replace) from the cursor to the end of a command specifier. Example: cw changes the current word. ci) changes everything inside the parentheses. cc changes the entire current line.]]></summary></entry><entry><title type="html">merge &amp;amp; checkout</title><link href="http://localhost:4000/git/2024/05/16/first.html" rel="alternate" type="text/html" title="merge &amp;amp; checkout" /><published>2024-05-16T00:00:00+09:00</published><updated>2024-05-16T00:00:00+09:00</updated><id>http://localhost:4000/git/2024/05/16/first</id><content type="html" xml:base="http://localhost:4000/git/2024/05/16/first.html"><![CDATA[<h1 id="how-to-merge-different-branches">How to Merge Different Branches</h1>
+<p>Firstly, before merging, you need to commit your changes using Git.<br />
+If you haven’t committed, you’ll face an error message prompting you to make a commit.</p>
+
+<p>Secondly, once you’ve committed your changes, switch to the branch you want to integrate with another branch by typing <code class="language-plaintext highlighter-rouge">git checkout &lt;your_branch_name&gt;</code>in the terminal.<br />
+This command lets you switch to the desired branch.</p>
 
 <p>Thirdly, to merge another branch into your current branch, use the command <code class="language-plaintext highlighter-rouge">git merge &lt;branch_with_changes_you_want_to_include&gt;</code>.</p>
 
-<p>Additionally, I encountered an error related to ownership because I was using WSL. To resolve it, I used the command <code class="language-plaintext highlighter-rouge">sudo chown -R $(whoami) &lt;path&gt;</code>.<br />
-Here, sudo stands for “superuser do,” chown means “change ownership,” and -R stands for “recursive.” This command tells the computer to change the ownership of the directory recursively to the current user (whoami).</p>
+<p>Additionally, I encountered an error related to ownership because I was using WSL.<br />
+To resolve it, I used the command <code class="language-plaintext highlighter-rouge">sudo chown -R $(whoami) &lt;path&gt;</code>.</p>
+<hr />
 
-<p>However, the same error occurred again, so I used a workaround: <code class="language-plaintext highlighter-rouge">git config --global add safe.directory &lt;your_path&gt;</code>. This command is not generally recommended, but I was short on time. T^T</p>]]></content><author><name></name></author><category term="git" /><summary type="html"><![CDATA[How to Merge Different Branches Firstly, before merging, you need to commit your changes using Git. If you haven’t committed, you’ll face an error message prompting you to make a commit.]]></summary></entry></feed>
+<p><img src="/assets/gitimg/ownership_er.png" alt="ownersip error" /></p>
+<hr />
+
+<p>Here, sudo stands for “superuser do,” chown means “change ownership,” and -R stands for “recursive.”<br />
+This command tells the computer to change the ownership of the directory recursively to the current user (whoami).</p>
+
+<p>However, the same error occurred again, so I used a workaround: <code class="language-plaintext highlighter-rouge">git config --global add safe.directory &lt;your_path&gt;</code>.<br />
+This command is not generally recommended, but I was short on time. T^T</p>
+
+<p>ah!!<br />
+If your local content is the final version and you don’t mind if the Git save content changes, you can do <code class="language-plaintext highlighter-rouge">git push --force &lt;your repository&gt;</code>.<br />
+However, if you have a team, please do this after sufficient discussion.</p>]]></content><author><name></name></author><category term="git" /><summary type="html"><![CDATA[How to Merge Different Branches Firstly, before merging, you need to commit your changes using Git. If you haven’t committed, you’ll face an error message prompting you to make a commit.]]></summary></entry></feed>

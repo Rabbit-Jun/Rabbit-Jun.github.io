@@ -151,4 +151,17 @@ img, video {
   }
 }
 
+@media (max-width: 2000px) {
+  .blog-name{
+    padding-left: 20%; }
+  
+  .sidebar {
+    padding-left: 23%;
+  }
+
+  .posts{
+    padding-left: 15%;
+  }
+}
+
 

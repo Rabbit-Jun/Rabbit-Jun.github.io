@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>rabbitjun</title>
+    <link rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body>
+    <header class="site-header">
+        <div class="container">
+            <a href="/" class="blog-name">RabbitJun</a>
+        </div>
+        <hr> <!-- 전체 너비의 선 -->
+    </header>
+    <div class="container sidebar-content">
+        <div class="sidebar">
+    <!-- 프로필 정보 -->
+    <div class="profile">
+        <img src="/assets/images/profile.jpg" alt="프로필 이미지" class="profile-image">
+        <h2>juneon</h2>
+        <p>아직 모르는게 많아 열심히 공부중</p>
+    </div>
+    
+    <!-- 사이드바 카테고리 목록 -->
+    <div class="sidebar-categories">
+        <ul>
+            
+            <li><a href="/category/git">git</a></li>
+            
+            <li><a href="/category/vim">vim</a></li>
+            
+        </ul>
+        
+    </div>
+</div>
+
+        <div class="content">
+            <article class="post-box">
+  <div class="post-header">
+    <h1>code expression and upload img</h1>
+    <p class="post-date">May 17, 2024</p>
+  </div>
+  <div class="post-content">
+    <h1 id="markdown-synatx">Markdown synatx</h1>
+<p>A backtick (`) is used to denote code. To highlight a line of code, wrap it in backticks:</p>
+<pre>
+`apt upgrade`
+</pre>
+<p>Additionally, you can display code that has been used:</p>
+<pre>  
+```python
+print("Hello, world!")
+```
+</pre>
+
+<h1 id="image-upload">Image Upload</h1>
+
+<p>To describe an image, use the following syntax in Markdown:<br />
+<code class="language-plaintext highlighter-rouge">![description of image](path_to_image) </code></p>
+<hr />
+
+<p><img src="/assets/gitimg/upload_img.png" alt="upload_img_method" /></p>
+
+<hr />
+
+<p><strong>Ensure you include the file extension for the image.</strong></p>
+
+<p>I found it cumbersome to write long paths, so I used an environment variable.</p>
+<pre>  
+`export BLOG='path_to_image_directory`
+</pre>
+
+<p>Unfortunately, this did not work in Markdown. 😢<br />
+However, the good news is that writing paths can be easy.<br />
+Simply start with / to navigate from the root directory or use relative paths directly from the current directory.</p>
+
+<p>I attempted to use relative paths, but it didn’t work well because it depends on the current position, which can lead to unexpected errors.</p>
+
+
+  </div>
+</article>
+
+        </div>
+    </div>
+</body>
+</html>
