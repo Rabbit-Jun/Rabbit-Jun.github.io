@@ -1,5 +1,5 @@
 ---
-title: objectdetection3
+title: model3
 date: 2024-07-10
 categories: objectdetection
 layout: post
