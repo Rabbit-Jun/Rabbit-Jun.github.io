@@ -25,11 +25,9 @@
     <div class="sidebar-categories">
         <ul>
             
-            <li><a href="/category/git">git</a></li>
+            <li><a href="/category/webcrawling">webcrawling</a></li>
             
-            <li><a href="/category/vim">vim</a></li>
-            
-            <li><a href="/category/oop">oop</a></li>
+            <li><a href="/category/objectdetection">objectdetection</a></li>
             
         </ul>
         
@@ -50,11 +48,9 @@
     <div class="sidebar-categories">
         <ul>
             
-            <li><a href="/category/git">git</a></li>
+            <li><a href="/category/webcrawling">webcrawling</a></li>
             
-            <li><a href="/category/vim">vim</a></li>
-            
-            <li><a href="/category/oop">oop</a></li>
+            <li><a href="/category/objectdetection">objectdetection</a></li>
             
         </ul>
         
@@ -65,193 +61,38 @@
 <!-- 포스트 목록 -->
 <div class="posts">
     
-    <div class="post" data-category="oop">
+    <div class="post" data-category="objectdetection">
       <div class = post-header>
 
-        <h2><a href="/oop/2024/05/26/oop4.html">oop4</a></h2>
-        <p class = post-date>May 26, 2024</p>
+        <h2><a href="/objectdetection/2024/07/10/utils2.html">utils2</a></h2>
+        <p class = post-date>Jul 10, 2024</p>
      
       </div>
         <!-- <div class="post-excerpt" >
-          <html lang="en">
-<head><meta charset="utf-8" />
-<meta content="width=device-width, initial-scale=1.0" name="viewport" />
-<title>MRO4</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
-<style type="text/css">
-    pre { line-height: 125%; }
-td.linenos .normal { color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px; }
-span.linenos { color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px; }
-td.linenos .special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
-span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
-.highlight .hll { background-color: var(--jp-cell-editor-active-background) }
-.highlight { background: var(--jp-cell-editor-background); color: var(--jp-mirror-editor-variable-color) }
-.highlight .c { color: var(--jp-mirror-editor-comment-color); font-style: italic } /* Comment */
-.highlight .err { color: var(--jp-mirror-editor-error-color) } /* Error */
-.highlight .k { color: var(--jp-mirror-editor-keyword-color); font-weight: bold } /* Keyword */
-.highlight .o { color: var(--jp-mirror-editor-operator-color); font-weight: bold } /* Operator */
-.highlight .p { color: var(--jp-mirror-editor-punctuation-color) } /* Punctuation */
-.highlight .ch { color: var(--jp-mirror-editor-comment-color); font-style: italic } /* Comment.Hashbang */
-.highlight .cm { color: var(--jp-mirror-editor-comment-color); font-style: italic } /* Comment.Multiline */
-.highlight .cp { color: var(--jp-mirror-editor-comment-color); font-style: italic } /* Comment.Preproc */
-.highlight .cpf { color: var(--jp-mirror-editor-comment-color); font-style: italic } /* Comment.PreprocFile */
-.highlight .c1 { color: var(--jp-mirror-editor-comment-color); font-style: italic } /* Comment.Single */
-.highlight .cs { color: var(--jp-mirror-editor-comment-color); font-style: italic } /* Comment.Special */
-.highlight .kc { color: var(--jp-mirror-editor-keyword-color); font-weight: bold } /* Keyword.Constant */
-.highlight .kd { color: var(--jp-mirror-editor-keyword-color); font-weight: bold } /* Keyword.Declaration */
-.highlight .kn { color: var(--jp-mirror-editor-keyword-color); font-weight: bold } /* Keyword.Namespace */
-.highlight .kp { color: var(--jp-mirror-editor-keyword-color); font-weight: bold } /* Keyword.Pseudo */
-.highlight .kr { color: var(--jp-mirror-editor-keyword-color); font-weight: bold } /* Keyword.Reserved */
-.highlight .kt { color: var(--jp-mirror-editor-keyword-color); font-weight: bold } /* Keyword.Type */
-.highlight .m { color: var(--jp-mirror-editor-number-color) } /* Literal.Number */
-.highlight .s { color: var(--jp-mirror-editor-string-color) } /* Literal.String */
-.highlight .ow { color: var(--jp-mirror-editor-operator-color); font-weight: bold } /* Operator.Word */
-.highlight .pm { color: var(--jp-mirror-editor-punctuation-color) } /* Punctuation.Marker */
-.highlight .w { color: var(--jp-mirror-editor-variable-color) } /* Text.Whitespace */
-.highlight .mb { color: var(--jp-mirror-editor-number-color) } /* Literal.Number.Bin */
-.highlight .mf { color: var(--jp-mirror-editor-number-color) } /* Literal.Number.Float */
-.highlight .mh { color: var(--jp-mirror-editor-number-color) } /* Literal.Number.Hex */
-.highlight .mi { color: var(--jp-mirror-editor-number-color) } /* Literal.Number.Integer */
-.highlight .mo { color: var(--jp-mirror-editor-number-color) } /* Literal.Number.Oct */
-.highlight .sa { color: var(--jp-mirror-editor-string-color) } /* Literal.String.Affix */
-.highlight .sb { color: var(--jp-mirror-editor-string-color) } /* Literal.String.Backtick */
-.highlight .sc { color: var(--jp-mirror-editor-string-color) } /* Literal.String.Char */
-.highlight .dl { color: var(--jp-mirror-editor-string-color) } /* Literal.String.Delimiter */
-.highlight .sd { color: var(--jp-mirror-editor-string-color) } /* Literal.String.Doc */
-.highlight .s2 { color: var(--jp-mirror-editor-string-color) } /* Literal.String.Double */
-.highlight .se { color: var(--jp-mirror-editor-string-color) } /* Literal.String.Escape */
-.highlight .sh { color: var(--jp-mirror-editor-string-color) } /* Literal.String.Heredoc */
-.highlight .si { color: var(--jp-mirror-editor-string-color) } /* Literal.String.Interpol */
-.highlight .sx { color: var(--jp-mirror-editor-string-color) } /* Literal.String.Other */
-.highlight .sr { color: var(--jp-mirror-editor-string-color) } /* Literal.String.Regex */
-.highlight .s1 { color: var(--jp-mirror-editor-string-color) } /* Literal.String.Single */
-.highlight .ss { color: var(--jp-mirror-editor-string-color) } /* Literal.String.Symbol */
-.highlight .il { color: var(--jp-mirror-editor-number-color) } /* Literal.Number.Integer.Long */
-  </style>
-<style type="text/css">
-/*-----------------------------------------------------------------------------
-| Copyright (c) Jupyter Development Team.
-| Distributed under the terms of the Modified BSD License.
-|----------------------------------------------------------------------------*/
-</style></head></html>
+          <h1 id="grouped_dict--image_id-group-for-image_id-group-in-grouped">grouped_dict = {image_id: group for image_id, group in grouped}</h1>
 
         </div> -->
     </div>
     
-    <div class="post" data-category="oop">
+    <div class="post" data-category="objectdetection">
       <div class = post-header>
 
-        <h2><a href="/oop/2024/05/26/oop3.html">oop3</a></h2>
-        <p class = post-date>May 26, 2024</p>
+        <h2><a href="/objectdetection/2024/07/10/utils.html">utils</a></h2>
+        <p class = post-date>Jul 10, 2024</p>
      
       </div>
         <!-- <div class="post-excerpt" >
-          <html lang="en">
-<head><meta charset="utf-8" />
-<meta content="width=device-width, initial-scale=1.0" name="viewport" />
-<title>MRO3</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
-<style type="text/css">
-    pre { line-height: 125%; }
-td.linenos .normal { color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px; }
-span.linenos { color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px; }
-td.linenos .special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
-span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
-.highlight .hll { background-color: var(--jp-cell-editor-active-background) }
-.highlight { background: var(--jp-cell-editor-background); color: var(--jp-mirror-editor-variable-color) }
-.highlight .c { color: var(--jp-mirror-editor-comment-color); font-style: italic } /* Comment */
-.highlight .err { color: var(--jp-mirror-editor-error-color) } /* Error */
-.highlight .k { color: var(--jp-mirror-editor-keyword-color); font-weight: bold } /* Keyword */
-.highlight .o { color: var(--jp-mirror-editor-operator-color); font-weight: bold } /* Operator */
-.highlight .p { color: var(--jp-mirror-editor-punctuation-color) } /* Punctuation */
-.highlight .ch { color: var(--jp-mirror-editor-comment-color); font-style: italic } /* Comment.Hashbang */
-.highlight .cm { color: var(--jp-mirror-editor-comment-color); font-style: italic } /* Comment.Multiline */
-.highlight .cp { color: var(--jp-mirror-editor-comment-color); font-style: italic } /* Comment.Preproc */
-.highlight .cpf { color: var(--jp-mirror-editor-comment-color); font-style: italic } /* Comment.PreprocFile */
-.highlight .c1 { color: var(--jp-mirror-editor-comment-color); font-style: italic } /* Comment.Single */
-.highlight .cs { color: var(--jp-mirror-editor-comment-color); font-style: italic } /* Comment.Special */
-.highlight .kc { color: var(--jp-mirror-editor-keyword-color); font-weight: bold } /* Keyword.Constant */
-.highlight .kd { color: var(--jp-mirror-editor-keyword-color); font-weight: bold } /* Keyword.Declaration */
-.highlight .kn { color: var(--jp-mirror-editor-keyword-color); font-weight: bold } /* Keyword.Namespace */
-.highlight .kp { color: var(--jp-mirror-editor-keyword-color); font-weight: bold } /* Keyword.Pseudo */
-.highlight .kr { color: var(--jp-mirror-editor-keyword-color); font-weight: bold } /* Keyword.Reserved */
-.highlight .kt { color: var(--jp-mirror-editor-keyword-color); font-weight: bold } /* Keyword.Type */
-.highlight .m { color: var(--jp-mirror-editor-number-color) } /* Literal.Number */
-.highlight .s { color: var(--jp-mirror-editor-string-color) } /* Literal.String */
-.highlight .ow { color: var(--jp-mirror-editor-operator-color); font-weight: bold } /* Operator.Word */
-.highlight .pm { color: var(--jp-mirror-editor-punctuation-color) } /* Punctuation.Marker */
-.highlight .w { color: var(--jp-mirror-editor-variable-color) } /* Text.Whitespace */
-.highlight .mb { color: var(--jp-mirror-editor-number-color) } /* Literal.Number.Bin */
-.highlight .mf { color: var(--jp-mirror-editor-number-color) } /* Literal.Number.Float */
-.highlight .mh { color: var(--jp-mirror-editor-number-color) } /* Literal.Number.Hex */
-.highlight .mi { color: var(--jp-mirror-editor-number-color) } /* Literal.Number.Integer */
-.highlight .mo { color: var(--jp-mirror-editor-number-color) } /* Literal.Number.Oct */
-.highlight .sa { color: var(--jp-mirror-editor-string-color) } /* Literal.String.Affix */
-.highlight .sb { color: var(--jp-mirror-editor-string-color) } /* Literal.String.Backtick */
-.highlight .sc { color: var(--jp-mirror-editor-string-color) } /* Literal.String.Char */
-.highlight .dl { color: var(--jp-mirror-editor-string-color) } /* Literal.String.Delimiter */
-.highlight .sd { color: var(--jp-mirror-editor-string-color) } /* Literal.String.Doc */
-.highlight .s2 { color: var(--jp-mirror-editor-string-color) } /* Literal.String.Double */
-.highlight .se { color: var(--jp-mirror-editor-string-color) } /* Literal.String.Escape */
-.highlight .sh { color: var(--jp-mirror-editor-string-color) } /* Literal.String.Heredoc */
-.highlight .si { color: var(--jp-mirror-editor-string-color) } /* Literal.String.Interpol */
-.highlight .sx { color: var(--jp-mirror-editor-string-color) } /* Literal.String.Other */
-.highlight .sr { color: var(--jp-mirror-editor-string-color) } /* Literal.String.Regex */
-.highlight .s1 { color: var(--jp-mirror-editor-string-color) } /* Literal.String.Single */
-.highlight .ss { color: var(--jp-mirror-editor-string-color) } /* Literal.String.Symbol */
-.highlight .il { color: var(--jp-mirror-editor-number-color) } /* Literal.Number.Integer.Long */
-  </style>
-<style type="text/css">
-/*-----------------------------------------------------------------------------
-| Copyright (c) Jupyter Development Team.
-| Distributed under the terms of the Modified BSD License.
-|----------------------------------------------------------------------------*/
-</style></head></html>
-
-        </div> -->
-    </div>
-    
-    <div class="post" data-category="vim">
-      <div class = post-header>
-
-        <h2><a href="/vim/2024/05/17/frequently.html">frequently used</a></h2>
-        <p class = post-date>May 17, 2024</p>
-     
-      </div>
-        <!-- <div class="post-excerpt" >
-          <h3 id="frequently-used-vim-shortcuts">Frequently Used Vim Shortcuts</h3>
+          <h3 id="dfsamplefrac1reset_indexdroptrue">df.sample(frac=1).reset_index(drop=True)</h3>
 <ul>
-  <li><code class="language-plaintext highlighter-rouge">i</code> - Enter insert mode.</li>
-  <li><code class="language-plaintext highlighter-rouge">Esc</code> - Switch to normal mode.</li>
-  <li><code class="language-plaintext highlighter-rouge">:w</code> - Save the current file.</li>
-  <li><code class="language-plaintext highlighter-rouge">:q</code> - Quit the file without saving.</li>
-  <li><code class="language-plaintext highlighter-rouge">:wq</code> - Save and quit the file.</li>
-  <li><code class="language-plaintext highlighter-rouge">dd</code> - Cut the current line.</li>
-  <li><code class="language-plaintext highlighter-rouge">yy</code> - Copy the current line.</li>
-  <li><code class="language-plaintext highlighter-rouge">p</code> - Paste from clipboard below the current line.</li>
-  <li><code class="language-plaintext highlighter-rouge">/</code> - Search within the document.</li>
-  <li><code class="language-plaintext highlighter-rouge">u</code> - Undo the last action.</li>
-  <li><code class="language-plaintext highlighter-rouge">Ctrl+R</code> - Redo the previously undone action.</li>
-  <li><code class="language-plaintext highlighter-rouge">w</code> - Move to the start of the next word.</li>
-  <li><code class="language-plaintext highlighter-rouge">b</code> - Move back to the start of the previous word.</li>
-  <li><code class="language-plaintext highlighter-rouge">e</code> - Move to the end of the current word.</li>
-  <li><code class="language-plaintext highlighter-rouge">0</code> - Move to the start of the current line.</li>
-  <li><code class="language-plaintext highlighter-rouge">G</code> - Go to the end of the document.</li>
-  <li><code class="language-plaintext highlighter-rouge">gg</code> - Go to the start of the document.</li>
-  <li><code class="language-plaintext highlighter-rouge">:number</code> - Go to the specified line number.</li>
-  <li><code class="language-plaintext highlighter-rouge">Ctrl+F</code> - Move forward one screen.</li>
-  <li><code class="language-plaintext highlighter-rouge">Ctrl+B</code> - Move backward one screen.</li>
-  <li><code class="language-plaintext highlighter-rouge">^</code> - Move to the first non-blank character of the line.</li>
-  <li><code class="language-plaintext highlighter-rouge">$</code> - Move to the end of the line.</li>
-  <li><code class="language-plaintext highlighter-rouge">r</code> - Replace a single character.</li>
-  <li><code class="language-plaintext highlighter-rouge">R</code> - Enter replace mode.</li>
-  <li><code class="language-plaintext highlighter-rouge">c</code> - Change (replace) from the cursor to the end of a command specifier.
+  <li>df: 샘플링할(shuffle) pandas 데이터프래임</li>
+  <li>frac=1: 전체 데이터프레임에서 샘플링할 비율을 나타냅니다.
     <ul>
-      <li><strong>Example</strong>:
-        <ul>
-          <li><code class="language-plaintext highlighter-rouge">cw</code> changes the current word.</li>
-          <li><code class="language-plaintext highlighter-rouge">ci)</code> changes everything inside the parentheses.</li>
-          <li><code class="language-plaintext highlighter-rouge">cc</code> changes the entire current line.</li>
-        </ul>
-      </li>
+      <li><img src="/assets/hnv/frac.png" alt="frac" /></li>
+    </ul>
+  </li>
+  <li>reset_index(drop=True) : 샘플링 후 인덱스를 재설정
+    <ul>
+      <li>drop=Trup를 설정하면 이전 인덱스를 삭제하고 새로운 연속된 인덱스를 할당</li>
     </ul>
   </li>
 </ul>
@@ -259,40 +100,80 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
         </div> -->
     </div>
     
-    <div class="post" data-category="git">
+    <div class="post" data-category="objectdetection">
       <div class = post-header>
 
-        <h2><a href="/git/2024/05/17/markdown_syntax.html">code expression and upload img</a></h2>
-        <p class = post-date>May 17, 2024</p>
+        <h2><a href="/objectdetection/2024/07/10/objectdetection4.html">model4</a></h2>
+        <p class = post-date>Jul 10, 2024</p>
      
       </div>
         <!-- <div class="post-excerpt" >
-          <h1 id="markdown-synatx">Markdown synatx</h1>
-<p>A backtick (`) is used to denote code. To highlight a line of code, wrap it in backticks:</p>
-<pre>
-`apt upgrade`
-</pre>
-<p>Additionally, you can display code that has been used:</p>
-<pre>  
-```python
-print("Hello, world!")
-```
-</pre>
+          <h1 id="multiscaleroialign">MultiScaleRoIAlign</h1>
+<ul>
+  <li>ROI 풀링 수행</li>
+</ul>
 
         </div> -->
     </div>
     
-    <div class="post" data-category="git">
+    <div class="post" data-category="objectdetection">
       <div class = post-header>
 
-        <h2><a href="/git/2024/05/16/first.html">merge & checkout</a></h2>
-        <p class = post-date>May 16, 2024</p>
+        <h2><a href="/objectdetection/2024/07/10/objectdetection3.html">model3</a></h2>
+        <p class = post-date>Jul 10, 2024</p>
      
       </div>
         <!-- <div class="post-excerpt" >
-          <h1 id="how-to-merge-different-branches">How to Merge Different Branches</h1>
-<p>Firstly, before merging, you need to commit your changes using Git.<br />
-If you haven’t committed, you’ll face an error message prompting you to make a commit.</p>
+          <p>https://github.com/chullhwan-song/Reading-Paper/issues/184</p>
+
+        </div> -->
+    </div>
+    
+    <div class="post" data-category="objectdetection">
+      <div class = post-header>
+
+        <h2><a href="/objectdetection/2024/07/10/objectdetection2.html">model2</a></h2>
+        <p class = post-date>Jul 10, 2024</p>
+     
+      </div>
+        <!-- <div class="post-excerpt" >
+          <h1 id="anchor">anchor</h1>
+<p>https://github.com/chullhwan-song/Reading-Paper/issues/184
+<img src="/assets/hnv/anchor.png" alt="anchor box" /></p>
+<ul>
+  <li>[0, 0, 256, 256] &gt; [ y center, x center, h, w] 인 사각형을 기준으로 하여 aspect ratio 가 0.5, 1, 2인 사각형을 한 개씩 만든다
+    <ul>
+      <li>그럼 base anchor가 3개 만들어짐</li>
+    </ul>
+  </li>
+</ul>
+
+        </div> -->
+    </div>
+    
+    <div class="post" data-category="objectdetection">
+      <div class = post-header>
+
+        <h2><a href="/objectdetection/2024/06/27/objectdetection.html">model</a></h2>
+        <p class = post-date>Jun 27, 2024</p>
+     
+      </div>
+        <!-- <div class="post-excerpt" >
+          <p>torchvision.models:<br />
+https://github.com/pytorch/vision/tree/main/torchvision/models</p>
+
+        </div> -->
+    </div>
+    
+    <div class="post" data-category="webcrawling">
+      <div class = post-header>
+
+        <h2><a href="/webcrawling/2024/06/27/webcrawling.html">webcrawling</a></h2>
+        <p class = post-date>Jun 27, 2024</p>
+     
+      </div>
+        <!-- <div class="post-excerpt" >
+          <h1 id="웹-크롤링을-종료시키는-방법-스크롤의-한계에-도달하면-종료하기">웹 크롤링을 종료시키는 방법 (스크롤의 한계에 도달하면 종료하기)</h1>
 
         </div> -->
     </div>

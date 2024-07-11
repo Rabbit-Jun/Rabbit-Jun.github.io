@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>rabbitjun</title>
+    <link rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body>
+    <header class="site-header">
+        <div class="container">
+            <a href="/" class="blog-name">RabbitJun</a>
+        </div>
+        <hr> <!-- 전체 너비의 선 -->
+    </header>
+    <div class="container sidebar-content">
+        <div class="sidebar">
+    <!-- 프로필 정보 -->
+    <div class="profile">
+        <img src="/assets/images/profile.jpg" alt="프로필 이미지" class="profile-image">
+        <h2>juneon</h2>
+        <p>아직 모르는게 많아 열심히 공부중</p>
+    </div>
+    
+    <!-- 사이드바 카테고리 목록 -->
+    <div class="sidebar-categories">
+        <ul>
+            
+            <li><a href="/category/webcrawling">webcrawling</a></li>
+            
+            <li><a href="/category/objectdetection">objectdetection</a></li>
+            
+        </ul>
+        
+    </div>
+</div>
+
+        <div class="content">
+            <article class="post-box">
+  <div class="post-header">
+    <h1>utils</h1>
+    <p class="post-date">Jul 10, 2024</p>
+  </div>
+  <div class="post-content">
+    <h3 id="dfsamplefrac1reset_indexdroptrue">df.sample(frac=1).reset_index(drop=True)</h3>
+<ul>
+  <li>df: 샘플링할(shuffle) pandas 데이터프래임</li>
+  <li>frac=1: 전체 데이터프레임에서 샘플링할 비율을 나타냅니다.
+    <ul>
+      <li><img src="/assets/hnv/frac.png" alt="frac" /></li>
+    </ul>
+  </li>
+  <li>reset_index(drop=True) : 샘플링 후 인덱스를 재설정
+    <ul>
+      <li>drop=Trup를 설정하면 이전 인덱스를 삭제하고 새로운 연속된 인덱스를 할당</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="pdconcat">pd.concat()</h3>
+<ul>
+  <li>데이터 프레임이나 series를 연결 (concatenate)
+<img src="/assets/hnv/concat.png" alt="cocnat" /></li>
+</ul>
+
+<h3 id="ospathlike">os.PathLike</h3>
+<ul>
+  <li>시스템 경로를 나타내는 것</li>
+</ul>
+
+<h3 id="to_cococsv_path">to_coco(csv_path)</h3>
+<ul>
+  <li>coco 데이터셋의 json 파일로 변환하는 작업 수행</li>
+</ul>
+
+<h3 id="cocojson_path">COCO(json_path)</h3>
+<ul>
+  <li>coco 클래스의 객체를 생성
+    <ul>
+      <li>코코 데이터셋의 json 파일 파싱하고 데이터셋의 이미지, 객체 정보 등을 구조화된 형태로 메모리에 로드</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="map">MAP</h3>
+
+<p><img src="/assets/hnv/MAP.png" alt="MAP" /></p>
+<hr />
+
+<p><img src="/assets/hnv/precision_recall.png" alt="precision_recall" /></p>
+<hr />
+
+<h3 id="iou">iou</h3>
+<p><img src="/assets/hnv/iou.png" alt="iou" /><br />
+<strong>예측된 바운더리 박스 &amp; 사용자가 설정한 바운더리 박스 / 예측된 바운더리 박스 | 사용자가 설정한 바운더리 박스</strong></p>
+<ul>
+  <li>iou &gt;= 0.5:  tp else: fp</li>
+</ul>
+
+<hr />
+
+<h3 id="precision">precision</h3>
+<p><img src="/assets/hnv/precision.png" alt="precision" /></p>
+<ul>
+  <li>검출 결과들 중 옳게 검출한 비율</li>
+  <li>fp를 줄이는게 더 중요한 경우</li>
+</ul>
+<hr />
+
+<h3 id="recall">recall</h3>
+<p><img src="/assets/hnv/recall.png" alt="recall" /></p>
+<ul>
+  <li>fn을 줄이는게 더 중요한 경우</li>
+</ul>
+<hr />
+
+<h3 id="pr-curve">PR Curve</h3>
+<p><img src="/assets/hnv/confidence.png" alt="confidence" /></p>
+<ul>
+  <li>confidence 레벨이 높을수록 알고리즘은 그 물체가 검출해야 하는 물체와 거이 똑같다고 생각</li>
+  <li>threshold(한게점)을 두어 특정값 이상이 되어야 검출된 것으로 인정 <strong>ex)한계값을 90%으로 했다면 한개만 검출된 것으로 판단</strong>
+    <ul>
+      <li>precision 1/1, recall = 1/15
+<img src="/assets/hnv/confidence2.png" alt="confidence" /></li>
+    </ul>
+  </li>
+</ul>
+
+<p><img src="/assets/hnv/PRCurve.png" alt="PR Curve" /></p>
+
+<hr />
+
+<h3 id="average-precision">Average Precision</h3>
+
+<p><img src="/assets/hnv/ap.png" alt="ap" /></p>
+<ul>
+  <li>물체 클래스가 여러개인 경우 각 클래스당 ap를 구한 다음에 그것을 모두 합한 다음에 물체 클래스의 개수로 나눠주면 그게 map</li>
+</ul>
+
+  </div>
+</article>
+
+        </div>
+    </div>
+</body>
+</html>

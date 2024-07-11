@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>rabbitjun</title>
+    <link rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body>
+    <header class="site-header">
+        <div class="container">
+            <a href="/" class="blog-name">RabbitJun</a>
+        </div>
+        <hr> <!-- 전체 너비의 선 -->
+    </header>
+    <div class="container sidebar-content">
+        <div class="sidebar">
+    <!-- 프로필 정보 -->
+    <div class="profile">
+        <img src="/assets/images/profile.jpg" alt="프로필 이미지" class="profile-image">
+        <h2>juneon</h2>
+        <p>아직 모르는게 많아 열심히 공부중</p>
+    </div>
+    
+    <!-- 사이드바 카테고리 목록 -->
+    <div class="sidebar-categories">
+        <ul>
+            
+            <li><a href="/category/webcrawling">webcrawling</a></li>
+            
+            <li><a href="/category/objectdetection">objectdetection</a></li>
+            
+        </ul>
+        
+    </div>
+</div>
+
+        <div class="content">
+            <article class="post-box">
+  <div class="post-header">
+    <h1>model4</h1>
+    <p class="post-date">Jul 10, 2024</p>
+  </div>
+  <div class="post-content">
+    <h1 id="multiscaleroialign">MultiScaleRoIAlign</h1>
+<ul>
+  <li>ROI 풀링 수행</li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">self</span><span class="p">.</span><span class="n">roi_pooler</span> <span class="o">=</span> <span class="n">torchvision</span><span class="p">.</span><span class="n">ops</span><span class="p">.</span><span class="nc">MultiScaleRoIAlign</span><span class="p">(</span><span class="n">featmap_names</span><span class="o">=</span><span class="p">[</span><span class="sh">'</span><span class="s">0</span><span class="sh">'</span><span class="p">],</span>
+                                                        <span class="n">output_size</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span>
+                                                        <span class="n">sampling_ratio</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+</code></pre></div></div>
+
+<pre>
+featmap_names=['0']: ROI를 추출할 특성 맵의 이름입니다. 여기서는 '0'이라는 이름의 특성 맵만 사용합니다.
+
+output_size=7: 생성할 특성 맵의 고정된 크기입니다. 여기서는 7x7 크기의 특성 맵을 생성합니다.
+
+sampling_ratio=2: ROI를 7x7 크기로 변환할 때 사용되는 샘플링 비율입니다. 이는 보다 정확한 특성 맵을 얻기 위해 입력 영역을 얼마나 세밀하게 샘플링할지 결정합니다.
+</pre>
+
+<h3 id="pooing">pooing</h3>
+
+<p><img src="/assets/hnv/pooling.png" alt="pooling" /></p>
+
+<h3 id="refinement">refinement</h3>
+<ol>
+  <li>region proposal 생성
+    <ul>
+      <li>입력 이미지에서 후보 객체 영역 제안</li>
+    </ul>
+  </li>
+  <li>ROI 풀링
+    <ul>
+      <li>후보 객체 영역을 특성 맵에서 추출</li>
+      <li>ROI를 고정된 크기의 특성 맵으로 변환하여 동일한 크기의 입력을 FC레이어에 전달</li>
+    </ul>
+  </li>
+  <li>FC레이어
+    <ul>
+      <li>최종 객체 분류와 위치 조정 수행</li>
+    </ul>
+  </li>
+</ol>
+
+<p><strong>ROI는 Region of Interset</strong></p>
+
+  </div>
+</article>
+
+        </div>
+    </div>
+</body>
+</html>

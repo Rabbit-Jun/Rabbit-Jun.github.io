@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>rabbitjun</title>
+    <link rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body>
+    <header class="site-header">
+        <div class="container">
+            <a href="/" class="blog-name">RabbitJun</a>
+        </div>
+        <hr> <!-- 전체 너비의 선 -->
+    </header>
+    <div class="container sidebar-content">
+        <div class="sidebar">
+    <!-- 프로필 정보 -->
+    <div class="profile">
+        <img src="/assets/images/profile.jpg" alt="프로필 이미지" class="profile-image">
+        <h2>juneon</h2>
+        <p>아직 모르는게 많아 열심히 공부중</p>
+    </div>
+    
+    <!-- 사이드바 카테고리 목록 -->
+    <div class="sidebar-categories">
+        <ul>
+            
+            <li><a href="/category/webcrawling">webcrawling</a></li>
+            
+            <li><a href="/category/objectdetection">objectdetection</a></li>
+            
+        </ul>
+        
+    </div>
+</div>
+
+        <div class="content">
+            <article class="post-box">
+  <div class="post-header">
+    <h1>webcrawling</h1>
+    <p class="post-date">Jun 27, 2024</p>
+  </div>
+  <div class="post-content">
+    <h1 id="웹-크롤링을-종료시키는-방법-스크롤의-한계에-도달하면-종료하기">웹 크롤링을 종료시키는 방법 (스크롤의 한계에 도달하면 종료하기)</h1>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">form</span> <span class="n">selenium</span><span class="p">.</span><span class="n">webdriver</span><span class="p">.</span><span class="n">common</span><span class="p">.</span><span class="n">by</span> <span class="kn">import</span> <span class="n">By</span> <span class="c1"># Selenium의 By 클래스 임포트
+</span><span class="k">def</span> <span class="nf">find_end</span><span class="p">(</span><span class="n">self</span><span class="p">):</span>	<span class="n">last_height</span> <span class="o">=</span><span class="n">self</span><span class="p">.</span><span class="n">driver</span><span class="p">.</span><span class="nf">execute_script</span><span class="p">(</span><span class="err">’</span><span class="k">return</span> <span class="n">document</span><span class="p">.</span><span class="n">body</span><span class="p">.</span><span class="n">scrollHeight</span><span class="err">’</span><span class="p">)</span>
+	<span class="c1">#  변수에 현재 페이지의 전체 높이를 저장.
+</span>	<span class="c1">#  self.driver.execute_script()를 사용하여 JavaScript 코드 실행
+</span>	<span class="c1"># document. body.scrollHeight 값을 반환
+</span>	<span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
+		<span class="n">self</span><span class="p">.</span><span class="n">drivier</span><span class="p">.</span><span class="nf">execute_script</span><span class="p">(</span><span class="err">“</span><span class="n">window</span><span class="p">.</span><span class="nf">scrollto</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">document</span><span class="p">.</span><span class="n">body</span><span class="p">.</span><span class="n">scrollHeight</span><span class="p">);</span><span class="err">”</span><span class="p">)</span> <span class="c1">#  “window.xcrolto(0, document.body.scrollHeight);”  x= 0, y= document.body.scrollHeight, 즉 수평 스크롤 위치를 0으로 이동 수직 스크롤 위치를 전체 높이( 최하단)으로 이동 -&gt; 스크롤 최하단으로 이동 
+</span>		<span class="n">time</span><span class="p">.</span><span class="nf">sleep</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>  <span class="c1"># 페이지 로드를 기달리기 위한 2초 대기
+</span>		<span class="k">try</span><span class="p">:</span>
+			<span class="n">more_button</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">driver</span><span class="p">.</span><span class="nf">find_element</span><span class="p">(</span><span class="n">By</span><span class="p">.</span><span class="n">XPATH</span><span class="p">,</span> <span class="err">“</span><span class="o">//</span><span class="n">button</span><span class="p">[</span><span class="nf">contains</span><span class="p">(</span><span class="nf">text</span><span class="p">(),</span> <span class="err">‘</span><span class="n">더보기</span><span class="err">’</span><span class="p">)]</span><span class="err">”</span><span class="p">)</span>  <span class="c1"># XPATH를 사용하여 텍스트에“ 더보기”가 포함된 버튼을 찾는다
+</span> <span class="c1">#  XPATH는 XML Path Language의 약자로, XML 및 HTML 문서 내의 노드를 찾는데 사용 (&lt;div&gt;, &lt;p&gt;, &lt;a&gt; 등의 태그)
+</span>			<span class="n">more_button</span><span class="p">.</span><span class="nf">click</span><span class="p">()</span>  <span class="c1"># 찾은 버튼 클릭
+</span>			<span class="n">time</span><span class="p">.</span><span class="nf">sleep</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+		<span class="k">except</span><span class="p">:</span>
+			<span class="k">pass</span>
+		<span class="n">new_height</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">driver</span><span class="p">.</span><span class="nf">execute_script</span><span class="p">(</span><span class="err">“</span><span class="k">return</span> <span class="n">document</span><span class="p">.</span><span class="n">body</span><span class="p">.</span><span class="n">scrollHeight</span><span class="err">”</span><span class="p">)</span>
+		<span class="k">if</span> <span class="n">new_height</span> <span class="o">==</span> <span class="n">last_height</span><span class="p">:</span>
+			<span class="n">self</span><span class="p">.</span><span class="n">end_point</span> <span class="o">=</span> <span class="bp">True</span>
+			<span class="k">break</span>
+		
+</code></pre></div></div>
+<p>나는 def scroll_down(self)를 이미 정의 했기에 스크롤 내리는 부분을 뺀다 <br />
+self.scroll_down()  클래스 내에서 함수를 쓸 때는 self를 접두어로</p>
+
+<p>원래 코드: self.src_values에 새로운 값을 할당합니다. 이 방식은 각 호출에서 self.src_values의 기존 내용을 덮어씁니다. 결과적으로, 마지막 find_src 호출 후의 값만 유지됩니다.<br />
+수정된 코드: self.src_values.extend를 사용하여 기존 리스트에 새로 찾은 값을 추가합니다. <br />
+이 방식은 각 호출에서 self.src_values의 기존 내용을 보존하면서 새 값을 추가합니다. 이를 통해 모든 URL에서 찾은 모든 이미지를 self.src_values에 저장할 수 있습니다.</p>
+
+<p>원래 코드</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">last_height</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">driver</span><span class="p">.</span><span class="nf">execute_script</span><span class="p">(</span><span class="sh">"</span><span class="s">return document.body.scrollHeight</span><span class="sh">"</span><span class="p">)</span>
+<span class="n">new_height</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">driver</span><span class="p">.</span><span class="nf">execute_script</span><span class="p">(</span><span class="sh">"</span><span class="s">return document.body.scrollHeight</span><span class="sh">"</span><span class="p">)</span>
+<span class="k">if</span> <span class="n">new_height</span> <span class="o">==</span> <span class="n">last_height</span><span class="p">:</span>
+    <span class="n">self</span><span class="p">.</span><span class="n">end_point</span> <span class="o">=</span> <span class="bp">True</span>
+</code></pre></div></div>
+
+<p>수정된 코드</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">find_end</span><span class="p">(</span><span class="n">self</span><span class="p">):</span>
+    <span class="n">last_height</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">driver</span><span class="p">.</span><span class="nf">execute_script</span><span class="p">(</span><span class="sh">"</span><span class="s">return document.body.scrollHeight</span><span class="sh">"</span><span class="p">)</span>
+    <span class="n">time</span><span class="p">.</span><span class="nf">sleep</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>  <span class="c1"># 수정: 대기 시간 추가
+</span>    <span class="n">new_height</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">driver</span><span class="p">.</span><span class="nf">execute_script</span><span class="p">(</span><span class="sh">"</span><span class="s">return document.body.scrollHeight</span><span class="sh">"</span><span class="p">)</span>
+    <span class="n">self</span><span class="p">.</span><span class="n">end_point</span> <span class="o">=</span> <span class="n">new_height</span> <span class="o">==</span> <span class="n">last_height</span>  <span class="c1"># 수정: end_point 업데이트 위치 변경
+</span></code></pre></div></div>
+
+<p>원래 코드: last_height와 new_height를 거의 동시에 계산합니다. 이는 두 값이 항상 동일하여 self.end_point가 항상 True가 됩니다.</p>
+
+<p>수정된 코드:</p>
+<ul>
+  <li>last_height를 먼저 계산하고, 약간의 대기 시간을 추가(time.sleep(2))하여 페이지가 스크롤된 후 새로 고침된 높이를 반영할 시간을 줍니다.</li>
+  <li>새로 고침된 후의 높이(new_height)를 다시 계산하여 이전 높이(last_height)와 비교합니다.</li>
+  <li>new_height와 last_height가 동일하면 더 이상 스크롤할 내용이 없다는 것을 의미하므로 self.end_point를 True로 설정합니다.</li>
+</ul>
+
+<p>extend는 리스트의 메서드로서 리스트에 다른 리스트의 모든 요소를 추가할 때 사용합니다. 따라서 extend 메서드를 호출하여 리스트를 확장해야 합니다.</p>
+
+<p>잘못된 코드:<br />
+self.src_values.extend = [img.get_attribute(“src”) for img in img_tags if keyword in img.get_attribute(“alt”)]</p>
+
+<p>올바른 코드:<br />
+self.src_values.extend([img.get_attribute(“src”) for img in img_tags if keyword in img.get_attribute(“alt”)]</p>
+
+<p>문제점</p>
+<ol>
+  <li>드라이버 초기화 이전에 스크립트 실행:
+    <ul>
+      <li>self.driver는 None으로 초기화되어 있습니다.</li>
+      <li>따라서 self.driver.execute_script(“return document.body.scrollHeight”)를 호출하면 self.driver가 NoneType이므로, 이를 호출할 수 없다는 오류가 발생합니다</li>
+    </ul>
+  </li>
+</ol>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="err"> </span> <span class="err"> </span> <span class="c1"># end 포인트를 찾기위한 함수
+</span><span class="err"> </span> <span class="err"> </span> <span class="k">def</span> <span class="nf">find_end</span><span class="p">(</span><span class="n">self</span><span class="p">):</span>
+<span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="n">end_find</span> <span class="o">=</span><span class="n">self</span><span class="p">.</span><span class="n">driver</span><span class="p">.</span><span class="nf">find_elements</span><span class="p">(</span><span class="n">By</span><span class="p">.</span><span class="n">TAG_NAME</span><span class="p">,</span> <span class="sh">"</span><span class="s">span</span><span class="sh">"</span><span class="p">)</span>
+<span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="k">for</span> <span class="n">end</span> <span class="ow">in</span> <span class="n">end_find</span><span class="p">:</span>
+<span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="k">if</span> <span class="n">end</span><span class="p">.</span><span class="n">text</span> <span class="o">==</span><span class="sh">'</span><span class="s">대한민국</span><span class="sh">'</span><span class="p">:</span>
+<span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="n">self</span><span class="p">.</span><span class="n">end_point</span> <span class="o">=</span><span class="bp">True</span>
+<span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">End of content found</span><span class="sh">"</span><span class="p">)</span>
+<span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="k">break</span>
+</code></pre></div></div>
+
+<p>스크롤 내리기 전이랑 내린 후랑 스크롤의 값이 같아서 크롤링이 안됨<br />
+그냥 span에서 대한민국 찾으면 끝나는걸로 변경</p>
+
+<p>스크롤을 내린 후에도 document.body.scrollHeight가 변하지 않는 경우<br />
+이 문제는 페이지가 동적으로 콘텐츠를 로드하지 않거나 스크롤 이벤트가 제대로 적용되지 않는 경우 발생할 수 있습니다.<br />
+스크롤을 내리더라도 페이지가 새로운 콘텐츠를 로드하지 않는다면 높이가 변하지 않습니다.<br />
+스크롤 내리기 전에 scroll_from_origin 값을 변경했을 때 document.body.scrollHeight가 변하는 경우<br />
+이 문제는 페이지가 초기 로딩 후 스크롤 이벤트를 기다리는 상태이기 때문에 발생할 수 있습니다.<br />
+페이지는 초기 높이를 다르게 계산할 수 있으며, JavaScript를 통해 스크롤 이벤트를 직접 발생시켜 높이의 변화를 유도할 수 있습니다.<br />
+스크롤 이벤트가 적용되지 않는 이유</p>
+
+<p>스크롤 이벤트가 제대로 발생하지 않는 이유는 여러 가지가 있습니다</p>
+<ol>
+  <li>페이지가 스크롤 이벤트에 반응하지 않음.</li>
+  <li>스크롤 이벤트가 발생하더라도 새로운 콘텐츠가 로드되지 않음.</li>
+  <li>스크롤 이벤트가 페이지의 특정 부분에만 적용되어 전체 페이지의 높이가 변하지 않음.</li>
+</ol>
+
+  </div>
+</article>
+
+        </div>
+    </div>
+</body>
+</html>

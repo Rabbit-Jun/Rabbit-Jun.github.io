@@ -1,12 +1,12 @@
 ---
 title: model2
 date: 2024-07-10
-categories: hnv
-layout: objectdetection
+categories: objectdetection
+layout: post
 ---
 # anchor 
 https://github.com/chullhwan-song/Reading-Paper/issues/184
-![anchor box](../../assets/hnv/anchor.png)
+![anchor box](/assets/hnv/anchor.png)
 - [0, 0, 256, 256] > [ y center, x center, h, w] 인 사각형을 기준으로 하여 aspect ratio 가 0.5, 1, 2인 사각형을 한 개씩 만든다
     - 그럼 base anchor가 3개 만들어짐
 
@@ -25,8 +25,8 @@ def enum_scales(base_anchor, anchor_scales, name='enum_scales'):
         return base_anchor * anchor_scales
 ```
 
-![reshape](../../assets/hnv/reshape.png)  
-![reshape](../../assets/hnv/reshape_output.png)  
+![reshape](/assets/hnv/reshape.png)  
+![reshape](/assets/hnv/reshape_output.png)  
 각 인덴스는 해당 차원의 요소의 개수를 의미하며 -1은 자동으로 나머지 차원의 수에 맞게 요소의 개수를 조정하라는 의미  
 
 ```python
@@ -52,7 +52,7 @@ def enum_ratios(anchors, anchor_ratios, name='enum_ratios'):
                                       tf.zeros([num_anchors_per_location,]),
                                       ws, hs]))
 ```
-![axis](../../assets/hnv/axis.png)
+![axis](/assets/hnv/axis.png)
 axis는 그냥 바깥쪽에서 부터 0 으로 시작해서 안쪽으로 으로 들어갈수록 수가 커지게  
 axis를 그냥 방향이라고 생각하면 될 듯  
 
@@ -66,15 +66,15 @@ axis=1 은 0 -> 1 -> 2 또는 3-> 4 -> 5
 
 </pre>  
 ### unsqueeze
-![unsqueeze](../../assets/hnv/unsqueeze.png)  
-![unsqueeze](../../assets/hnv/unsqueeze2.png)  
+![unsqueeze](/assets/hnv/unsqueeze.png)  
+![unsqueeze](/assets/hnv/unsqueeze2.png)  
 
 ### shape
-![shape](../../assets/hnv/shape.png)  
+![shape](/assets/hnv/shape.png)  
 
 
 ### transpose
-![transpose](../../assets/hnv/transpose.png)  
+![transpose](/assets/hnv/transpose.png)  
 
 ```python
 if __name__ == '__main__':

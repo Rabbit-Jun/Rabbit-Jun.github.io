@@ -24,7 +24,7 @@ sampling_ratio=2: ROI를 7x7 크기로 변환할 때 사용되는 샘플링 비�
 
 ### pooing
 
-![pooling](../../assets/hnv/pooling.png)  
+![pooling](/assets/hnv/pooling.png)  
 
 
 ### refinement 

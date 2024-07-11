@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>rabbitjun</title>
+    <link rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body>
+    <header class="site-header">
+        <div class="container">
+            <a href="/" class="blog-name">RabbitJun</a>
+        </div>
+        <hr> <!-- 전체 너비의 선 -->
+    </header>
+    <div class="container sidebar-content">
+        <div class="sidebar">
+    <!-- 프로필 정보 -->
+    <div class="profile">
+        <img src="/assets/images/profile.jpg" alt="프로필 이미지" class="profile-image">
+        <h2>juneon</h2>
+        <p>아직 모르는게 많아 열심히 공부중</p>
+    </div>
+    
+    <!-- 사이드바 카테고리 목록 -->
+    <div class="sidebar-categories">
+        <ul>
+            
+            <li><a href="/category/webcrawling">webcrawling</a></li>
+            
+            <li><a href="/category/objectdetection">objectdetection</a></li>
+            
+        </ul>
+        
+    </div>
+</div>
+
+        <div class="content">
+            <article class="post-box">
+  <div class="post-header">
+    <h1>model</h1>
+    <p class="post-date">Jun 27, 2024</p>
+  </div>
+  <div class="post-content">
+    <p>torchvision.models:<br />
+https://github.com/pytorch/vision/tree/main/torchvision/models</p>
+
+<h1 id="torchvisiondetection">torchvision.detection</h1>
+<ul>
+  <li>torchvisoin.detection은 Pytorch의 컴퓨터 비전 관련 유틸리티를 제공하는 패키지의 하위 모듈로, 주로 객체 탐지와 관련된 기능들을 제공</li>
+</ul>
+
+<h1 id="torchvisiondetectionrpn">torchvision.detection.rpn</h1>
+<ul>
+  <li>Resion Proposal Network</li>
+  <li>입력 이미지에서 객체가 있을 가능성이 높은 영역 (Region of interest)을 제안하는 역할</li>
+  <li>이를 통해 객체 탐지 모델이 전체 이미지에서 객체를 일일이 찾는 대신, 제안된 후보 영역들에 집중하여 효율적으로 탐지 작업을 수행할 수 있다</li>
+</ul>
+
+<h1 id="backbone">Backbone</h1>
+<ul>
+  <li>특징 추출을 담당하는 기본 신경망을 의미
+    <ul>
+      <li>객체 탐지, 이미지 분할, 이미지 분류 등의 다양한 비전 모델에서 중요한 역할을 합니다.</li>
+      <li>입력 이미지에서 의미 있는 특징 맵을 추출하여 후속처리 단계(객체의 경계 상자 예측, 등)에 사용</li>
+    </ul>
+  </li>
+  <li>대표적으로 ResNet, VGG. EfficientNet, MobileNet 등이 있음</li>
+  <li>ex)
+```python
+      self.backbone = efficientnet_b0(weights=EfficientNet_B0_Weights.DEFAULT).features
+      self.backbone.out_channels = 1280  #   EfficientNet-B0의 마지막 특징 맵의 출력 채널 수는 1280</li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">torch</span>
+<span class="kn">from</span> <span class="n">torchvision.models</span> <span class="kn">import</span> <span class="n">efficientnet_b0</span><span class="p">,</span> <span class="n">EfficientNet_B0_Weights</span>
+
+<span class="c1"># EfficientNet-B0 모델 로드
+</span><span class="n">model</span> <span class="o">=</span> <span class="nf">efficientnet_b0</span><span class="p">(</span><span class="n">weights</span><span class="o">=</span><span class="n">EfficientNet_B0_Weights</span><span class="p">.</span><span class="n">DEFAULT</span><span class="p">)</span>
+
+<span class="c1"># 모델 구조 출력 (필요시 주석 해제)
+# print(model)
+</span>
+<span class="c1"># 특징 맵의 출력 채널 수 확인
+# 마지막 계층의 출력 채널 수는 모델의 특징 추출 부분의 마지막 Conv 층의 출력 채널 수와 동일합니다.
+</span><span class="n">last_feature_layer</span> <span class="o">=</span> <span class="n">model</span><span class="p">.</span><span class="n">features</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+<span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="s">Last feature layer output channels: </span><span class="si">{</span><span class="n">last_feature_layer</span><span class="p">.</span><span class="n">out_channels</span><span class="si">}</span><span class="sh">"</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>def_efficient_conf(): 에 last_channel 을 보면 알 수 있음</p>
+
+  </div>
+</article>
+
+        </div>
+    </div>
+</body>
+</html>

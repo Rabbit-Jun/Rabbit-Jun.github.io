@@ -1,8 +1,8 @@
 ---
 title: model
 date: 2024-06-27
-categories: hnv
-layout: objectdetection
+categories: objectdetection
+layout: post
 ---
 
 torchvision.models:  

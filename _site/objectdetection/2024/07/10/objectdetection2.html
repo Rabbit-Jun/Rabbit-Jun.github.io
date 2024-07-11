@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>rabbitjun</title>
+    <link rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body>
+    <header class="site-header">
+        <div class="container">
+            <a href="/" class="blog-name">RabbitJun</a>
+        </div>
+        <hr> <!-- 전체 너비의 선 -->
+    </header>
+    <div class="container sidebar-content">
+        <div class="sidebar">
+    <!-- 프로필 정보 -->
+    <div class="profile">
+        <img src="/assets/images/profile.jpg" alt="프로필 이미지" class="profile-image">
+        <h2>juneon</h2>
+        <p>아직 모르는게 많아 열심히 공부중</p>
+    </div>
+    
+    <!-- 사이드바 카테고리 목록 -->
+    <div class="sidebar-categories">
+        <ul>
+            
+            <li><a href="/category/webcrawling">webcrawling</a></li>
+            
+            <li><a href="/category/objectdetection">objectdetection</a></li>
+            
+        </ul>
+        
+    </div>
+</div>
+
+        <div class="content">
+            <article class="post-box">
+  <div class="post-header">
+    <h1>model2</h1>
+    <p class="post-date">Jul 10, 2024</p>
+  </div>
+  <div class="post-content">
+    <h1 id="anchor">anchor</h1>
+<p>https://github.com/chullhwan-song/Reading-Paper/issues/184
+<img src="/assets/hnv/anchor.png" alt="anchor box" /></p>
+<ul>
+  <li>[0, 0, 256, 256] &gt; [ y center, x center, h, w] 인 사각형을 기준으로 하여 aspect ratio 가 0.5, 1, 2인 사각형을 한 개씩 만든다
+    <ul>
+      <li>그럼 base anchor가 3개 만들어짐</li>
+    </ul>
+  </li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">enum_scales</span><span class="p">(</span><span class="n">base_anchor</span><span class="p">,</span> <span class="n">anchor_scales</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="sh">'</span><span class="s">enum_scales</span><span class="sh">'</span><span class="p">):</span>
+
+    <span class="sh">'''</span><span class="s">
+    :param base_anchor: [y_center, x_center, h, w]
+    :param anchor_scales: different scales, like [0.5, 1., 2.0]
+    :return: return base anchors in different scales.
+            Example:[[0, 0, 128, 128],[0, 0, 256, 256],[0, 0, 512, 512]]
+    </span><span class="sh">'''</span>
+    <span class="k">with</span> <span class="n">tf</span><span class="p">.</span><span class="nf">variable_scope</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
+        <span class="n">anchor_scales</span> <span class="o">=</span> <span class="n">tf</span><span class="p">.</span><span class="nf">reshape</span><span class="p">(</span><span class="n">anchor_scales</span><span class="p">,</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>  <span class="c1"># torh.reshape(anchor_scales, [-1,1])
+</span>
+        <span class="k">return</span> <span class="n">base_anchor</span> <span class="o">*</span> <span class="n">anchor_scales</span>
+</code></pre></div></div>
+
+<p><img src="/assets/hnv/reshape.png" alt="reshape" /><br />
+<img src="/assets/hnv/reshape_output.png" alt="reshape" /><br />
+각 인덴스는 해당 차원의 요소의 개수를 의미하며 -1은 자동으로 나머지 차원의 수에 맞게 요소의 개수를 조정하라는 의미</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">enum_ratios</span><span class="p">(</span><span class="n">anchors</span><span class="p">,</span> <span class="n">anchor_ratios</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="sh">'</span><span class="s">enum_ratios</span><span class="sh">'</span><span class="p">):</span>
+
+    <span class="sh">'''</span><span class="s">
+    :param anchors: base anchors in different scales
+    :param anchor_ratios:  ratio = h / w
+    :return: base anchors in different scales and ratios
+    </span><span class="sh">'''</span>
+
+    <span class="k">with</span> <span class="n">tf</span><span class="p">.</span><span class="nf">variable_scope</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
+        <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">hs</span><span class="p">,</span> <span class="n">ws</span> <span class="o">=</span> <span class="n">tf</span><span class="p">.</span><span class="nf">unstack</span><span class="p">(</span><span class="n">anchors</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># torch에서는 axis 대신 dim,  unstack 대신 unbind 을 사용
+</span>        <span class="n">sqrt_ratios</span> <span class="o">=</span> <span class="n">tf</span><span class="p">.</span><span class="nf">sqrt</span><span class="p">(</span><span class="n">anchor_ratios</span><span class="p">)</span>
+        <span class="n">sqrt_ratios</span> <span class="o">=</span> <span class="n">tf</span><span class="p">.</span><span class="nf">expand_dims</span><span class="p">(</span><span class="n">sqrt_ratios</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># torch는 unsqueeze(sqrt_ratios, dim=1)
+</span>        <span class="n">ws</span> <span class="o">=</span> <span class="n">tf</span><span class="p">.</span><span class="nf">reshape</span><span class="p">(</span><span class="n">ws</span> <span class="o">/</span> <span class="n">sqrt_ratios</span><span class="p">,</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+        <span class="n">hs</span> <span class="o">=</span> <span class="n">tf</span><span class="p">.</span><span class="nf">reshape</span><span class="p">(</span><span class="n">hs</span> <span class="o">*</span> <span class="n">sqrt_ratios</span><span class="p">,</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+        <span class="c1"># assert tf.shape(ws) == tf.shape(hs), 'h shape is not equal w shape'
+</span>
+        <span class="n">num_anchors_per_location</span> <span class="o">=</span> <span class="n">tf</span><span class="p">.</span><span class="nf">shape</span><span class="p">(</span><span class="n">ws</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>  <span class="c1"># torch에서는 tensor.shape
+</span>
+        <span class="k">return</span> <span class="n">tf</span><span class="p">.</span><span class="nf">transpose</span><span class="p">(</span><span class="n">tf</span><span class="p">.</span><span class="nf">stack</span><span class="p">([</span><span class="n">tf</span><span class="p">.</span><span class="nf">zeros</span><span class="p">([</span><span class="n">num_anchors_per_location</span><span class="p">,</span> <span class="p">]),</span>
+                                      <span class="n">tf</span><span class="p">.</span><span class="nf">zeros</span><span class="p">([</span><span class="n">num_anchors_per_location</span><span class="p">,]),</span>
+                                      <span class="n">ws</span><span class="p">,</span> <span class="n">hs</span><span class="p">]))</span>
+</code></pre></div></div>
+<p><img src="/assets/hnv/axis.png" alt="axis" />
+axis는 그냥 바깥쪽에서 부터 0 으로 시작해서 안쪽으로 으로 들어갈수록 수가 커지게<br />
+axis를 그냥 방향이라고 생각하면 될 듯</p>
+
+<pre>
+array([[0, 1, 2],
+
+       [3, 4, 5]])이면
+axis=0 은 [0, 1, 2] - &gt; [3, 4, 5] 
+axis=1 은 0 -&gt; 1 -&gt; 2 또는 3-&gt; 4 -&gt; 5
+같은 방향을 향하는 애들끼리 같이 묶여 있다고 생각하면 될 듯
+
+</pre>
+<h3 id="unsqueeze">unsqueeze</h3>
+<p><img src="/assets/hnv/unsqueeze.png" alt="unsqueeze" /><br />
+<img src="/assets/hnv/unsqueeze2.png" alt="unsqueeze" /></p>
+
+<h3 id="shape">shape</h3>
+<p><img src="/assets/hnv/shape.png" alt="shape" /></p>
+
+<h3 id="transpose">transpose</h3>
+<p><img src="/assets/hnv/transpose.png" alt="transpose" /></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="sh">'</span><span class="s">__main__</span><span class="sh">'</span><span class="p">:</span>
+
+    <span class="n">base_anchor</span>  <span class="o">=</span> <span class="n">tf</span><span class="p">.</span><span class="nf">constant</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">256</span><span class="p">,</span> <span class="mi">256</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">tf</span><span class="p">.</span><span class="n">float32</span><span class="p">)</span> <span class="c1">#[center_y, cetner_x, h, w]
+</span>    <span class="n">anchor_scales</span> <span class="o">=</span> <span class="n">tf</span><span class="p">.</span><span class="nf">constant</span><span class="p">([</span><span class="mf">1.0</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">tf</span><span class="p">.</span><span class="n">float32</span><span class="p">)</span>
+    <span class="n">anchor_ratios</span> <span class="o">=</span> <span class="n">tf</span><span class="p">.</span><span class="nf">constant</span><span class="p">([</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">tf</span><span class="p">.</span><span class="n">float32</span><span class="p">)</span>
+
+    <span class="n">anchor_scales_ratios</span> <span class="o">=</span> <span class="nf">enum_ratios</span><span class="p">(</span><span class="nf">enum_scales</span><span class="p">(</span><span class="n">base_anchor</span><span class="p">,</span> <span class="n">anchor_scales</span><span class="p">),</span> <span class="n">anchor_ratios</span><span class="p">)</span>
+    <span class="c1"># print(anchor_scales_ratios.shape) # (3, 4) &gt; 3개의 aspect ratio당 &gt; rectangle 위치 [center_y, cetner_x, h, w]
+</span>
+    <span class="n">sess</span> <span class="o">=</span> <span class="n">tf</span><span class="p">.</span><span class="nc">Session</span><span class="p">()</span>  <span class="c1"># 이제는 없어진 기능
+</span>    <span class="nf">print </span><span class="p">(</span><span class="n">sess</span><span class="p">.</span><span class="nf">run</span><span class="p">(</span><span class="n">anchor_scales_ratios</span><span class="p">))</span>
+    <span class="c1"># [center_y, cetner_x, h, w] 이므로, 중심(x, y) = (0, 0), (w, h) = (362.03867, 181.01933)
+</span>    <span class="c1"># [[  0.        0.      362.03867 181.01933] # 0.5
+</span>    <span class="c1"># [  0.        0.      256.      256.     ]  # 1.0
+</span>    <span class="c1"># [  0.        0.      181.01933 362.03867]] # 2.0 &lt;aspect ratio
+</span></code></pre></div></div>
+
+  </div>
+</article>
+
+        </div>
+    </div>
+</body>
+</html>
