@@ -81,8 +81,28 @@ done
 312
 ```
 normal이 비정상보다 더 개수가 많다.  
-어찌 처리해야 할지 고민이다.  
+어찌 처리해야 할지 고민이다. 
+ 
+```python
+(base) ➜  data find ./val/normal -type f -name "*.csv" | wc -l
+112
 
+(base) ➜  data find ./val/hip_joint_movement_errors -type f -name "*.csv" | wc -l
+120
+(base) ➜  data find ./val/arm_posture_errors -type f -name "*.csv" | wc -l
+80
+(base) ➜  data find ./val/chest_and_hip_joint_errors -type f -name "*.csv" | wc -l
+96
+(base) ➜  data find ./val -type f -name "*.csv" | wc -l
+408
+```
+
+
+```
+(base) ➜  data ls
+train  val
+```
+작업 진행도 20%
 
 .  
 .  
