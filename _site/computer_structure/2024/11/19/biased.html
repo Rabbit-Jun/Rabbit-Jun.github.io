@@ -51,39 +51,34 @@
 </div>
 
         <div class="content">
-            <div class="posts">
+            <article class="post-box">
+  <div class="post-header">
+    <h1>biased.md</h1>
+    <p class="post-date">Nov 19, 2024</p>
+  </div>
+  <div class="post-content">
+    <h1 id="바이어스">바이어스?</h1>
 
-<div class="post-header">
-  <h2><a href="/computer_structure/2024/11/19/multy.html">multy</a></h2>
-  <p class="post-date">Nov 19, 2024</p>
-</div>
+<p>우리가 정규화된 표현을 쓸 때 <strong>정수0</strong>에 대해서 문제가 발생함</p>
 
-<div class="post-header">
-  <h2><a href="/computer_structure/2024/11/19/ieee754_3.html">iee754_3</a></h2>
-  <p class="post-date">Nov 19, 2024</p>
-</div>
+<p>컴퓨터는 <strong>zero-test</strong>를 수시로 해서 이게 0인지 아닌지 판별을 하는데, 이 컴퓨터가 0은 모든 비트들이 0이다라는걸 기본적으로 깔고 감<br />
+<img src="image-3.png" alt="alt text" /><br />
+이렇게 하면 아주 이상적</p>
 
-<div class="post-header">
-  <h2><a href="/computer_structure/2024/11/19/ieee754.html">iee754</a></h2>
-  <p class="post-date">Nov 19, 2024</p>
-</div>
+<p>이제 지수가 음수 일때를 생각해보자.<br />
+지수가 음수면 일단 지수에도 부호를 넣어줘야 함 -&gt; 비트 낭비하기 싫음 -&gt; 음수를 양수로 처리해서 쓰자 -&gt; 바이어스 등장!!<br />
+(<em>그리고 지수가 한 없이 큰 음수이면 언더플로우나 정밀도 손실이 발생할 수 있다</em>)</p>
 
-<div class="post-header">
-  <h2><a href="/computer_structure/2024/11/19/ieee745_2.html">iee754_2</a></h2>
-  <p class="post-date">Nov 19, 2024</p>
-</div>
+<p>ex) 바이어스가 127이면 지수 비트에 01111111을 더해주면 끝</p>
 
-<div class="post-header">
-  <h2><a href="/computer_structure/2024/11/19/biased.html">biased.md</a></h2>
-  <p class="post-date">Nov 19, 2024</p>
-</div>
+<p><img src="image-4.png" alt="alt text" /></p>
 
-<div class="post-header">
-  <h2><a href="/computer_structure/2024/11/19/add.html">add</a></h2>
-  <p class="post-date">Nov 19, 2024</p>
-</div>
+<p><img src="image-5.png" alt="alt text" /></p>
 
-</div>
+<p>M의 범위가 0.5보다 크거나 같고 1-2^-23보다 작거나 같아야 할것 같은데 왜 2^-24보다 작거나 같은지 이해가 안가네</p>
+
+  </div>
+</article>
 
         </div>
     </div>
