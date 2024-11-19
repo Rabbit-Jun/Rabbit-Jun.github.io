@@ -260,4 +260,3 @@ if mode == 'train':
         cv2.destroyAllWindows()
 ```
 
-
