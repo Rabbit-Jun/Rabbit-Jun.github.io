@@ -1,388 +1,565 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2024-07-11T09:43:42+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">RabbitJun’s Blog</title><subtitle>Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.</subtitle><entry><title type="html">model2</title><link href="http://localhost:4000/objectdetection/2024/07/10/objectdetection2.html" rel="alternate" type="text/html" title="model2" /><published>2024-07-10T00:00:00+09:00</published><updated>2024-07-10T00:00:00+09:00</updated><id>http://localhost:4000/objectdetection/2024/07/10/objectdetection2</id><content type="html" xml:base="http://localhost:4000/objectdetection/2024/07/10/objectdetection2.html"><![CDATA[<h1 id="anchor">anchor</h1>
-<p>https://github.com/chullhwan-song/Reading-Paper/issues/184
-<img src="/assets/hnv/anchor.png" alt="anchor box" /></p>
-<ul>
-  <li>[0, 0, 256, 256] &gt; [ y center, x center, h, w] 인 사각형을 기준으로 하여 aspect ratio 가 0.5, 1, 2인 사각형을 한 개씩 만든다
-    <ul>
-      <li>그럼 base anchor가 3개 만들어짐</li>
-    </ul>
-  </li>
-</ul>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2024-11-19T15:05:23+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">RabbitJun’s Blog</title><subtitle>Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.</subtitle><entry><title type="html">iee754</title><link href="http://localhost:4000/computer_structure/2024/11/19/ieee754.html" rel="alternate" type="text/html" title="iee754" /><published>2024-11-19T00:00:00+09:00</published><updated>2024-11-19T00:00:00+09:00</updated><id>http://localhost:4000/computer_structure/2024/11/19/ieee754</id><content type="html" xml:base="http://localhost:4000/computer_structure/2024/11/19/ieee754.html"><![CDATA[<h1 id="ieee">ieee?</h1>
+<p>ieee는</p>]]></content><author><name></name></author><category term="computer_structure" /><summary type="html"><![CDATA[ieee? ieee는]]></summary></entry><entry><title type="html">main2</title><link href="http://localhost:4000/hnv/2024/11/14/clonecoding5.html" rel="alternate" type="text/html" title="main2" /><published>2024-11-14T00:00:00+09:00</published><updated>2024-11-14T00:00:00+09:00</updated><id>http://localhost:4000/hnv/2024/11/14/clonecoding5</id><content type="html" xml:base="http://localhost:4000/hnv/2024/11/14/clonecoding5.html"><![CDATA[<h1 id="class-에서-모르는-것만-하자">class 에서 모르는 것만 하자</h1>
+<p>이제는 시간이 별로 없다.<br />
+그냥 대충 해야겠다.</p>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">enum_scales</span><span class="p">(</span><span class="n">base_anchor</span><span class="p">,</span> <span class="n">anchor_scales</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="sh">'</span><span class="s">enum_scales</span><span class="sh">'</span><span class="p">):</span>
+<p><code class="language-plaintext highlighter-rouge">todolist()</code>는 파이썬에서 리스트나 배열 등을 리스트 타입으로 변환해주는 함수입니다. 주로 아래와 같은 상황에서 사용됩니다.</p>
 
-    <span class="sh">'''</span><span class="s">
-    :param base_anchor: [y_center, x_center, h, w]
-    :param anchor_scales: different scales, like [0.5, 1., 2.0]
-    :return: return base anchors in different scales.
-            Example:[[0, 0, 128, 128],[0, 0, 256, 256],[0, 0, 512, 512]]
-    </span><span class="sh">'''</span>
-    <span class="k">with</span> <span class="n">tf</span><span class="p">.</span><span class="nf">variable_scope</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
-        <span class="n">anchor_scales</span> <span class="o">=</span> <span class="n">tf</span><span class="p">.</span><span class="nf">reshape</span><span class="p">(</span><span class="n">anchor_scales</span><span class="p">,</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>  <span class="c1"># torh.reshape(anchor_scales, [-1,1])
+<p>Pandas Series나 DataFrame의 특정 열을 리스트로 변환할 때:</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">pandas</span> <span class="k">as</span> <span class="n">pd</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nc">DataFrame</span><span class="p">({</span><span class="sh">'</span><span class="s">col1</span><span class="sh">'</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="sh">'</span><span class="s">col2</span><span class="sh">'</span><span class="p">:</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">]})</span>
+<span class="n">col1_list</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="sh">'</span><span class="s">col1</span><span class="sh">'</span><span class="p">].</span><span class="nf">tolist</span><span class="p">()</span>  <span class="c1"># [1, 2, 3]
 </span>
-        <span class="k">return</span> <span class="n">base_anchor</span> <span class="o">*</span> <span class="n">anchor_scales</span>
 </code></pre></div></div>
 
-<p><img src="/assets/hnv/reshape.png" alt="reshape" /><br />
-<img src="/assets/hnv/reshape_output.png" alt="reshape" /><br />
-각 인덴스는 해당 차원의 요소의 개수를 의미하며 -1은 자동으로 나머지 차원의 수에 맞게 요소의 개수를 조정하라는 의미</p>
+<p>Numpy 배열을 리스트로 변환할 때:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>import numpy as np
+array = np.array([1, 2, 3])
+list_from_array = array.tolist()  # [1, 2, 3]
+</code></pre></div></div>]]></content><author><name></name></author><category term="hnv" /><summary type="html"><![CDATA[class 에서 모르는 것만 하자 이제는 시간이 별로 없다. 그냥 대충 해야겠다.]]></summary></entry><entry><title type="html">dataset</title><link href="http://localhost:4000/hnv/2024/11/14/dataset.html" rel="alternate" type="text/html" title="dataset" /><published>2024-11-14T00:00:00+09:00</published><updated>2024-11-14T00:00:00+09:00</updated><id>http://localhost:4000/hnv/2024/11/14/dataset</id><content type="html" xml:base="http://localhost:4000/hnv/2024/11/14/dataset.html"><![CDATA[<p>```python
+import os
+import glob</p>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">enum_ratios</span><span class="p">(</span><span class="n">anchors</span><span class="p">,</span> <span class="n">anchor_ratios</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="sh">'</span><span class="s">enum_ratios</span><span class="sh">'</span><span class="p">):</span>
+<p>import numpy as np
+from PIL import Image
+import torch
+from torch.utils.data import DataLoader
+from torchvision import transforms
+from sklearn.model_selection import train_test_split
+import lightning as L</p>
 
-    <span class="sh">'''</span><span class="s">
-    :param anchors: base anchors in different scales
-    :param anchor_ratios:  ratio = h / w
-    :return: base anchors in different scales and ratios
-    </span><span class="sh">'''</span>
+<p>SEED = 36
+L.seed_everything(SEED)</p>
 
-    <span class="k">with</span> <span class="n">tf</span><span class="p">.</span><span class="nf">variable_scope</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
-        <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">hs</span><span class="p">,</span> <span class="n">ws</span> <span class="o">=</span> <span class="n">tf</span><span class="p">.</span><span class="nf">unstack</span><span class="p">(</span><span class="n">anchors</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># torch에서는 axis 대신 dim,  unstack 대신 unbind 을 사용
-</span>        <span class="n">sqrt_ratios</span> <span class="o">=</span> <span class="n">tf</span><span class="p">.</span><span class="nf">sqrt</span><span class="p">(</span><span class="n">anchor_ratios</span><span class="p">)</span>
-        <span class="n">sqrt_ratios</span> <span class="o">=</span> <span class="n">tf</span><span class="p">.</span><span class="nf">expand_dims</span><span class="p">(</span><span class="n">sqrt_ratios</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># torch는 unsqueeze(sqrt_ratios, dim=1)
-</span>        <span class="n">ws</span> <span class="o">=</span> <span class="n">tf</span><span class="p">.</span><span class="nf">reshape</span><span class="p">(</span><span class="n">ws</span> <span class="o">/</span> <span class="n">sqrt_ratios</span><span class="p">,</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
-        <span class="n">hs</span> <span class="o">=</span> <span class="n">tf</span><span class="p">.</span><span class="nf">reshape</span><span class="p">(</span><span class="n">hs</span> <span class="o">*</span> <span class="n">sqrt_ratios</span><span class="p">,</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
-        <span class="c1"># assert tf.shape(ws) == tf.shape(hs), 'h shape is not equal w shape'
-</span>
-        <span class="n">num_anchors_per_location</span> <span class="o">=</span> <span class="n">tf</span><span class="p">.</span><span class="nf">shape</span><span class="p">(</span><span class="n">ws</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>  <span class="c1"># torch에서는 tensor.shape
-</span>
-        <span class="k">return</span> <span class="n">tf</span><span class="p">.</span><span class="nf">transpose</span><span class="p">(</span><span class="n">tf</span><span class="p">.</span><span class="nf">stack</span><span class="p">([</span><span class="n">tf</span><span class="p">.</span><span class="nf">zeros</span><span class="p">([</span><span class="n">num_anchors_per_location</span><span class="p">,</span> <span class="p">]),</span>
-                                      <span class="n">tf</span><span class="p">.</span><span class="nf">zeros</span><span class="p">([</span><span class="n">num_anchors_per_location</span><span class="p">,]),</span>
-                                      <span class="n">ws</span><span class="p">,</span> <span class="n">hs</span><span class="p">]))</span>
-</code></pre></div></div>
-<p><img src="/assets/hnv/axis.png" alt="axis" />
-axis는 그냥 바깥쪽에서 부터 0 으로 시작해서 안쪽으로 으로 들어갈수록 수가 커지게<br />
-axis를 그냥 방향이라고 생각하면 될 듯</p>
+<p>class ImageNetDataModule(L.LightningDataModule):
+    def <strong>init</strong>(self, data_path: str = ‘../../dataset’, batch_size: int = 32, mode: str = ‘train’):
+        super().<strong>init</strong>()
+        self.mode = mode
+        if self.mode == ‘train’:
+            self.dataset = glob.glob(os.path.join(data_path, ‘<em>/</em>.jpeg’))
+        else:
+            self.data_path = data_path
+            batch_size = 1</p>
 
-<pre>
-array([[0, 1, 2],
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    self.batch_size = batch_size
+    self.transform = transforms.Compose([
+        transforms.Resize((256, 256)),
+        transforms.ToTensor(),
+        transforms.Normalize((0.485, 0.456, 0.406), (0.229, 0.224, 0.225))
+        ])
 
-       [3, 4, 5]])이면
-axis=0 은 [0, 1, 2] - &gt; [3, 4, 5] 
-axis=1 은 0 -&gt; 1 -&gt; 2 또는 3-&gt; 4 -&gt; 5
-같은 방향을 향하는 애들끼리 같이 묶여 있다고 생각하면 될 듯
+def setup(self, stage: str):
+    if self.trainer is not None:
+        if self.batch_size % self.trainer.world_size != 0:
+            raise RuntimeError(
+                f"Batch size ({self.batch_size}) is not divisible by the number of devices ({self.trainer.world_size})."
+            )
+        self.batch_size_per_device = self.batch_size // self.trainer.world_size
 
-</pre>
-<h3 id="unsqueeze">unsqueeze</h3>
-<p><img src="/assets/hnv/unsqueeze.png" alt="unsqueeze" /><br />
-<img src="/assets/hnv/unsqueeze2.png" alt="unsqueeze" /></p>
+    if self.mode == 'train':
+        class_data = list(map(lambda path: os.path.basename(os.path.dirname(path)).split('-', 1), self.dataset))
+        class_ids, _ = zip(*class_data)
+        train_x, val_x, train_y, val_y = train_test_split(self.dataset, class_ids, test_size=0.2, stratify=class_ids)
+        val_x, test_x, val_y, test_y = train_test_split(val_x, val_y, test_size=0.5, stratify=val_y)
 
-<h3 id="shape">shape</h3>
-<p><img src="/assets/hnv/shape.png" alt="shape" /></p>
+        train_data = [(x, y) for x, y in zip(train_x, train_y)]
+        val_data = [(x, y) for x, y in zip(val_x, val_y)]
+        test_data = [(x, y) for x, y in zip(test_x, test_y)]
+    else:
+        pred_data = [Image.open(self.data_path).convert('RGB')]
 
-<h3 id="transpose">transpose</h3>
-<p><img src="/assets/hnv/transpose.png" alt="transpose" /></p>
+    if stage == 'fit':
+        self.train_dataset = train_data
+        self.val_dataset = val_data
+    
+    if stage == 'test':
+        self.test_dataset = test_data
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="sh">'</span><span class="s">__main__</span><span class="sh">'</span><span class="p">:</span>
+    if stage == 'predict':
+        self.pred_dataset = pred_data
 
-    <span class="n">base_anchor</span>  <span class="o">=</span> <span class="n">tf</span><span class="p">.</span><span class="nf">constant</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">256</span><span class="p">,</span> <span class="mi">256</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">tf</span><span class="p">.</span><span class="n">float32</span><span class="p">)</span> <span class="c1">#[center_y, cetner_x, h, w]
-</span>    <span class="n">anchor_scales</span> <span class="o">=</span> <span class="n">tf</span><span class="p">.</span><span class="nf">constant</span><span class="p">([</span><span class="mf">1.0</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">tf</span><span class="p">.</span><span class="n">float32</span><span class="p">)</span>
-    <span class="n">anchor_ratios</span> <span class="o">=</span> <span class="n">tf</span><span class="p">.</span><span class="nf">constant</span><span class="p">([</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">tf</span><span class="p">.</span><span class="n">float32</span><span class="p">)</span>
+def _train_collate_fn(self, batch):
+    images, labels = zip(*batch)
+    images = [self.transform(Image.open(img).convert('RGB')) for img in images]
+    labels = torch.tensor([int(label) for label in labels], dtype=torch.long)
+    return torch.stack(images), labels
 
-    <span class="n">anchor_scales_ratios</span> <span class="o">=</span> <span class="nf">enum_ratios</span><span class="p">(</span><span class="nf">enum_scales</span><span class="p">(</span><span class="n">base_anchor</span><span class="p">,</span> <span class="n">anchor_scales</span><span class="p">),</span> <span class="n">anchor_ratios</span><span class="p">)</span>
-    <span class="c1"># print(anchor_scales_ratios.shape) # (3, 4) &gt; 3개의 aspect ratio당 &gt; rectangle 위치 [center_y, cetner_x, h, w]
-</span>
-    <span class="n">sess</span> <span class="o">=</span> <span class="n">tf</span><span class="p">.</span><span class="nc">Session</span><span class="p">()</span>  <span class="c1"># 이제는 없어진 기능
-</span>    <span class="nf">print </span><span class="p">(</span><span class="n">sess</span><span class="p">.</span><span class="nf">run</span><span class="p">(</span><span class="n">anchor_scales_ratios</span><span class="p">))</span>
-    <span class="c1"># [center_y, cetner_x, h, w] 이므로, 중심(x, y) = (0, 0), (w, h) = (362.03867, 181.01933)
-</span>    <span class="c1"># [[  0.        0.      362.03867 181.01933] # 0.5
-</span>    <span class="c1"># [  0.        0.      256.      256.     ]  # 1.0
-</span>    <span class="c1"># [  0.        0.      181.01933 362.03867]] # 2.0 &lt;aspect ratio
-</span></code></pre></div></div>]]></content><author><name></name></author><category term="objectdetection" /><summary type="html"><![CDATA[anchor https://github.com/chullhwan-song/Reading-Paper/issues/184 [0, 0, 256, 256] &gt; [ y center, x center, h, w] 인 사각형을 기준으로 하여 aspect ratio 가 0.5, 1, 2인 사각형을 한 개씩 만든다 그럼 base anchor가 3개 만들어짐]]></summary></entry><entry><title type="html">model3</title><link href="http://localhost:4000/objectdetection/2024/07/10/objectdetection3.html" rel="alternate" type="text/html" title="model3" /><published>2024-07-10T00:00:00+09:00</published><updated>2024-07-10T00:00:00+09:00</updated><id>http://localhost:4000/objectdetection/2024/07/10/objectdetection3</id><content type="html" xml:base="http://localhost:4000/objectdetection/2024/07/10/objectdetection3.html"><![CDATA[<p>https://github.com/chullhwan-song/Reading-Paper/issues/184</p>
+def _predict_collate_fn(self, batch):
+    img = batch[0]
+    input = self.transform(img).unsqueeze(0)
+    return input, np.array(img)
 
-<h1 id="anchor">anchor</h1>
+def train_dataloader(self):
+    return DataLoader(self.train_dataset, batch_size=self.batch_size_per_device, shuffle=True, collate_fn=self._train_collate_fn)
 
-<p><img src="/assets/hnv/anchor2.png" alt="anchor" />
-anchor(3개짜리)가 각 크기별로 입력값을 훝고 지나감 -&gt; 총 9개가 생성<br />
-이에관한 소스까지 공부하기에는 따로 공부해야 할 것 같아서 패스함</p>
+def val_dataloader(self):
+    return DataLoader(self.val_dataset, batch_size=self.batch_size_per_device, shuffle=False, collate_fn=self._train_collate_fn)
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">self</span><span class="p">.</span><span class="n">anchor_generator</span> <span class="o">=</span> <span class="nc">AnchorGenerator</span><span class="p">(</span><span class="n">sizes</span><span class="o">=</span><span class="p">((</span><span class="mi">32</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">128</span><span class="p">,</span> <span class="mi">256</span><span class="p">,</span> <span class="mi">512</span><span class="p">),),</span>
-                                        <span class="n">aspect_ratios</span><span class="o">=</span><span class="p">((</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">),))</span>
-</code></pre></div></div>
-<p><img src="/assets/hnv/anchor3.png" alt="anchor" /></p>]]></content><author><name></name></author><category term="objectdetection" /><summary type="html"><![CDATA[https://github.com/chullhwan-song/Reading-Paper/issues/184]]></summary></entry><entry><title type="html">model4</title><link href="http://localhost:4000/objectdetection/2024/07/10/objectdetection4.html" rel="alternate" type="text/html" title="model4" /><published>2024-07-10T00:00:00+09:00</published><updated>2024-07-10T00:00:00+09:00</updated><id>http://localhost:4000/objectdetection/2024/07/10/objectdetection4</id><content type="html" xml:base="http://localhost:4000/objectdetection/2024/07/10/objectdetection4.html"><![CDATA[<h1 id="multiscaleroialign">MultiScaleRoIAlign</h1>
-<ul>
-  <li>ROI 풀링 수행</li>
-</ul>
+def test_dataloader(self):
+    return DataLoader(self.test_dataset, batch_size=self.batch_size_per_device, shuffle=False, collate_fn=self._train_collate_fn)
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">self</span><span class="p">.</span><span class="n">roi_pooler</span> <span class="o">=</span> <span class="n">torchvision</span><span class="p">.</span><span class="n">ops</span><span class="p">.</span><span class="nc">MultiScaleRoIAlign</span><span class="p">(</span><span class="n">featmap_names</span><span class="o">=</span><span class="p">[</span><span class="sh">'</span><span class="s">0</span><span class="sh">'</span><span class="p">],</span>
-                                                        <span class="n">output_size</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span>
-                                                        <span class="n">sampling_ratio</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-</code></pre></div></div>
-
-<pre>
-featmap_names=['0']: ROI를 추출할 특성 맵의 이름입니다. 여기서는 '0'이라는 이름의 특성 맵만 사용합니다.
-
-output_size=7: 생성할 특성 맵의 고정된 크기입니다. 여기서는 7x7 크기의 특성 맵을 생성합니다.
-
-sampling_ratio=2: ROI를 7x7 크기로 변환할 때 사용되는 샘플링 비율입니다. 이는 보다 정확한 특성 맵을 얻기 위해 입력 영역을 얼마나 세밀하게 샘플링할지 결정합니다.
-</pre>
-
-<h3 id="pooing">pooing</h3>
-
-<p><img src="/assets/hnv/pooling.png" alt="pooling" /></p>
-
-<h3 id="refinement">refinement</h3>
+def predict_dataloader(self):
+    return DataLoader(self.pred_dataset, batch_size=self.batch_size_per_device, shuffle=False, collate_fn=self._predict_collate_fn)  ```         0.
+</code></pre></div></div>]]></content><author><name></name></author><category term="hnv" /><summary type="html"><![CDATA[```python import os import glob]]></summary></entry><entry><title type="html">paranoma</title><link href="http://localhost:4000/computervision/2024/11/13/project.html" rel="alternate" type="text/html" title="paranoma" /><published>2024-11-13T00:00:00+09:00</published><updated>2024-11-13T00:00:00+09:00</updated><id>http://localhost:4000/computervision/2024/11/13/project</id><content type="html" xml:base="http://localhost:4000/computervision/2024/11/13/project.html"><![CDATA[<h1 id="환경-설정하기-poetry">환경 설정하기 (poetry)</h1>
 <ol>
-  <li>region proposal 생성
+  <li>conda로 가상환경을 만들어준다</li>
+  <li>활성화된 가상환경에서 <code class="language-plaintext highlighter-rouge">pip install poetry</code></li>
+  <li><code class="language-plaintext highlighter-rouge">poetry config virtualenvs.create false</code> poetry의 가상환경 생성 기능 비활성화</li>
+  <li><code class="language-plaintext highlighter-rouge">poetry init</code></li>
+  <li><code class="language-plaintext highlighter-rouge">poetry add opencv-python PyQt6</code></li>
+</ol>
+
+<h1 id="환경-설정하기-conda">환경 설정하기 (conda)</h1>
+<ol>
+  <li>수동으로 <code class="language-plaintext highlighter-rouge">enviroment.yml</code>을 작성</li>
+  <li><code class="language-plaintext highlighter-rouge">conda env create -f environment.yaml</code> 를 해주면 됨</li>
+</ol>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>poetry add pyinstaller(visionagent) PS C:\Users\junun\documents\visionproject\projects\visionagent&gt; poetry add pyinstaller
+Using version ^6.11.1 for pyinstaller
+
+Updating dependencies
+Resolving dependencies... (0.2s)
+
+The current project's supported Python range (&gt;=3.10,&lt;4.0) is not compatible with some of the required packages Python requirement:
+  - pyinstaller requires Python &lt;3.14,&gt;=3.8, so it will not be satisfied for Python &gt;=3.14,&lt;4.0
+
+Because no versions of pyinstaller match &gt;6.11.1,&lt;7.0.0
+ and pyinstaller (6.11.1) requires Python &lt;3.14,&gt;=3.8, pyinstaller is forbidden.
+So, because vision depends on pyinstaller (^6.11.1), version solving failed.
+
+  • Check your dependencies Python requirement: The Python requirement can be specified via the python or markers properties
+
+    For pyinstaller, a possible solution would be to set the python property to "&gt;=3.10,&lt;3.14"
+
+    https://python-poetry.org/docs/dependency-specification/#python-restricted-dependencies,
+    https://python-poetry.org/docs/dependency-specification/#using-environment-markers
+</code></pre></div></div>
+<p>하면서 python의 버전이 맞지 않는 다는 에러가 발생했다.</p>
+
+<h3 id="해결-방법">해결 방법</h3>
+<ol>
+  <li><code class="language-plaintext highlighter-rouge">toml</code> 파일에서 python 버전 범위를 바꿔줬다</li>
+  <li><code class="language-plaintext highlighter-rouge">poetry lock</code>을 통해 의존성 파일 업데이트</li>
+  <li><code class="language-plaintext highlighter-rouge">poetry install</code> 의존성을 다시 설치</li>
+</ol>
+
+<p>만약 poetry로 안했다면 뭐가 문제인지 한참을 해맸을까… 무섭다…</p>
+
+<h3 id="pyinstaller-설치">pyinstaller 설치</h3>
+<ol>
+  <li><code class="language-plaintext highlighter-rouge">pip install pyinstaller</code> (<em>poetry add  pyinstaller</em>)</li>
+  <li><code class="language-plaintext highlighter-rouge">pyinstaller --onefile src/paranoma.py</code></li>
+  <li>생성된  dist 폴더에서 실행 <code class="language-plaintext highlighter-rouge">dist/paranoma.exe</code></li>
+</ol>]]></content><author><name></name></author><category term="computervision" /><summary type="html"><![CDATA[환경 설정하기 (poetry) conda로 가상환경을 만들어준다 활성화된 가상환경에서 pip install poetry poetry config virtualenvs.create false poetry의 가상환경 생성 기능 비활성화 poetry init poetry add opencv-python PyQt6]]></summary></entry><entry><title type="html">paranoma</title><link href="http://localhost:4000/computervision/2024/11/12/chap6-5.html" rel="alternate" type="text/html" title="paranoma" /><published>2024-11-12T00:00:00+09:00</published><updated>2024-11-12T00:00:00+09:00</updated><id>http://localhost:4000/computervision/2024/11/12/chap6-5</id><content type="html" xml:base="http://localhost:4000/computervision/2024/11/12/chap6-5.html"><![CDATA[<h1 id="sift를-이용한-영상-봉합">SIFT를 이용한 영상 봉합</h1>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="n">PyQt6.QtWidgets</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">import</span> <span class="n">cv2</span>
+<span class="kn">import</span> <span class="n">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">import</span> <span class="n">winsound</span>
+<span class="kn">import</span> <span class="n">sys</span>
+
+<span class="k">class</span> <span class="nc">Panorama</span><span class="p">(</span><span class="n">QMainWindow</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="n">self</span><span class="p">):</span>
+        <span class="nf">super</span><span class="p">().</span><span class="nf">__init__</span><span class="p">()</span>
+        <span class="n">self</span><span class="p">.</span><span class="nf">setWindowTitle</span><span class="p">(</span><span class="sh">"</span><span class="s">파노라마 영상</span><span class="sh">"</span><span class="p">)</span>
+        <span class="n">self</span><span class="p">.</span><span class="nf">setGeometry</span><span class="p">(</span><span class="mi">200</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">700</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span>
+
+        <span class="n">collectButton</span> <span class="o">=</span> <span class="nc">QPushButton</span><span class="p">(</span><span class="sh">"</span><span class="s">영상 수집</span><span class="sh">"</span><span class="p">,</span> <span class="n">self</span><span class="p">)</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">showButton</span> <span class="o">=</span> <span class="nc">QPushButton</span><span class="p">(</span><span class="sh">"</span><span class="s">영상 보기</span><span class="sh">"</span><span class="p">,</span> <span class="n">self</span><span class="p">)</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">stitchButton</span> <span class="o">=</span> <span class="nc">QPushButton</span><span class="p">(</span><span class="sh">"</span><span class="s">봉합</span><span class="sh">"</span><span class="p">,</span> <span class="n">self</span><span class="p">)</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">saveButton</span> <span class="o">=</span> <span class="nc">QPushButton</span><span class="p">(</span><span class="sh">"</span><span class="s">저장</span><span class="sh">"</span><span class="p">,</span> <span class="n">self</span><span class="p">)</span>
+        <span class="n">quitButton</span> <span class="o">=</span> <span class="nc">QPushButton</span><span class="p">(</span><span class="sh">"</span><span class="s">나가기</span><span class="sh">"</span><span class="p">,</span> <span class="n">self</span><span class="p">)</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">label</span> <span class="o">=</span> <span class="nc">QLabel</span><span class="p">(</span><span class="sh">"</span><span class="s">환영합니다!</span><span class="sh">"</span><span class="p">,</span> <span class="n">self</span><span class="p">)</span>
+
+        <span class="n">collectButton</span><span class="p">.</span><span class="nf">setGeometry</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">30</span><span class="p">)</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">showButton</span><span class="p">.</span><span class="nf">setGeometry</span><span class="p">(</span><span class="mi">110</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">30</span><span class="p">)</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">stitchButton</span><span class="p">.</span><span class="nf">setGeometry</span><span class="p">(</span><span class="mi">210</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">30</span><span class="p">)</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">saveButton</span><span class="p">.</span><span class="nf">setGeometry</span><span class="p">(</span><span class="mi">310</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">30</span><span class="p">)</span>
+        <span class="n">quitButton</span><span class="p">.</span><span class="nf">setGeometry</span><span class="p">(</span><span class="mi">450</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">30</span><span class="p">)</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">label</span><span class="p">.</span><span class="nf">setGeometry</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">70</span><span class="p">,</span> <span class="mi">600</span><span class="p">,</span> <span class="mi">170</span><span class="p">)</span>
+
+        <span class="n">self</span><span class="p">.</span><span class="n">showButton</span><span class="p">.</span><span class="nf">setEnabled</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">stitchButton</span><span class="p">.</span><span class="nf">setEnabled</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">saveButton</span><span class="p">.</span><span class="nf">setEnabled</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+
+        <span class="n">collectButton</span><span class="p">.</span><span class="n">clicked</span><span class="p">.</span><span class="nf">connect</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">collectFunction</span><span class="p">)</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">showButton</span><span class="p">.</span><span class="n">clicked</span><span class="p">.</span><span class="nf">connect</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">showFunction</span><span class="p">)</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">stitchButton</span><span class="p">.</span><span class="n">clicked</span><span class="p">.</span><span class="nf">connect</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">stitchFunction</span><span class="p">)</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">saveButton</span><span class="p">.</span><span class="n">clicked</span><span class="p">.</span><span class="nf">connect</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">saveFunction</span><span class="p">)</span>
+        <span class="n">quitButton</span><span class="p">.</span><span class="n">clicked</span><span class="p">.</span><span class="nf">connect</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">quitFunction</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">collectFunction</span><span class="p">(</span><span class="n">self</span><span class="p">):</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">showButton</span><span class="p">.</span><span class="nf">setEnabled</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span> <span class="c1"># 버튼 비활성
+</span>        <span class="n">self</span><span class="p">.</span><span class="n">stitchButton</span><span class="p">.</span><span class="nf">setEnabled</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">saveButton</span><span class="p">.</span><span class="nf">setEnabled</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">label</span><span class="p">.</span><span class="nf">setText</span><span class="p">(</span><span class="sh">"</span><span class="s">c를 여러 번 눌러 수집하고 끝나면 q를 눌러 비디오를 끕니다.</span><span class="sh">"</span><span class="p">)</span>
+
+        <span class="n">self</span><span class="p">.</span><span class="n">cap</span> <span class="o">=</span> <span class="n">cv2</span><span class="p">.</span><span class="nc">VideoCapture</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">cv2</span><span class="p">.</span><span class="n">CAP_DSHOW</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">self</span><span class="p">.</span><span class="n">cap</span><span class="p">.</span><span class="nf">isOpened</span><span class="p">():</span><span class="n">sys</span><span class="p">.</span><span class="nf">exit</span><span class="p">(</span><span class="sh">"</span><span class="s">카메라 연결 실패</span><span class="sh">"</span><span class="p">)</span>
+
+        <span class="n">self</span><span class="p">.</span><span class="n">imgs</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
+            <span class="n">ret</span><span class="p">,</span> <span class="n">frame</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">cap</span><span class="p">.</span><span class="nf">read</span><span class="p">()</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">ret</span><span class="p">:</span><span class="k">break</span>
+
+            <span class="n">cv2</span><span class="p">.</span><span class="nf">imshow</span><span class="p">(</span><span class="sh">"</span><span class="s">video display</span><span class="sh">"</span><span class="p">,</span> <span class="n">frame</span><span class="p">)</span>
+
+            <span class="n">key</span> <span class="o">=</span> <span class="n">cv2</span><span class="p">.</span><span class="nf">waitKey</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">key</span> <span class="o">==</span> <span class="nf">ord</span><span class="p">(</span><span class="sh">"</span><span class="s">c</span><span class="sh">"</span><span class="p">):</span>
+                <span class="n">self</span><span class="p">.</span><span class="n">imgs</span><span class="p">.</span><span class="nf">append</span><span class="p">(</span><span class="n">frame</span><span class="p">)</span>  <span class="c1"># 영상 저장
+</span>            <span class="k">elif</span> <span class="n">key</span> <span class="o">==</span> <span class="nf">ord</span><span class="p">(</span><span class="sh">"</span><span class="s">q</span><span class="sh">"</span><span class="p">):</span>
+                <span class="n">self</span><span class="p">.</span><span class="n">cap</span><span class="p">.</span><span class="nf">release</span><span class="p">()</span>
+                <span class="n">cv2</span><span class="p">.</span><span class="nf">destroyWindow</span><span class="p">(</span><span class="sh">"</span><span class="s">video display</span><span class="sh">"</span><span class="p">)</span>
+                <span class="k">break</span>
+
+        <span class="k">if</span> <span class="nf">len</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">imgs</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">2</span><span class="p">:</span>  <span class="c1"># 수집한 영상이 2장 이상이면 버튼 활성화
+</span>            <span class="n">self</span><span class="p">.</span><span class="n">showButton</span><span class="p">.</span><span class="nf">setEnabled</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+            <span class="n">self</span><span class="p">.</span><span class="n">stitchButton</span><span class="p">.</span><span class="nf">setEnabled</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+            <span class="n">self</span><span class="p">.</span><span class="n">saveButton</span><span class="p">.</span><span class="nf">setEnabled</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">showFunction</span><span class="p">(</span><span class="n">self</span><span class="p">):</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">label</span><span class="p">.</span><span class="nf">setText</span><span class="p">(</span><span class="sh">"</span><span class="s">수집된 영상은 </span><span class="sh">"</span> <span class="o">+</span> <span class="nf">str</span><span class="p">(</span><span class="nf">len</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">imgs</span><span class="p">))</span> <span class="o">+</span> <span class="sh">"</span><span class="s">장 입니다.</span><span class="sh">"</span><span class="p">)</span>
+        <span class="n">stack</span> <span class="o">=</span> <span class="n">cv2</span><span class="p">.</span><span class="nf">resize</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">imgs</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">dsize</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">fx</span><span class="o">=</span><span class="mf">0.25</span><span class="p">,</span> <span class="n">fy</span><span class="o">=</span><span class="mf">0.25</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nf">len</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">imgs</span><span class="p">)):</span>
+            <span class="n">stack</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nf">hstack</span><span class="p">((</span><span class="n">stack</span><span class="p">,</span> <span class="n">cv2</span><span class="p">.</span><span class="nf">resize</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">imgs</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">dsize</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">fx</span><span class="o">=</span><span class="mf">0.25</span><span class="p">,</span> <span class="n">fy</span><span class="o">=</span><span class="mf">0.25</span><span class="p">)))</span>
+        <span class="n">cv2</span><span class="p">.</span><span class="nf">imshow</span><span class="p">(</span><span class="sh">"</span><span class="s">Image collection</span><span class="sh">"</span><span class="p">,</span> <span class="n">stack</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">stitchFunction</span><span class="p">(</span><span class="n">self</span><span class="p">):</span>
+        <span class="n">stitcher</span> <span class="o">=</span> <span class="n">cv2</span><span class="p">.</span><span class="nc">Stitcher_create</span><span class="p">()</span>  <span class="c1"># sticher 객체 생성
+</span>        <span class="n">status</span><span class="p">,</span> <span class="n">self</span><span class="p">.</span><span class="n">img_stitched</span> <span class="o">=</span> <span class="n">stitcher</span><span class="p">.</span><span class="nf">stitch</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">imgs</span><span class="p">)</span>  <span class="c1"># 봉합 성공 여부와 봉합된 영상을 반환
+</span>        <span class="k">if</span> <span class="n">status</span> <span class="o">==</span> <span class="n">cv2</span><span class="p">.</span><span class="n">STITCHER_OK</span><span class="p">:</span>  <span class="c1"># 스티칭 작업이 성공적으로 완료되면
+</span>            <span class="n">cv2</span><span class="p">.</span><span class="nf">imshow</span><span class="p">(</span><span class="sh">"</span><span class="s">Image stitched panorama</span><span class="sh">"</span><span class="p">,</span> <span class="n">self</span><span class="p">.</span><span class="n">img_stitched</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">winsound</span><span class="p">.</span><span class="nc">Beep</span><span class="p">(</span><span class="mi">3000</span><span class="p">,</span> <span class="mi">500</span><span class="p">)</span>
+            <span class="n">self</span><span class="p">.</span><span class="n">label</span><span class="p">.</span><span class="nf">setText</span><span class="p">(</span><span class="sh">"</span><span class="s">파노라마 제작에 실패했습니다. 다시 시도하세요.</span><span class="sh">"</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">saveFunction</span><span class="p">(</span><span class="n">self</span><span class="p">):</span>
+        <span class="n">fname</span> <span class="o">=</span> <span class="n">QFileDialog</span><span class="p">.</span><span class="nf">getSaveFileName</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="sh">"</span><span class="s">파일 저장</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">./</span><span class="sh">"</span><span class="p">)</span>
+        <span class="n">cv2</span><span class="p">.</span><span class="nf">imwrite</span><span class="p">(</span><span class="n">fname</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">self</span><span class="p">.</span><span class="n">img_stitched</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">quitFunction</span><span class="p">(</span><span class="n">self</span><span class="p">):</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">cap</span><span class="p">.</span><span class="nf">release</span><span class="p">()</span>
+        <span class="n">cv2</span><span class="p">.</span><span class="nf">destroyAllWindows</span><span class="p">()</span>
+        <span class="n">self</span><span class="p">.</span><span class="nf">close</span><span class="p">()</span>
+
+<span class="n">app</span> <span class="o">=</span> <span class="nc">QApplication</span><span class="p">(</span><span class="n">sys</span><span class="p">.</span><span class="n">argv</span><span class="p">)</span>
+<span class="n">win</span> <span class="o">=</span> <span class="nc">Panorama</span><span class="p">()</span>
+<span class="n">win</span><span class="p">.</span><span class="nf">show</span><span class="p">()</span>
+<span class="n">app</span><span class="p">.</span><span class="nf">exec</span><span class="p">()</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>QFileDialog는 PyQt와 Qt 라이브러리에서 제공하는 파일 선택 대화 상자입니다. 사용자가 파일이나 폴더를 열거나 저장할 때 파일 경로를 쉽게 선택할 수 있도록 GUI 대화 상자를 제공합니다.
+
+QFileDialog는 일반적으로 파일을 열기, 저장하거나 특정 디렉토리 선택 기능이 필요할 때 사용됩니다.
+
+주요 기능과 메서드
+QFileDialog는 다음과 같은 기능을 제공합니다.
+
+파일 열기 (getOpenFileName): 파일을 선택하는 대화 상자를 열고, 사용자가 선택한 파일의 경로를 반환합니다.
+여러 파일 열기 (getOpenFileNames): 여러 파일을 선택할 수 있는 대화 상자를 열고, 선택한 파일들의 경로 목록을 반환합니다.
+파일 저장 (getSaveFileName): 파일을 저장할 위치를 선택할 수 있는 대화 상자를 열어, 사용자가 선택한 파일 경로를 반환합니다.
+디렉토리 선택 (getExistingDirectory): 폴더를 선택할 수 있는 대화 상자를 열고, 선택한 폴더의 경로를 반환합니다.
+</code></pre></div></div>
+
+<p>왜 봉합이 안되나 했더니</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>같은 이미지로 스티칭 시도 시 발생하는 일:
+이미지 간 겹침이 없음: stitch() 함수는 여러 이미지를 겹치는 부분을 찾아서 이어붙입니다. 하지만 같은 이미지를 주면, 겹칠 부분이 없기 때문에 이미지 매칭을 제대로 할 수 없습니다.
+스티칭 실패: 동일한 이미지를 입력하면, 스티칭에 실패하거나 결과가 제대로 나오지 않습니다. cv2.Stitcher_create() 함수는 두 이미지 이상의 다양한 정보와 겹침 영역을 필요로 하기 때문에 같은 이미지를 주면 스티칭 작업이 불가능합니다.
+</code></pre></div></div>]]></content><author><name></name></author><category term="computervision" /><summary type="html"><![CDATA[SIFT를 이용한 영상 봉합 ```python from PyQt6.QtWidgets import * import cv2 import numpy as np import winsound import sys]]></summary></entry><entry><title type="html">special effect2</title><link href="http://localhost:4000/computervision/2024/11/12/chap6-7.html" rel="alternate" type="text/html" title="special effect2" /><published>2024-11-12T00:00:00+09:00</published><updated>2024-11-12T00:00:00+09:00</updated><id>http://localhost:4000/computervision/2024/11/12/chap6-7</id><content type="html" xml:base="http://localhost:4000/computervision/2024/11/12/chap6-7.html"><![CDATA[<h1 id="영상에서-특수-효과">영상에서 특수 효과</h1>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">cv2</span> <span class="k">as</span> <span class="n">cv</span>
+<span class="kn">import</span> <span class="n">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">from</span> <span class="n">PyQt6.QtWidgets</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">import</span> <span class="n">sys</span>
+
+<span class="k">class</span> <span class="nc">VideoSpecialEffect</span><span class="p">(</span><span class="n">QMainWindow</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="n">self</span><span class="p">):</span>
+        <span class="nf">super</span><span class="p">().</span><span class="nf">__init__</span><span class="p">()</span>
+        <span class="n">self</span><span class="p">.</span><span class="nf">setWindowTitle</span><span class="p">(</span><span class="sh">'</span><span class="s">비디오 특수 효과</span><span class="sh">'</span><span class="p">)</span>
+        <span class="n">self</span><span class="p">.</span><span class="nf">setGeometry</span><span class="p">(</span><span class="mi">200</span><span class="p">,</span><span class="mi">200</span><span class="p">,</span><span class="mi">400</span><span class="p">,</span><span class="mi">100</span><span class="p">)</span>
+
+        <span class="n">videoButton</span><span class="o">=</span><span class="nc">QPushButton</span><span class="p">(</span><span class="sh">'</span><span class="s">비디오 시작</span><span class="sh">'</span><span class="p">,</span> <span class="n">self</span><span class="p">)</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">pickCombo</span><span class="o">=</span><span class="nc">QComboBox</span><span class="p">(</span><span class="n">self</span><span class="p">)</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">pickCombo</span><span class="p">.</span><span class="nf">addItems</span><span class="p">([</span><span class="sh">'</span><span class="s">엠보싱</span><span class="sh">'</span><span class="p">,</span><span class="sh">'</span><span class="s">카툰</span><span class="sh">'</span><span class="p">,</span><span class="sh">'</span><span class="s">연필 스케치(명암)</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">연필 스케치(컬러)</span><span class="sh">'</span><span class="p">,</span><span class="sh">'</span><span class="s"> 유화</span><span class="sh">'</span><span class="p">])</span>
+        <span class="n">quitButton</span><span class="o">=</span><span class="nc">QPushButton</span><span class="p">(</span><span class="sh">'</span><span class="s">나가기</span><span class="sh">'</span><span class="p">,</span><span class="n">self</span><span class="p">)</span>
+
+        <span class="n">videoButton</span><span class="p">.</span><span class="nf">setGeometry</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">140</span><span class="p">,</span><span class="mi">30</span><span class="p">)</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">pickCombo</span><span class="p">.</span><span class="nf">setGeometry</span><span class="p">(</span><span class="mi">150</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">110</span><span class="p">,</span><span class="mi">30</span><span class="p">)</span>
+        <span class="n">quitButton</span><span class="p">.</span><span class="nf">setGeometry</span><span class="p">(</span><span class="mi">280</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">100</span><span class="p">,</span><span class="mi">30</span><span class="p">)</span>
+
+        <span class="n">videoButton</span><span class="p">.</span><span class="n">clicked</span><span class="p">.</span><span class="nf">connect</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">videoSpecialEffectFunction</span><span class="p">)</span>
+        <span class="n">quitButton</span><span class="p">.</span><span class="n">clicked</span><span class="p">.</span><span class="nf">connect</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">quitFunction</span><span class="p">)</span>
+    
+    <span class="k">def</span> <span class="nf">videoSpecialEffectFunction</span><span class="p">(</span><span class="n">self</span><span class="p">):</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">cap</span><span class="o">=</span><span class="n">cv</span><span class="p">.</span><span class="nc">VideoCapture</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">cv</span><span class="p">.</span><span class="n">CAP_DSHOW</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">self</span><span class="p">.</span><span class="n">cap</span><span class="p">.</span><span class="nf">isOpened</span><span class="p">():</span> <span class="n">sys</span><span class="p">.</span><span class="nf">exit</span><span class="p">(</span><span class="sh">'</span><span class="s">카메라 연결 실패</span><span class="sh">'</span><span class="p">)</span>
+
+        <span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
+            <span class="n">ret</span><span class="p">,</span><span class="n">frame</span><span class="o">=</span><span class="n">self</span><span class="p">.</span><span class="n">cap</span><span class="p">.</span><span class="nf">read</span><span class="p">()</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">ret</span><span class="p">:</span> <span class="k">break</span>
+
+            <span class="n">pick_effect</span><span class="o">=</span><span class="n">self</span><span class="p">.</span><span class="n">pickCombo</span><span class="p">.</span><span class="nf">currentIndex</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">pick_effect</span><span class="o">==</span><span class="mi">0</span><span class="p">:</span>
+                <span class="n">femboss</span><span class="o">=</span><span class="n">np</span><span class="p">.</span><span class="nf">array</span><span class="p">([[</span><span class="o">-</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">0.0</span><span class="p">],[</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">0.0</span><span class="p">],[</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">]])</span>
+                <span class="n">gray</span><span class="o">=</span><span class="n">cv</span><span class="p">.</span><span class="nf">cvtColor</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">cv</span><span class="p">.</span><span class="n">COLOR_BGR2GRAY</span><span class="p">)</span>
+                <span class="n">gray16</span><span class="o">=</span><span class="n">np</span><span class="p">.</span><span class="nf">int16</span><span class="p">(</span><span class="n">gray</span><span class="p">)</span>
+                <span class="n">special_img</span><span class="o">=</span><span class="n">np</span><span class="p">.</span><span class="nf">uint8</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="nf">clip</span><span class="p">(</span><span class="n">cv</span><span class="p">.</span><span class="nf">filter2D</span><span class="p">(</span><span class="n">gray16</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="n">femboss</span><span class="p">)</span><span class="o">+</span><span class="mi">128</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">255</span><span class="p">))</span>
+            <span class="k">elif</span> <span class="n">pick_effect</span><span class="o">==</span><span class="mi">1</span><span class="p">:</span>
+                <span class="n">special_img</span><span class="o">=</span><span class="n">cv</span><span class="p">.</span><span class="nf">stylization</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span><span class="n">sigma_s</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span><span class="n">sigma_r</span><span class="o">=</span><span class="mf">0.45</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">pick_effect</span><span class="o">==</span><span class="mi">2</span><span class="p">:</span>
+                <span class="n">special_img</span><span class="p">,</span><span class="n">_</span><span class="o">=</span><span class="n">cv</span><span class="p">.</span><span class="nf">pencilSketch</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span><span class="n">sigma_s</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span><span class="n">sigma_r</span><span class="o">=</span><span class="mf">0.07</span><span class="p">,</span><span class="n">shade_factor</span><span class="o">=</span><span class="mf">0.02</span><span class="p">)</span>    
+            <span class="k">elif</span> <span class="n">pick_effect</span><span class="o">==</span><span class="mi">3</span><span class="p">:</span>
+                <span class="n">_</span><span class="p">,</span><span class="n">special_img</span><span class="o">=</span><span class="n">cv</span><span class="p">.</span><span class="nf">pencilSketch</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span><span class="n">sigma_s</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span><span class="n">sigma_r</span><span class="o">=</span><span class="mf">0.07</span><span class="p">,</span> <span class="n">shade_factor</span><span class="o">=</span><span class="mf">0.02</span><span class="p">)</span> 
+            <span class="k">elif</span> <span class="n">pick_effect</span><span class="o">==</span><span class="mi">4</span><span class="p">:</span>
+                <span class="n">special_img</span><span class="o">=</span><span class="n">cv</span><span class="p">.</span><span class="n">xphoto</span><span class="p">.</span><span class="nf">oilPainting</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">cv</span><span class="p">.</span><span class="n">COLOR_BGR2Lab</span><span class="p">)</span> 
+            
+            <span class="n">cv</span><span class="p">.</span><span class="nf">imshow</span><span class="p">(</span><span class="sh">'</span><span class="s">Special effect</span><span class="sh">'</span><span class="p">,</span><span class="n">special_img</span><span class="p">)</span>
+            <span class="n">cv</span><span class="p">.</span><span class="nf">waitKey</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+                                    
+    <span class="k">def</span> <span class="nf">quitFunction</span><span class="p">(</span><span class="n">self</span><span class="p">):</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">cap</span><span class="p">.</span><span class="nf">release</span><span class="p">()</span>
+        <span class="n">cv</span><span class="p">.</span><span class="nf">destroyAllWindows</span><span class="p">()</span>
+        <span class="n">self</span><span class="p">.</span><span class="nf">close</span><span class="p">()</span>
+
+<span class="n">app</span><span class="o">=</span><span class="nc">QApplication</span><span class="p">(</span><span class="n">sys</span><span class="p">.</span><span class="n">argv</span><span class="p">)</span>
+<span class="n">win</span><span class="o">=</span><span class="nc">VideoSpecialEffect</span><span class="p">()</span>
+<span class="n">win</span><span class="p">.</span><span class="nf">show</span><span class="p">()</span>
+<span class="n">app</span><span class="p">.</span><span class="nf">exec</span><span class="p">()</span>
+</code></pre></div></div>]]></content><author><name></name></author><category term="computervision" /><summary type="html"><![CDATA[영상에서 특수 효과]]></summary></entry><entry><title type="html">special effect</title><link href="http://localhost:4000/computervision/2024/11/12/chap6-6.html" rel="alternate" type="text/html" title="special effect" /><published>2024-11-12T00:00:00+09:00</published><updated>2024-11-12T00:00:00+09:00</updated><id>http://localhost:4000/computervision/2024/11/12/chap6-6</id><content type="html" xml:base="http://localhost:4000/computervision/2024/11/12/chap6-6.html"><![CDATA[<h1 id="사진-영상에-특수-효과-처리">사진 영상에 특수 효과 처리</h1>
+<pre><code class="language-pyhton">import cv2
+import numpy as np
+from PyQt6.QtWidgets import *
+import sys
+
+
+class SpecialEffect(QMainWindow):
+    def __init__(self):
+        super().__init__()
+        self.setWindowTitle("사진 특수 효과")
+        self.setGeometry(200, 200, 800, 200)
+
+        pictureButton = QPushButton("사진 읽기", self)
+        embossButton = QPushButton("엠보싱", self)
+        cartoonButton = QPushButton("카툰", self)
+        sketchButton = QPushButton("연필 스케치", self)
+        oilButton = QPushButton("유화", self)
+        saveButton = QPushButton("저장하기", self)
+        self.pickCombo = QComboBox(self)
+        self.pickCombo.addItems(["엠보싱", "카툰", "연필 스케치(명암)", "연필 스케치(컬러)", "유화"])
+        quitButton = QPushButton("나가기", self)
+        self.label = QLabel("환영합니다!", self)
+
+        pictureButton.setGeometry(10, 10, 100, 30)
+        embossButton.setGeometry(110, 10, 100, 30)
+        cartoonButton.setGeometry(210, 10, 100, 30)
+        sketchButton.setGeometry(310, 10, 100, 30)
+        oilButton.setGeometry(410, 10, 100, 30)
+        saveButton.setGeometry(510, 10, 100, 30)
+        self.pickCombo.setGeometry(510, 40, 110, 30)
+        quitButton.setGeometry(620, 10, 100, 30)
+        self.label.setGeometry(10, 40, 500, 170)
+
+        pictureButton.clicked.connect(self.pictureOpenFunction)
+        embossButton.clicked.connect(self.embossFunction)
+        cartoonButton.clicked.connect(self.cartoonFunction)
+        sketchButton.clicked.connect(self.sketchFunction)
+        oilButton.clicked.connect(self.oilFunction)
+        saveButton.clicked.connect(self.saveFunction)
+        quitButton.clicked.connect(self.quitFunction)
+
+    def pictureOpenFunction(self):
+        fname = QFileDialog.getOpenFileName(self, "사진 읽기", "./")
+        self.img = cv2.imread(fname[0])
+        if self.img is None:
+            sys.exit("파일을 찾을 수 없습니다.")
+
+        cv2.imshow("Painting", self.img)
+
+    def embossFunction(self):
+        femboss = np.array([[-1.0, 0.0, 0.0], [0.0, 0.0, 0.0], [0.0, 0.0, 1.0]])
+
+        gray = cv2.cvtColor(self.img, cv2.COLOR_BGR2GRAY)
+        gray16 = np.int16(gray)
+        self.emboss = np.uint8(np.clip(cv2.filter2D(gray16, -1, femboss) + 128, 0, 255))
+
+        cv2.imshow("Emboss", self.emboss)
+
+    def cartoonFunction(self):
+        self.cartoon = cv2.stylization(self.img, sigma_s=60, sigma_r=0.45)
+        cv2.imshow("Cartoon", self.cartoon)
+
+    def sketchFunction(self):
+        self.sketch_gray, self.sketch_color = cv2.pencilSketch(
+            self.img, sigma_s=60, sigma_r=0.07, shade_factor=0.02
+        )
+        cv2.imshow("Pencil sketch(gray)", self.sketch_gray)
+        cv2.imshow("Pencil sketch(color)", self.sketch_color)
+
+    def oilFunction(self):
+        self.oil = cv2.xphoto.oilPainting(self.img, 10, 1, cv2.COLOR_BGR2Lab)
+        cv2.imshow("Oil painting", self.oil)
+
+    def saveFunction(self):
+        fname = QFileDialog.getSaveFileName(self, "파일 저장", "./")
+
+        i = self.pickCombo.currentIndex()
+        if i == 0:
+            cv2.imwrite(fname[0], self.emboss)
+        elif i == 1:
+            cv2.imwrite(fname[0], self.cartoon)
+        elif i == 2:
+            cv2.imwrite(fname[0], self.sketch_gray)
+        elif i == 3:
+            cv2.imwrite(fname[0], self.sketch_color)
+        elif i == 4:
+            cv2.imwrite(fname[0], self.oil)
+
+    def quitFunction(self):
+        cv2.destroyAllWindows()
+        self.close()
+
+
+app = QApplication(sys.argv)
+win = SpecialEffect()
+win.show()
+app.exec()
+</code></pre>]]></content><author><name></name></author><category term="computervision" /><summary type="html"><![CDATA[사진 영상에 특수 효과 처리 ```pyhton import cv2 import numpy as np from PyQt6.QtWidgets import * import sys]]></summary></entry><entry><title type="html">voc_data3</title><link href="http://localhost:4000/hnv/2024/11/11/voc_data3.html" rel="alternate" type="text/html" title="voc_data3" /><published>2024-11-11T00:00:00+09:00</published><updated>2024-11-11T00:00:00+09:00</updated><id>http://localhost:4000/hnv/2024/11/11/voc_data3</id><content type="html" xml:base="http://localhost:4000/hnv/2024/11/11/voc_data3.html"><![CDATA[<h1 id="segmentation-data">segmentation data</h1>
+<p>세분화에는 원본, 객체 분할 이미지, 클래스 세분화 이미지가 필요하다.</p>
+<ul>
+  <li>원본은 JPEGImages</li>
+  <li>객체 분할 이미지는 SegmentationClass</li>
+  <li>클래스 세분화 이미지는 SegmentationObject에 있다</li>
+  <li>ImageSets에 있는 segmetation에서 train, trainval, val에 뭘 쓸것인지 적혀 있다, 해당 내용을 읽어와서 해당 파일의 이름을 학습 시키면 될듯 (<em>한가지 걸리는건 ImageSets안에 있는 Action,Layout,Main 폴더가 어떤 용도인지 확실히 모르겠다는 것, 아마 다른 task에 활용되는 듯</em>)</li>
+  <li>Annotaions에는 boundbox가 있는 걸 보니 filename으로 읽어오고 박스를 활용하면 될 듯</li>
+</ul>]]></content><author><name></name></author><category term="hnv" /><summary type="html"><![CDATA[segmentation data 세분화에는 원본, 객체 분할 이미지, 클래스 세분화 이미지가 필요하다. 원본은 JPEGImages 객체 분할 이미지는 SegmentationClass 클래스 세분화 이미지는 SegmentationObject에 있다 ImageSets에 있는 segmetation에서 train, trainval, val에 뭘 쓸것인지 적혀 있다, 해당 내용을 읽어와서 해당 파일의 이름을 학습 시키면 될듯 (한가지 걸리는건 ImageSets안에 있는 Action,Layout,Main 폴더가 어떤 용도인지 확실히 모르겠다는 것, 아마 다른 task에 활용되는 듯) Annotaions에는 boundbox가 있는 걸 보니 filename으로 읽어오고 박스를 활용하면 될 듯]]></summary></entry><entry><title type="html">voc_data2</title><link href="http://localhost:4000/hnv/2024/11/11/voc_data2.html" rel="alternate" type="text/html" title="voc_data2" /><published>2024-11-11T00:00:00+09:00</published><updated>2024-11-11T00:00:00+09:00</updated><id>http://localhost:4000/hnv/2024/11/11/voc_data2</id><content type="html" xml:base="http://localhost:4000/hnv/2024/11/11/voc_data2.html"><![CDATA[<h1 id="데이터-파악">데이터 파악</h1>
+
+<h3 id="액션-분류-대회">액션 분류 대회</h3>
+<p><img src="image-1.png" alt="alt text" /><br />
+-동작 분류: 정지 이미지에서 사람이 수행하는 동작을 예측</p>
+
+<h3 id="imagenet-대규모-시각-인식-대회">imageNet 대규모 시각 인식 대회</h3>
+<ul>
+  <li>이 대회의 목표는 대구모 수작업 레이블이 지정된 imageNet 데이터 세트의 하위 집합을 훈련으로 사용</li>
+  <li>검색 및 자동 주석을 목적으로 사진의 내용 추정</li>
+  <li>테스트 이미지는 초기 주석 없이, 즉 세분화나 레이블 없이 제공</li>
+  <li>알고리즘은 이미지에 있는 객체를 지정하는 레이블을 생성해야 함</li>
+</ul>
+
+<h3 id="사람-레이아웃-테이스터-경연대회">사람 레이아웃 테이스터 경연대회</h3>
+<ul>
+  <li>사람 레이아웃: 사람의 각 부분의 경계 상자와 레이블을 예측
+<img src="image-2.png" alt="alt text" /></li>
+</ul>
+
+<hr />
+
+<h3 id="데이터">데이터</h3>
+<p>-제공된 훈련 데이터는 이미지 세트로 구성</p>
+<ul>
+  <li>각 이미지에는 이미지에 있는 20개 클래스 중 하나에 있는 각 객체에 대한 경계 상자와 객체 클래스 레이블을 제공하는 주석 파일이 있음.</li>
+  <li>여러 클래스의 여러 객체가 동일한 이미지에 존재할 수 있다.</li>
+  <li>이미지의 하위 집합에는 각 객체를 픽셀 단위로 분할하여 주석을 달아 분할 대회 지원</li>
+  <li>액션 분류 작업의 이미지는 분류/탐지/분할 작업의 이미지와 분리되어있음
     <ul>
-      <li>입력 이미지에서 후보 객체 영역 제안</li>
+      <li>사람, 경계 상자, 참조점 및 해당 액션이 부분적으로 주석으로 표시됨</li>
     </ul>
   </li>
-  <li>ROI 풀링
-    <ul>
-      <li>후보 객체 영역을 특성 맵에서 추출</li>
-      <li>ROI를 고정된 크기의 특성 맵으로 변환하여 동일한 크기의 입력을 FC레이어에 전달</li>
-    </ul>
+</ul>
+
+<hr />
+
+<p>세분화 테스터를 위한 교육 예시는 다음과 같습니다. 각각은 다음으로 구성됩니다.</p>
+
+<p>훈련 이미지
+객체 분할
+픽셀 인덱스는 첫 번째, 두 번째, 세 번째 객체 등에 대응합니다.
+클래스 세분화
+픽셀 인덱스는 알파벳 순으로 클래스에 대응합니다(1=비행기, 2=자전거, 3=새, 4=보트, 5=병, 6=버스, 7=자동차, 8=고양이, 9=의자, 10=소, 11=식탁, 12=개, 13=말, 14=오토바이, 15=사람, 16=분재 식물, 17=양, 18=소파, 19=기차, 20=TV/모니터)
+두 가지 유형의 분할 이미지 모두에서 인덱스 0은 배경에 해당하고 인덱스 255는 ‘무효’ 또는 레이블이 지정되지 않은 것에 해당합니다.</p>
+
+<p>| http://host.robots.ox.ac.uk/pascal/VOC/voc2012/segexamples/index.html
+(<em>세분화 이미지 예시</em>)</p>]]></content><author><name></name></author><category term="hnv" /><summary type="html"><![CDATA[데이터 파악]]></summary></entry><entry><title type="html">segmentaion1</title><link href="http://localhost:4000/hnv/2024/11/11/segmentaion.html" rel="alternate" type="text/html" title="segmentaion1" /><published>2024-11-11T00:00:00+09:00</published><updated>2024-11-11T00:00:00+09:00</updated><id>http://localhost:4000/hnv/2024/11/11/segmentaion</id><content type="html" xml:base="http://localhost:4000/hnv/2024/11/11/segmentaion.html"><![CDATA[<h1 id="계획을-세워보자">계획을 세워보자</h1>
+<p>와 3줄 이상 있으면 뇌가 멈춰오는 나로서는 To-do list를 보는 것만으로도 힘이든다ㅠ.ㅜ</p>
+
+<h3 id="todo">todo</h3>
+<ol>
+  <li>본인이 부여받은 Task directory에 데이터셋을 다운</li>
+  <li>비어있는 파일 작성 및 코드 수정</li>
+  <li>lightning과 hydra-template만 작성하면 됨 (pytorch는 안해도 됨)</li>
+</ol>
+
+<p>1번과 3번은 수행 및 이해 했기에 pass<br />
+2번은 | https://github.com/hnvlab-syu/pytorch-course/tree/master/pytorch-course/semantic-segmentation/pascal 에서 말 그대로 비어있는 파일 <em>(ex pytorch-course/pytorch-course/semantic-segmentation/pascal/lightning
+/main.py)</em> 을 채우면 된다는 의미</p>
+
+<hr />
+
+<p>그럼 뭘 작성해야 하는지 lightning만 한번 보자</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/main.py
+/README.md
+/src/dataset.py
+/src/model.py
+/src/utils.py
+</code></pre></div></div>
+<p>hydra-template는 내가 진짜로 오늘 처음 봐서 뭐가 뭔지 하나도 모르겠으니 일단 pass</p>
+
+<h3 id="todo-1">todo</h3>
+<ol>
+  <li>data augmentation 1개 이상 적용 (e.g. rotation, flip, etc.)</li>
+  <li>모델 두개 이상 불러와서 사용자가 선택해서 작동할 수 있도록 (pretrained 된걸 불러와야함)</li>
+  <li>lightning argparser 그대로 사용 (필요하다면 추가 해도됨)</li>
+</ol>
+
+<p>4번은 그냥 기능 적용하면 될거 같고</p>
+
+<p>5번에 대해서 설명을 하자면</p>
+<h3 id="lightning에서-여러-모델을-선택적으로-사용하는-방법">Lightning에서 여러 모델을 선택적으로 사용하는 방법</h3>
+<ol>
+  <li>
+    <p>여러 모델 정의: 필요한 만큼의 모델을 Lightning 모듈로 정의할 수 있습니다.</p>
   </li>
-  <li>FC레이어
-    <ul>
-      <li>최종 객체 분류와 위치 조정 수행</li>
-    </ul>
+  <li>
+    <p>사용자 선택을 위한 파라미터 추가: Trainer 또는 LightningModule 내에서 모델 선택을 위한 인자를 받아서 초기화 시 사용자가 선택할 수 있도록 합니다. 예를 들어, model_name 또는 model_type 인자를 통해 조건에 따라 모델을 결정할 수 있습니다.</p>
+  </li>
+  <li>
+    <p>Forward 메서드 수정: forward 메서드에서 model_name 값에 따라 다른 모델을 선택하여 입력을 처리하게 합니다.</p>
+  </li>
+  <li>
+    <p>모델 선택 로직 작성: 사용자가 선택한 모델에 따라 조건을 걸어 해당 모델을 사용할 수 있도록 구현합니다.</p>
   </li>
 </ol>
 
-<p><strong>ROI는 Region of Interset</strong></p>]]></content><author><name></name></author><category term="objectdetection" /><summary type="html"><![CDATA[MultiScaleRoIAlign ROI 풀링 수행]]></summary></entry><entry><title type="html">utils</title><link href="http://localhost:4000/objectdetection/2024/07/10/utils.html" rel="alternate" type="text/html" title="utils" /><published>2024-07-10T00:00:00+09:00</published><updated>2024-07-10T00:00:00+09:00</updated><id>http://localhost:4000/objectdetection/2024/07/10/utils</id><content type="html" xml:base="http://localhost:4000/objectdetection/2024/07/10/utils.html"><![CDATA[<h3 id="dfsamplefrac1reset_indexdroptrue">df.sample(frac=1).reset_index(drop=True)</h3>
+<p>를 하면 된다고 한다.</p>
+
+<h3 id="6번-lightning-argparser란">6번 lightning argparser란?</h3>
 <ul>
-  <li>df: 샘플링할(shuffle) pandas 데이터프래임</li>
-  <li>frac=1: 전체 데이터프레임에서 샘플링할 비율을 나타냅니다.
-    <ul>
-      <li><img src="/assets/hnv/frac.png" alt="frac" /></li>
-    </ul>
+  <li>PyTorch Lightning에서 모델의 하이퍼파라미터, 학습 설정, 기타 옵션을 쉽게 설정하고 관리할 수 있도록 하는 인자 파싱 도구입니다.</li>
+  <li>이를 통해 다양한 설정을 명령줄 인자나 구성 파일을 통해 전달할 수 있습니다</li>
+</ul>
+
+<h1 id="lightning-argparser-사용-방법">Lightning ArgParser 사용 방법</h1>
+<ul>
+  <li>
+    <p>ArgumentParser 정의: 필요한 하이퍼파라미터와 설정을 argparse.ArgumentParser로 정의합니다.</p>
   </li>
-  <li>reset_index(drop=True) : 샘플링 후 인덱스를 재설정
-    <ul>
-      <li>drop=Trup를 설정하면 이전 인덱스를 삭제하고 새로운 연속된 인덱스를 할당</li>
-    </ul>
-  </li>
+  <li>LightningModule과 Trainer에 인자 전달: 정의된 인자를 LightningModule이나 Trainer에 전달하여 설정할 수 있습니다.</li>
+  <li>이로 인해 모델 설정, 데이터 설정, 학습 설정 등을 명령줄 인자에서 쉽게 변경할 수 있습니다.</li>
+  <li>명령줄에서 실행: 스크립트를 실행할 때 명령줄 인자로 값을 전달할 수 있으며, 이를 통해 다양한 하이퍼파라미터 실험을 쉽게 반복할 수 있습니다.</li>
 </ul>
 
-<h3 id="pdconcat">pd.concat()</h3>
-<ul>
-  <li>데이터 프레임이나 series를 연결 (concatenate)
-<img src="/assets/hnv/concat.png" alt="cocnat" /></li>
-</ul>
-
-<h3 id="ospathlike">os.PathLike</h3>
-<ul>
-  <li>시스템 경로를 나타내는 것</li>
-</ul>
-
-<h3 id="to_cococsv_path">to_coco(csv_path)</h3>
-<ul>
-  <li>coco 데이터셋의 json 파일로 변환하는 작업 수행</li>
-</ul>
-
-<h3 id="cocojson_path">COCO(json_path)</h3>
-<ul>
-  <li>coco 클래스의 객체를 생성
-    <ul>
-      <li>코코 데이터셋의 json 파일 파싱하고 데이터셋의 이미지, 객체 정보 등을 구조화된 형태로 메모리에 로드</li>
-    </ul>
-  </li>
-</ul>
-
-<h3 id="map">MAP</h3>
-
-<p><img src="/assets/hnv/MAP.png" alt="MAP" /></p>
-<hr />
-
-<p><img src="/assets/hnv/precision_recall.png" alt="precision_recall" /></p>
-<hr />
-
-<h3 id="iou">iou</h3>
-<p><img src="/assets/hnv/iou.png" alt="iou" /><br />
-<strong>예측된 바운더리 박스 &amp; 사용자가 설정한 바운더리 박스 / 예측된 바운더리 박스 | 사용자가 설정한 바운더리 박스</strong></p>
-<ul>
-  <li>iou &gt;= 0.5:  tp else: fp</li>
-</ul>
-
-<hr />
-
-<h3 id="precision">precision</h3>
-<p><img src="/assets/hnv/precision.png" alt="precision" /></p>
-<ul>
-  <li>검출 결과들 중 옳게 검출한 비율</li>
-  <li>fp를 줄이는게 더 중요한 경우</li>
-</ul>
-<hr />
-
-<h3 id="recall">recall</h3>
-<p><img src="/assets/hnv/recall.png" alt="recall" /></p>
-<ul>
-  <li>fn을 줄이는게 더 중요한 경우</li>
-</ul>
-<hr />
-
-<h3 id="pr-curve">PR Curve</h3>
-<p><img src="/assets/hnv/confidence.png" alt="confidence" /></p>
-<ul>
-  <li>confidence 레벨이 높을수록 알고리즘은 그 물체가 검출해야 하는 물체와 거이 똑같다고 생각</li>
-  <li>threshold(한게점)을 두어 특정값 이상이 되어야 검출된 것으로 인정 <strong>ex)한계값을 90%으로 했다면 한개만 검출된 것으로 판단</strong>
-    <ul>
-      <li>precision 1/1, recall = 1/15
-<img src="/assets/hnv/confidence2.png" alt="confidence" /></li>
-    </ul>
-  </li>
-</ul>
-
-<p><img src="/assets/hnv/PRCurve.png" alt="PR Curve" /></p>
-
-<hr />
-
-<h3 id="average-precision">Average Precision</h3>
-
-<p><img src="/assets/hnv/ap.png" alt="ap" /></p>
-<ul>
-  <li>물체 클래스가 여러개인 경우 각 클래스당 ap를 구한 다음에 그것을 모두 합한 다음에 물체 클래스의 개수로 나눠주면 그게 map</li>
-</ul>]]></content><author><name></name></author><category term="objectdetection" /><summary type="html"><![CDATA[df.sample(frac=1).reset_index(drop=True) df: 샘플링할(shuffle) pandas 데이터프래임 frac=1: 전체 데이터프레임에서 샘플링할 비율을 나타냅니다. reset_index(drop=True) : 샘플링 후 인덱스를 재설정 drop=Trup를 설정하면 이전 인덱스를 삭제하고 새로운 연속된 인덱스를 할당]]></summary></entry><entry><title type="html">utils2</title><link href="http://localhost:4000/objectdetection/2024/07/10/utils2.html" rel="alternate" type="text/html" title="utils2" /><published>2024-07-10T00:00:00+09:00</published><updated>2024-07-10T00:00:00+09:00</updated><id>http://localhost:4000/objectdetection/2024/07/10/utils2</id><content type="html" xml:base="http://localhost:4000/objectdetection/2024/07/10/utils2.html"><![CDATA[<h1 id="grouped_dict--image_id-group-for-image_id-group-in-grouped">grouped_dict = {image_id: group for image_id, group in grouped}</h1>
-
-<p><img src="/assets/hnv/image_id.png" alt="image_id" /></p>
-
-<p><img src="/assets/hnv/group.png" alt="group" /></p>
-
-<h1 id="iterrows">iterrows()</h1>
-<ul>
-  <li>iterrows()는 Pandas 데이터프레임의 메서드로, 데이터프레임의 각 행을 반복(iterate)하면서 인덱스와 행 데이터를 튜플로 반환합니다.</li>
-</ul>]]></content><author><name></name></author><category term="objectdetection" /><summary type="html"><![CDATA[grouped_dict = {image_id: group for image_id, group in grouped}]]></summary></entry><entry><title type="html">webcrawling</title><link href="http://localhost:4000/webcrawling/2024/06/27/webcrawling.html" rel="alternate" type="text/html" title="webcrawling" /><published>2024-06-27T00:00:00+09:00</published><updated>2024-06-27T00:00:00+09:00</updated><id>http://localhost:4000/webcrawling/2024/06/27/webcrawling</id><content type="html" xml:base="http://localhost:4000/webcrawling/2024/06/27/webcrawling.html"><![CDATA[<h1 id="웹-크롤링을-종료시키는-방법-스크롤의-한계에-도달하면-종료하기">웹 크롤링을 종료시키는 방법 (스크롤의 한계에 도달하면 종료하기)</h1>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">form</span> <span class="n">selenium</span><span class="p">.</span><span class="n">webdriver</span><span class="p">.</span><span class="n">common</span><span class="p">.</span><span class="n">by</span> <span class="kn">import</span> <span class="n">By</span> <span class="c1"># Selenium의 By 클래스 임포트
-</span><span class="k">def</span> <span class="nf">find_end</span><span class="p">(</span><span class="n">self</span><span class="p">):</span>	<span class="n">last_height</span> <span class="o">=</span><span class="n">self</span><span class="p">.</span><span class="n">driver</span><span class="p">.</span><span class="nf">execute_script</span><span class="p">(</span><span class="err">’</span><span class="k">return</span> <span class="n">document</span><span class="p">.</span><span class="n">body</span><span class="p">.</span><span class="n">scrollHeight</span><span class="err">’</span><span class="p">)</span>
-	<span class="c1">#  변수에 현재 페이지의 전체 높이를 저장.
-</span>	<span class="c1">#  self.driver.execute_script()를 사용하여 JavaScript 코드 실행
-</span>	<span class="c1"># document. body.scrollHeight 값을 반환
-</span>	<span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
-		<span class="n">self</span><span class="p">.</span><span class="n">drivier</span><span class="p">.</span><span class="nf">execute_script</span><span class="p">(</span><span class="err">“</span><span class="n">window</span><span class="p">.</span><span class="nf">scrollto</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">document</span><span class="p">.</span><span class="n">body</span><span class="p">.</span><span class="n">scrollHeight</span><span class="p">);</span><span class="err">”</span><span class="p">)</span> <span class="c1">#  “window.xcrolto(0, document.body.scrollHeight);”  x= 0, y= document.body.scrollHeight, 즉 수평 스크롤 위치를 0으로 이동 수직 스크롤 위치를 전체 높이( 최하단)으로 이동 -&gt; 스크롤 최하단으로 이동 
-</span>		<span class="n">time</span><span class="p">.</span><span class="nf">sleep</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>  <span class="c1"># 페이지 로드를 기달리기 위한 2초 대기
-</span>		<span class="k">try</span><span class="p">:</span>
-			<span class="n">more_button</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">driver</span><span class="p">.</span><span class="nf">find_element</span><span class="p">(</span><span class="n">By</span><span class="p">.</span><span class="n">XPATH</span><span class="p">,</span> <span class="err">“</span><span class="o">//</span><span class="n">button</span><span class="p">[</span><span class="nf">contains</span><span class="p">(</span><span class="nf">text</span><span class="p">(),</span> <span class="err">‘</span><span class="n">더보기</span><span class="err">’</span><span class="p">)]</span><span class="err">”</span><span class="p">)</span>  <span class="c1"># XPATH를 사용하여 텍스트에“ 더보기”가 포함된 버튼을 찾는다
-</span> <span class="c1">#  XPATH는 XML Path Language의 약자로, XML 및 HTML 문서 내의 노드를 찾는데 사용 (&lt;div&gt;, &lt;p&gt;, &lt;a&gt; 등의 태그)
-</span>			<span class="n">more_button</span><span class="p">.</span><span class="nf">click</span><span class="p">()</span>  <span class="c1"># 찾은 버튼 클릭
-</span>			<span class="n">time</span><span class="p">.</span><span class="nf">sleep</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-		<span class="k">except</span><span class="p">:</span>
-			<span class="k">pass</span>
-		<span class="n">new_height</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">driver</span><span class="p">.</span><span class="nf">execute_script</span><span class="p">(</span><span class="err">“</span><span class="k">return</span> <span class="n">document</span><span class="p">.</span><span class="n">body</span><span class="p">.</span><span class="n">scrollHeight</span><span class="err">”</span><span class="p">)</span>
-		<span class="k">if</span> <span class="n">new_height</span> <span class="o">==</span> <span class="n">last_height</span><span class="p">:</span>
-			<span class="n">self</span><span class="p">.</span><span class="n">end_point</span> <span class="o">=</span> <span class="bp">True</span>
-			<span class="k">break</span>
-		
-</code></pre></div></div>
-<p>나는 def scroll_down(self)를 이미 정의 했기에 스크롤 내리는 부분을 뺀다 <br />
-self.scroll_down()  클래스 내에서 함수를 쓸 때는 self를 접두어로</p>
-
-<p>원래 코드: self.src_values에 새로운 값을 할당합니다. 이 방식은 각 호출에서 self.src_values의 기존 내용을 덮어씁니다. 결과적으로, 마지막 find_src 호출 후의 값만 유지됩니다.<br />
-수정된 코드: self.src_values.extend를 사용하여 기존 리스트에 새로 찾은 값을 추가합니다. <br />
-이 방식은 각 호출에서 self.src_values의 기존 내용을 보존하면서 새 값을 추가합니다. 이를 통해 모든 URL에서 찾은 모든 이미지를 self.src_values에 저장할 수 있습니다.</p>
-
-<p>원래 코드</p>
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">last_height</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">driver</span><span class="p">.</span><span class="nf">execute_script</span><span class="p">(</span><span class="sh">"</span><span class="s">return document.body.scrollHeight</span><span class="sh">"</span><span class="p">)</span>
-<span class="n">new_height</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">driver</span><span class="p">.</span><span class="nf">execute_script</span><span class="p">(</span><span class="sh">"</span><span class="s">return document.body.scrollHeight</span><span class="sh">"</span><span class="p">)</span>
-<span class="k">if</span> <span class="n">new_height</span> <span class="o">==</span> <span class="n">last_height</span><span class="p">:</span>
-    <span class="n">self</span><span class="p">.</span><span class="n">end_point</span> <span class="o">=</span> <span class="bp">True</span>
-</code></pre></div></div>
-
-<p>수정된 코드</p>
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">find_end</span><span class="p">(</span><span class="n">self</span><span class="p">):</span>
-    <span class="n">last_height</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">driver</span><span class="p">.</span><span class="nf">execute_script</span><span class="p">(</span><span class="sh">"</span><span class="s">return document.body.scrollHeight</span><span class="sh">"</span><span class="p">)</span>
-    <span class="n">time</span><span class="p">.</span><span class="nf">sleep</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>  <span class="c1"># 수정: 대기 시간 추가
-</span>    <span class="n">new_height</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">driver</span><span class="p">.</span><span class="nf">execute_script</span><span class="p">(</span><span class="sh">"</span><span class="s">return document.body.scrollHeight</span><span class="sh">"</span><span class="p">)</span>
-    <span class="n">self</span><span class="p">.</span><span class="n">end_point</span> <span class="o">=</span> <span class="n">new_height</span> <span class="o">==</span> <span class="n">last_height</span>  <span class="c1"># 수정: end_point 업데이트 위치 변경
-</span></code></pre></div></div>
-
-<p>원래 코드: last_height와 new_height를 거의 동시에 계산합니다. 이는 두 값이 항상 동일하여 self.end_point가 항상 True가 됩니다.</p>
-
-<p>수정된 코드:</p>
-<ul>
-  <li>last_height를 먼저 계산하고, 약간의 대기 시간을 추가(time.sleep(2))하여 페이지가 스크롤된 후 새로 고침된 높이를 반영할 시간을 줍니다.</li>
-  <li>새로 고침된 후의 높이(new_height)를 다시 계산하여 이전 높이(last_height)와 비교합니다.</li>
-  <li>new_height와 last_height가 동일하면 더 이상 스크롤할 내용이 없다는 것을 의미하므로 self.end_point를 True로 설정합니다.</li>
-</ul>
-
-<p>extend는 리스트의 메서드로서 리스트에 다른 리스트의 모든 요소를 추가할 때 사용합니다. 따라서 extend 메서드를 호출하여 리스트를 확장해야 합니다.</p>
-
-<p>잘못된 코드:<br />
-self.src_values.extend = [img.get_attribute(“src”) for img in img_tags if keyword in img.get_attribute(“alt”)]</p>
-
-<p>올바른 코드:<br />
-self.src_values.extend([img.get_attribute(“src”) for img in img_tags if keyword in img.get_attribute(“alt”)]</p>
-
-<p>문제점</p>
+<h1 id="todo-2">todo</h1>
 <ol>
-  <li>드라이버 초기화 이전에 스크립트 실행:
-    <ul>
-      <li>self.driver는 None으로 초기화되어 있습니다.</li>
-      <li>따라서 self.driver.execute_script(“return document.body.scrollHeight”)를 호출하면 self.driver가 NoneType이므로, 이를 호출할 수 없다는 오류가 발생합니다</li>
-    </ul>
-  </li>
+  <li>wandb에 loss와 metric을 모두 나타내야함</li>
+  <li>최종 결과 제출은 hnvlab-syu/pytorch-course github에 pull request</li>
+  <li>본인이 사용한 모델 두개 중 하나 논문 발표 (류교수님의 특별 지시)</li>
 </ol>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="err"> </span> <span class="err"> </span> <span class="c1"># end 포인트를 찾기위한 함수
-</span><span class="err"> </span> <span class="err"> </span> <span class="k">def</span> <span class="nf">find_end</span><span class="p">(</span><span class="n">self</span><span class="p">):</span>
-<span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="n">end_find</span> <span class="o">=</span><span class="n">self</span><span class="p">.</span><span class="n">driver</span><span class="p">.</span><span class="nf">find_elements</span><span class="p">(</span><span class="n">By</span><span class="p">.</span><span class="n">TAG_NAME</span><span class="p">,</span> <span class="sh">"</span><span class="s">span</span><span class="sh">"</span><span class="p">)</span>
-<span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="k">for</span> <span class="n">end</span> <span class="ow">in</span> <span class="n">end_find</span><span class="p">:</span>
-<span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="k">if</span> <span class="n">end</span><span class="p">.</span><span class="n">text</span> <span class="o">==</span><span class="sh">'</span><span class="s">대한민국</span><span class="sh">'</span><span class="p">:</span>
-<span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="n">self</span><span class="p">.</span><span class="n">end_point</span> <span class="o">=</span><span class="bp">True</span>
-<span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">End of content found</span><span class="sh">"</span><span class="p">)</span>
-<span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="k">break</span>
+<p>그럼 일단 imagenet에 있는 코드에서</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/README.md
+/main.py
+/src/dataset.py
+/src/model.py
+/src/utils.py
 </code></pre></div></div>
-
-<p>스크롤 내리기 전이랑 내린 후랑 스크롤의 값이 같아서 크롤링이 안됨<br />
-그냥 span에서 대한민국 찾으면 끝나는걸로 변경</p>
-
-<p>스크롤을 내린 후에도 document.body.scrollHeight가 변하지 않는 경우<br />
-이 문제는 페이지가 동적으로 콘텐츠를 로드하지 않거나 스크롤 이벤트가 제대로 적용되지 않는 경우 발생할 수 있습니다.<br />
-스크롤을 내리더라도 페이지가 새로운 콘텐츠를 로드하지 않는다면 높이가 변하지 않습니다.<br />
-스크롤 내리기 전에 scroll_from_origin 값을 변경했을 때 document.body.scrollHeight가 변하는 경우<br />
-이 문제는 페이지가 초기 로딩 후 스크롤 이벤트를 기다리는 상태이기 때문에 발생할 수 있습니다.<br />
-페이지는 초기 높이를 다르게 계산할 수 있으며, JavaScript를 통해 스크롤 이벤트를 직접 발생시켜 높이의 변화를 유도할 수 있습니다.<br />
-스크롤 이벤트가 적용되지 않는 이유</p>
-
-<p>스크롤 이벤트가 제대로 발생하지 않는 이유는 여러 가지가 있습니다</p>
-<ol>
-  <li>페이지가 스크롤 이벤트에 반응하지 않음.</li>
-  <li>스크롤 이벤트가 발생하더라도 새로운 콘텐츠가 로드되지 않음.</li>
-  <li>스크롤 이벤트가 페이지의 특정 부분에만 적용되어 전체 페이지의 높이가 변하지 않음.</li>
-</ol>]]></content><author><name></name></author><category term="webcrawling" /><summary type="html"><![CDATA[웹 크롤링을 종료시키는 방법 (스크롤의 한계에 도달하면 종료하기)]]></summary></entry><entry><title type="html">model</title><link href="http://localhost:4000/objectdetection/2024/06/27/objectdetection.html" rel="alternate" type="text/html" title="model" /><published>2024-06-27T00:00:00+09:00</published><updated>2024-06-27T00:00:00+09:00</updated><id>http://localhost:4000/objectdetection/2024/06/27/objectdetection</id><content type="html" xml:base="http://localhost:4000/objectdetection/2024/06/27/objectdetection.html"><![CDATA[<p>torchvision.models:<br />
-https://github.com/pytorch/vision/tree/main/torchvision/models</p>
-
-<h1 id="torchvisiondetection">torchvision.detection</h1>
-<ul>
-  <li>torchvisoin.detection은 Pytorch의 컴퓨터 비전 관련 유틸리티를 제공하는 패키지의 하위 모듈로, 주로 객체 탐지와 관련된 기능들을 제공</li>
-</ul>
-
-<h1 id="torchvisiondetectionrpn">torchvision.detection.rpn</h1>
-<ul>
-  <li>Resion Proposal Network</li>
-  <li>입력 이미지에서 객체가 있을 가능성이 높은 영역 (Region of interest)을 제안하는 역할</li>
-  <li>이를 통해 객체 탐지 모델이 전체 이미지에서 객체를 일일이 찾는 대신, 제안된 후보 영역들에 집중하여 효율적으로 탐지 작업을 수행할 수 있다</li>
-</ul>
-
-<h1 id="backbone">Backbone</h1>
-<ul>
-  <li>특징 추출을 담당하는 기본 신경망을 의미
-    <ul>
-      <li>객체 탐지, 이미지 분할, 이미지 분류 등의 다양한 비전 모델에서 중요한 역할을 합니다.</li>
-      <li>입력 이미지에서 의미 있는 특징 맵을 추출하여 후속처리 단계(객체의 경계 상자 예측, 등)에 사용</li>
-    </ul>
-  </li>
-  <li>대표적으로 ResNet, VGG. EfficientNet, MobileNet 등이 있음</li>
-  <li>ex)
-```python
-      self.backbone = efficientnet_b0(weights=EfficientNet_B0_Weights.DEFAULT).features
-      self.backbone.out_channels = 1280  #   EfficientNet-B0의 마지막 특징 맵의 출력 채널 수는 1280</li>
-</ul>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">torch</span>
-<span class="kn">from</span> <span class="n">torchvision.models</span> <span class="kn">import</span> <span class="n">efficientnet_b0</span><span class="p">,</span> <span class="n">EfficientNet_B0_Weights</span>
-
-<span class="c1"># EfficientNet-B0 모델 로드
-</span><span class="n">model</span> <span class="o">=</span> <span class="nf">efficientnet_b0</span><span class="p">(</span><span class="n">weights</span><span class="o">=</span><span class="n">EfficientNet_B0_Weights</span><span class="p">.</span><span class="n">DEFAULT</span><span class="p">)</span>
-
-<span class="c1"># 모델 구조 출력 (필요시 주석 해제)
-# print(model)
-</span>
-<span class="c1"># 특징 맵의 출력 채널 수 확인
-# 마지막 계층의 출력 채널 수는 모델의 특징 추출 부분의 마지막 Conv 층의 출력 채널 수와 동일합니다.
-</span><span class="n">last_feature_layer</span> <span class="o">=</span> <span class="n">model</span><span class="p">.</span><span class="n">features</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-<span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="s">Last feature layer output channels: </span><span class="si">{</span><span class="n">last_feature_layer</span><span class="p">.</span><span class="n">out_channels</span><span class="si">}</span><span class="sh">"</span><span class="p">)</span>
-</code></pre></div></div>
-
-<p>def_efficient_conf(): 에 last_channel 을 보면 알 수 있음</p>]]></content><author><name></name></author><category term="objectdetection" /><summary type="html"><![CDATA[torchvision.models: https://github.com/pytorch/vision/tree/main/torchvision/models]]></summary></entry></feed>
+<p>를 보고 클론 코딩 해보자</p>]]></content><author><name></name></author><category term="hnv" /><summary type="html"><![CDATA[계획을 세워보자 와 3줄 이상 있으면 뇌가 멈춰오는 나로서는 To-do list를 보는 것만으로도 힘이든다ㅠ.ㅜ]]></summary></entry></feed>

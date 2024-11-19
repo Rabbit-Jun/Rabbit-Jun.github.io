@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>rabbitjun</title>
+    <link rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body>
+    <header class="site-header">
+        <div class="container">
+            <a href="/" class="blog-name">RabbitJun</a>
+        </div>
+        <hr> <!-- 전체 너비의 선 -->
+    </header>
+    <div class="container sidebar-content">
+        <div class="sidebar">
+    <!-- 프로필 정보 -->
+    <div class="profile">
+        <img src="/assets/images/profile.jpg" alt="프로필 이미지" class="profile-image">
+        <h2>juneon</h2>
+        <p>아직 모르는게 많아 열심히 공부중</p>
+    </div>
+    
+    <!-- 사이드바 카테고리 목록 -->
+    <div class="sidebar-categories">
+        <ul>
+            
+            <li><a href="/category/objectdetection">objectdetection</a></li>
+            
+            <li><a href="/category/webcrawling">webcrawling</a></li>
+            
+            <li><a href="/category/linear_algebra">linear_algebra</a></li>
+            
+            <li><a href="/category/diary">diary</a></li>
+            
+            <li><a href="/category/computervision">computervision</a></li>
+            
+            <li><a href="/category/deeplearning">deeplearning</a></li>
+            
+            <li><a href="/category/preferences">preferences</a></li>
+            
+            <li><a href="/category/hnv">hnv</a></li>
+            
+            <li><a href="/category/network_program">network_program</a></li>
+            
+            <li><a href="/category/computer_structure">computer_structure</a></li>
+            
+        </ul>
+        
+    </div>
+</div>
+
+        <div class="content">
+            <article class="post-box">
+  <div class="post-header">
+    <h1>Geometric operations2</h1>
+    <p class="post-date">Nov 10, 2024</p>
+  </div>
+  <div class="post-content">
+    <h3 id="영상-보간">영상 보간</h3>
+
+<p>영상에 후방 변환을 사용해도 여전히 실수 좌표를 정수로 변환하는 과정이 필요하다.<br />
+이때 반올림을 사용해 가장 가까운 화소에 배정하는 기법을 <strong>최근접 이웃</strong>(<em>nearest neighbor</em>) 방법이라고 부른다.</p>
+
+<p>최근접 이웃은 에일리어싱이 심하다.<br />
+이런 에일리어싱은 보간을 사용하면 상당히 개선된다.</p>
+
+<p><img src="image-51.png" alt="alt text" /></p>
+
+<p>그림은 어떤 화소가 (j’,i’)로 변환되어 4개 화소에 걸친 상황이다.<br />
+보간에서는 4개 화소와 걸친 비율에 따라 가중 평균하여 화솟값을 계산한다.</p>
+<ul>
+  <li>(j,i) 화소와 수직 빗금 친 영역만큼 겹쳤는데 영역의 넓이는 aB다.</li>
+  <li>(j, i+1)과 수평 빗금 친 영역만큼 겹쳤고 영역의 넓이는(1-a)B다.</li>
+  <li>(j+1, i)화소와 a(1-B) 만큼 겹친다.</li>
+  <li>(j+1, i+1) 화소와 (1-a)(1-B)만큼 겹친다.</li>
+</ul>
+
+<p><img src="image-52.png" alt="alt text" /><br />
+(<em>j’,i’ 화소의 명암값</em>)</p>
+
+<p>그림은 겹치는 비율을 곱하기 때문에 선형 보간법에 해당한다.<br />
+이 보간은 x와 y의 두방향에 걸쳐 계산하므로 <strong>양선형 보간법</strong>이라 한다.</p>
+
+<p>양선형 보간은 최근접 이웃에 비해 화질이 월등히 좋다.<br />
+<em>대신 계산 시간이 더 걸리는데 요즘 컴터가 좋아서 별문제는 안됨</em></p>
+
+<p>OpenCV 프로그램에서는 resize()의 인자로</p>
+<ul>
+  <li>최근접 이웃은 INTER_NEAREST,</li>
+  <li>양선형 보간은 INTER_CUBIC</li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">cv2</span> <span class="k">as</span> <span class="n">cv</span>
+
+<span class="n">img</span><span class="o">=</span><span class="n">cv</span><span class="p">.</span><span class="nf">imread</span><span class="p">(</span><span class="sh">'</span><span class="s">rose.png</span><span class="sh">'</span><span class="p">)</span>
+<span class="n">patch</span><span class="o">=</span><span class="n">img</span><span class="p">[</span><span class="mi">25</span><span class="p">:</span><span class="mi">350</span><span class="p">,</span><span class="mi">170</span><span class="p">:</span><span class="mi">270</span><span class="p">,:]</span>
+
+<span class="n">img</span><span class="o">=</span><span class="n">cv</span><span class="p">.</span><span class="nf">rectangle</span><span class="p">(</span><span class="n">img</span><span class="p">,(</span><span class="mi">170</span><span class="p">,</span> <span class="mi">250</span><span class="p">),(</span><span class="mi">270</span><span class="p">,</span><span class="mi">350</span><span class="p">),(</span><span class="mi">255</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">),</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">patch1</span><span class="o">=</span><span class="n">cv</span><span class="p">.</span><span class="nf">resize</span><span class="p">(</span><span class="n">patch</span><span class="p">,</span><span class="n">dsize</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">),</span><span class="n">fx</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span><span class="n">fy</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span><span class="n">interpolation</span><span class="o">=</span><span class="n">cv</span><span class="p">.</span><span class="n">INTER_NEAREST</span><span class="p">)</span>
+<span class="n">patch2</span><span class="o">=</span><span class="n">cv</span><span class="p">.</span><span class="nf">resize</span><span class="p">(</span><span class="n">patch</span><span class="p">,</span><span class="n">dsize</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">),</span><span class="n">fx</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span><span class="n">fy</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span><span class="n">interpolation</span><span class="o">=</span><span class="n">cv</span><span class="p">.</span><span class="n">INTER_LINEAR</span><span class="p">)</span>
+<span class="n">patch3</span><span class="o">=</span><span class="n">cv</span><span class="p">.</span><span class="nf">resize</span><span class="p">(</span><span class="n">patch</span><span class="p">,</span><span class="n">dsize</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">),</span><span class="n">fx</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span><span class="n">fy</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span><span class="n">interpolation</span><span class="o">=</span><span class="n">cv</span><span class="p">.</span><span class="n">INTER_CUBIC</span><span class="p">)</span>
+
+<span class="n">cv</span><span class="p">.</span><span class="nf">imshow</span><span class="p">(</span><span class="sh">'</span><span class="s">original</span><span class="sh">'</span><span class="p">,</span> <span class="n">img</span><span class="p">)</span>
+<span class="n">cv</span><span class="p">.</span><span class="nf">imshow</span><span class="p">(</span><span class="sh">'</span><span class="s">nearest</span><span class="sh">'</span><span class="p">,</span> <span class="n">patch1</span><span class="p">)</span>
+<span class="n">cv</span><span class="p">.</span><span class="nf">imshow</span><span class="p">(</span><span class="sh">'</span><span class="s">bilinear</span><span class="sh">'</span><span class="p">,</span> <span class="n">patch2</span><span class="p">)</span>
+<span class="n">cv</span><span class="p">.</span><span class="nf">imshow</span><span class="p">(</span><span class="sh">'</span><span class="s">bicubic</span><span class="sh">'</span><span class="p">,</span> <span class="n">patch3</span><span class="p">)</span>
+
+<span class="n">cv</span><span class="p">.</span><span class="nf">waitKey</span><span class="p">()</span>
+<span class="n">cv</span><span class="p">.</span><span class="nf">destroyAllWindows</span><span class="p">()</span>
+</code></pre></div></div>
+
+
+  </div>
+</article>
+
+        </div>
+    </div>
+</body>
+</html>

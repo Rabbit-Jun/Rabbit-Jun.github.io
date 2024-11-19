@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>rabbitjun</title>
+    <link rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body>
+    <header class="site-header">
+        <div class="container">
+            <a href="/" class="blog-name">RabbitJun</a>
+        </div>
+        <hr> <!-- 전체 너비의 선 -->
+    </header>
+    <div class="container sidebar-content">
+        <div class="sidebar">
+    <!-- 프로필 정보 -->
+    <div class="profile">
+        <img src="/assets/images/profile.jpg" alt="프로필 이미지" class="profile-image">
+        <h2>juneon</h2>
+        <p>아직 모르는게 많아 열심히 공부중</p>
+    </div>
+    
+    <!-- 사이드바 카테고리 목록 -->
+    <div class="sidebar-categories">
+        <ul>
+            
+            <li><a href="/category/objectdetection">objectdetection</a></li>
+            
+            <li><a href="/category/webcrawling">webcrawling</a></li>
+            
+            <li><a href="/category/linear_algebra">linear_algebra</a></li>
+            
+            <li><a href="/category/diary">diary</a></li>
+            
+            <li><a href="/category/computervision">computervision</a></li>
+            
+            <li><a href="/category/deeplearning">deeplearning</a></li>
+            
+            <li><a href="/category/preferences">preferences</a></li>
+            
+            <li><a href="/category/hnv">hnv</a></li>
+            
+            <li><a href="/category/network_program">network_program</a></li>
+            
+            <li><a href="/category/computer_structure">computer_structure</a></li>
+            
+        </ul>
+        
+    </div>
+</div>
+
+        <div class="content">
+            <article class="post-box">
+  <div class="post-header">
+    <h1>dataload1</h1>
+    <p class="post-date">Nov 6, 2024</p>
+  </div>
+  <div class="post-content">
+    <h1 id="dataload">dataload</h1>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(crossfit) ➜  src git:(main) ✗ python train.py
+Traceback (most recent call last):
+  File "/mnt/c/Users/junun/documents/projects/src/train.py", line 10, in &lt;module&gt;
+    train_x, train_y, test_x, test_y, val_x, val_y = load_data('../data/train', '../data/test', '../data/val')
+  File "/mnt/c/Users/junun/documents/projects/src/dataload.py", line 52, in load_data
+    val_dataset = CustomDataset(val_dir, scaler=scaler)
+  File "/mnt/c/Users/junun/documents/projects/src/dataload.py", line 15, in __init__
+    self.load_data(directory)
+  File "/mnt/c/Users/junun/documents/projects/src/dataload.py", line 35, in load_data
+    self.data = self.scaler.transform(self.data)
+  File "/home/jun/miniconda3/envs/crossfit/lib/python3.10/site-packages/sklearn/utils/_set_output.py", line 316, in wrapped
+    data_to_wrap = f(self, X, *args, **kwargs)
+  File "/home/jun/miniconda3/envs/crossfit/lib/python3.10/site-packages/sklearn/preprocessing/_data.py", line 1045, in transform
+    X = self._validate_data(
+  File "/home/jun/miniconda3/envs/crossfit/lib/python3.10/site-packages/sklearn/base.py", line 654, in _validate_data
+    self._check_n_features(X, reset=reset)
+  File "/home/jun/miniconda3/envs/crossfit/lib/python3.10/site-packages/sklearn/base.py", line 443, in _check_n_features
+    raise ValueError(
+ValueError: X has 8904 features, but StandardScaler is expecting 8190 features as input.
+</code></pre></div></div>
+<p>min() 함수를 이용하여 모든 인덱스를 가장 짧은 인덱스의 길이에 맞추자 <br />
+(<em>샘플의 길이가 다 같아야 한다</em>)</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">os</span>
+<span class="kn">import</span> <span class="n">pandas</span> <span class="k">as</span> <span class="n">pd</span>
+<span class="kn">import</span> <span class="n">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">from</span> <span class="n">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">StandardScaler</span>
+<span class="kn">import</span> <span class="n">torch</span>
+<span class="kn">from</span> <span class="n">torch.utils.data</span> <span class="kn">import</span> <span class="n">Dataset</span>
+
+<span class="k">class</span> <span class="nc">CustomDataset</span><span class="p">(</span><span class="n">Dataset</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">directory</span><span class="p">,</span> <span class="n">min_length</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">scaler</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">data</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">labels</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">min_length</span> <span class="o">=</span> <span class="n">min_length</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">scaler</span> <span class="o">=</span> <span class="n">scaler</span>
+        <span class="n">self</span><span class="p">.</span><span class="nf">load_data</span><span class="p">(</span><span class="n">directory</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">load_data</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">directory</span><span class="p">):</span>
+        <span class="n">files</span> <span class="o">=</span> <span class="p">[</span><span class="n">f</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">os</span><span class="p">.</span><span class="nf">listdir</span><span class="p">(</span><span class="n">directory</span><span class="p">)</span> <span class="k">if</span> <span class="n">f</span><span class="p">.</span><span class="nf">endswith</span><span class="p">(</span><span class="sh">'</span><span class="s">.csv</span><span class="sh">'</span><span class="p">)]</span>
+
+        <span class="c1"># 각 데이터셋에서 주어진 min_length에 맞춰 자르기
+</span>        <span class="k">for</span> <span class="n">filename</span> <span class="ow">in</span> <span class="n">files</span><span class="p">:</span>
+            <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nf">read_csv</span><span class="p">(</span><span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="nf">join</span><span class="p">(</span><span class="n">directory</span><span class="p">,</span> <span class="n">filename</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="p">.</span><span class="n">float32</span><span class="p">)</span>
+            <span class="n">file_data</span> <span class="o">=</span> <span class="n">df</span><span class="p">.</span><span class="n">values</span><span class="p">.</span><span class="nf">flatten</span><span class="p">()[:</span><span class="n">self</span><span class="p">.</span><span class="n">min_length</span><span class="p">]</span>
+            <span class="n">self</span><span class="p">.</span><span class="n">data</span><span class="p">.</span><span class="nf">append</span><span class="p">(</span><span class="n">file_data</span><span class="p">)</span>
+            <span class="n">label</span> <span class="o">=</span> <span class="n">filename</span><span class="p">.</span><span class="nf">split</span><span class="p">(</span><span class="sh">'</span><span class="s">@</span><span class="sh">'</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">self</span><span class="p">.</span><span class="n">labels</span><span class="p">.</span><span class="nf">append</span><span class="p">(</span><span class="n">label</span><span class="p">)</span>
+
+        <span class="n">self</span><span class="p">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nf">vstack</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">data</span><span class="p">)</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">labels</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nf">array</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">labels</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">self</span><span class="p">.</span><span class="n">scaler</span><span class="p">:</span>
+            <span class="n">self</span><span class="p">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">scaler</span><span class="p">.</span><span class="nf">transform</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">data</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__len__</span><span class="p">(</span><span class="n">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nf">len</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">data</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__getitem__</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">idx</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">torch</span><span class="p">.</span><span class="nf">tensor</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">data</span><span class="p">[</span><span class="n">idx</span><span class="p">]),</span> <span class="n">torch</span><span class="p">.</span><span class="nf">tensor</span><span class="p">(</span><span class="nf">int</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">labels</span><span class="p">[</span><span class="n">idx</span><span class="p">]))</span>
+
+<span class="k">def</span> <span class="nf">load_data</span><span class="p">(</span><span class="n">train_dir</span><span class="p">,</span> <span class="n">test_dir</span><span class="p">,</span> <span class="n">val_dir</span><span class="p">):</span>
+    <span class="c1"># 모든 파일에서 최소 길이를 계산
+</span>    <span class="n">min_length</span> <span class="o">=</span> <span class="nf">float</span><span class="p">(</span><span class="sh">'</span><span class="s">inf</span><span class="sh">'</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">directory</span> <span class="ow">in</span> <span class="p">[</span><span class="n">train_dir</span><span class="p">,</span> <span class="n">test_dir</span><span class="p">,</span> <span class="n">val_dir</span><span class="p">]:</span>
+        <span class="n">files</span> <span class="o">=</span> <span class="p">[</span><span class="n">f</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">os</span><span class="p">.</span><span class="nf">listdir</span><span class="p">(</span><span class="n">directory</span><span class="p">)</span> <span class="k">if</span> <span class="n">f</span><span class="p">.</span><span class="nf">endswith</span><span class="p">(</span><span class="sh">'</span><span class="s">.csv</span><span class="sh">'</span><span class="p">)]</span>
+        <span class="k">for</span> <span class="n">filename</span> <span class="ow">in</span> <span class="n">files</span><span class="p">:</span>
+            <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nf">read_csv</span><span class="p">(</span><span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="nf">join</span><span class="p">(</span><span class="n">directory</span><span class="p">,</span> <span class="n">filename</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="p">.</span><span class="n">float32</span><span class="p">)</span>
+            <span class="n">min_length</span> <span class="o">=</span> <span class="nf">min</span><span class="p">(</span><span class="n">min_length</span><span class="p">,</span> <span class="n">df</span><span class="p">.</span><span class="n">values</span><span class="p">.</span><span class="nf">flatten</span><span class="p">().</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+    <span class="n">scaler</span> <span class="o">=</span> <span class="nc">StandardScaler</span><span class="p">()</span>
+
+    <span class="c1"># Training data
+</span>    <span class="n">train_dataset</span> <span class="o">=</span> <span class="nc">CustomDataset</span><span class="p">(</span><span class="n">train_dir</span><span class="p">,</span> <span class="n">min_length</span><span class="o">=</span><span class="n">min_length</span><span class="p">)</span>
+    <span class="n">train_data</span> <span class="o">=</span> <span class="n">scaler</span><span class="p">.</span><span class="nf">fit_transform</span><span class="p">(</span><span class="n">train_dataset</span><span class="p">.</span><span class="n">data</span><span class="p">)</span>
+    <span class="n">train_labels</span> <span class="o">=</span> <span class="n">train_dataset</span><span class="p">.</span><span class="n">labels</span>
+
+    <span class="c1"># Validation data
+</span>    <span class="n">val_dataset</span> <span class="o">=</span> <span class="nc">CustomDataset</span><span class="p">(</span><span class="n">val_dir</span><span class="p">,</span> <span class="n">min_length</span><span class="o">=</span><span class="n">min_length</span><span class="p">,</span> <span class="n">scaler</span><span class="o">=</span><span class="n">scaler</span><span class="p">)</span>
+    <span class="n">val_data</span> <span class="o">=</span> <span class="n">val_dataset</span><span class="p">.</span><span class="n">data</span>
+    <span class="n">val_labels</span> <span class="o">=</span> <span class="n">val_dataset</span><span class="p">.</span><span class="n">labels</span>
+
+    <span class="c1"># Test data
+</span>    <span class="n">test_dataset</span> <span class="o">=</span> <span class="nc">CustomDataset</span><span class="p">(</span><span class="n">test_dir</span><span class="p">,</span> <span class="n">min_length</span><span class="o">=</span><span class="n">min_length</span><span class="p">,</span> <span class="n">scaler</span><span class="o">=</span><span class="n">scaler</span><span class="p">)</span>
+    <span class="n">test_data</span> <span class="o">=</span> <span class="n">test_dataset</span><span class="p">.</span><span class="n">data</span>
+    <span class="n">test_labels</span> <span class="o">=</span> <span class="n">test_dataset</span><span class="p">.</span><span class="n">labels</span>
+
+    <span class="k">return</span> <span class="n">train_data</span><span class="p">,</span> <span class="n">train_labels</span><span class="p">,</span> <span class="n">test_data</span><span class="p">,</span> <span class="n">test_labels</span><span class="p">,</span> <span class="n">val_data</span><span class="p">,</span> <span class="n">val_labels</span>
+<span class="k">def</span> <span class="nf">load_data</span><span class="p">(</span><span class="n">train_dir</span><span class="p">,</span> <span class="n">test_dir</span><span class="p">,</span> <span class="n">val_dir</span><span class="p">):</span>
+    <span class="n">scaler</span> <span class="o">=</span> <span class="nc">StandardScaler</span><span class="p">()</span>
+
+    <span class="c1"># Training data
+</span>    <span class="n">train_dataset</span> <span class="o">=</span> <span class="nc">CustomDataset</span><span class="p">(</span><span class="n">train_dir</span><span class="p">)</span>
+    <span class="n">train_data</span> <span class="o">=</span> <span class="n">scaler</span><span class="p">.</span><span class="nf">fit_transform</span><span class="p">(</span><span class="n">train_dataset</span><span class="p">.</span><span class="n">data</span><span class="p">)</span>
+    <span class="n">train_labels</span> <span class="o">=</span> <span class="n">train_dataset</span><span class="p">.</span><span class="n">labels</span>
+
+    <span class="c1"># Validation data
+</span>    <span class="n">val_dataset</span> <span class="o">=</span> <span class="nc">CustomDataset</span><span class="p">(</span><span class="n">val_dir</span><span class="p">,</span> <span class="n">scaler</span><span class="o">=</span><span class="n">scaler</span><span class="p">)</span>
+    <span class="n">val_data</span> <span class="o">=</span> <span class="n">val_dataset</span><span class="p">.</span><span class="n">data</span>
+    <span class="n">val_labels</span> <span class="o">=</span> <span class="n">val_dataset</span><span class="p">.</span><span class="n">labels</span>
+
+    <span class="c1"># Test data
+</span>    <span class="n">test_dataset</span> <span class="o">=</span> <span class="nc">CustomDataset</span><span class="p">(</span><span class="n">test_dir</span><span class="p">,</span> <span class="n">scaler</span><span class="o">=</span><span class="n">scaler</span><span class="p">)</span>
+    <span class="n">test_data</span> <span class="o">=</span> <span class="n">test_dataset</span><span class="p">.</span><span class="n">data</span>
+    <span class="n">test_labels</span> <span class="o">=</span> <span class="n">test_dataset</span><span class="p">.</span><span class="n">labels</span>
+
+    <span class="k">return</span> <span class="n">train_data</span><span class="p">,</span> <span class="n">train_labels</span><span class="p">,</span> <span class="n">test_data</span><span class="p">,</span> <span class="n">test_labels</span><span class="p">,</span> <span class="n">val_data</span><span class="p">,</span> <span class="n">val_labels</span>
+
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Traceback (most recent call last):
+  File "/mnt/c/Users/junun/documents/projects/src/train.py", line 10, in &lt;module&gt;
+    train_x, train_y, test_x, test_y, val_x, val_y = load_data('../data/train', '../data/test', '../data/val')
+  File "/mnt/c/Users/junun/documents/projects/src/dataload.py", line 70, in load_data
+    train_dataset = CustomDataset(train_dir)
+  File "/mnt/c/Users/junun/documents/projects/src/dataload.py", line 14, in __init__
+    self.load_data(directory)
+  File "/mnt/c/Users/junun/documents/projects/src/dataload.py", line 27, in load_data
+    self.data = np.array(self.data)
+ValueError: setting an array element with a sequence. The requested array has an inhomogeneous shape after 1 dimensions. The detected shape was (1778,) + inhomogeneous part.
+</code></pre></div></div>
+<p>StandardScaler로 표준화를 하기 위해서는 2차원 배열이 필요하다</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>        <span class="c1"># numpy 배열로 변환하여 2차원 배열로 유지
+</span>        <span class="n">self</span><span class="p">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nf">vstack</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">data</span><span class="p">)</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">labels</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nf">array</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">labels</span><span class="p">)</span>
+
+</code></pre></div></div>
+
+<p>self.data.reshape(-1, 1)을 사용하면 원하는 결과를 얻지 못할 가능성이 높습니다.<br />
+reshape(-1, 1)은 배열을 모든 요소를 단일 열로 펼쳐서 재구성하기 때문에, 각 샘플의 고유한 구조가 손실됩니다.</p>
+
+<p>예를 들어, self.data가 여러 샘플이 들어 있는 리스트라면 reshape(-1, 1)을 사용하면 각 샘플이 하나의 긴 열로 병합되어, 샘플 간 경계가 사라지게 됩니다.<br />
+이는 우리가 원하는 2차원 구조 (즉, (샘플 수, 피처 수))와는 다르기 때문에 StandardScaler가 기대하는 입력 형태를 만족하지 않습니다.</p>
+
+<p><strong>대안: np.vstack을 사용하는 이유</strong>
+np.vstack(self.data)는 self.data에 있는 각 샘플을 행렬의 행으로 쌓아 2차원 구조를 유지하게 해줍니다. 이렇게 하면 (샘플 수, 피처 수)의 형태가 되어 StandardScaler가 예상하는 입력 형태와 일치하게 됩니다.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ValueError: all the input array dimensions except for the concatenation axis must match exactly, but along dimension 1, the array at index 0 has size 11046 and the array at index 8 has size 11088
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="c1"># 모든 파일에서 최소 길이를 계산
+</span>    <span class="n">min_length</span> <span class="o">=</span> <span class="nf">float</span><span class="p">(</span><span class="sh">'</span><span class="s">inf</span><span class="sh">'</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">directory</span> <span class="ow">in</span> <span class="p">[</span><span class="n">train_dir</span><span class="p">,</span> <span class="n">test_dir</span><span class="p">,</span> <span class="n">val_dir</span><span class="p">]:</span>
+        <span class="n">files</span> <span class="o">=</span> <span class="p">[</span><span class="n">f</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">os</span><span class="p">.</span><span class="nf">listdir</span><span class="p">(</span><span class="n">directory</span><span class="p">)</span> <span class="k">if</span> <span class="n">f</span><span class="p">.</span><span class="nf">endswith</span><span class="p">(</span><span class="sh">'</span><span class="s">.csv</span><span class="sh">'</span><span class="p">)]</span>
+        <span class="k">for</span> <span class="n">filename</span> <span class="ow">in</span> <span class="n">files</span><span class="p">:</span>
+            <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nf">read_csv</span><span class="p">(</span><span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="nf">join</span><span class="p">(</span><span class="n">directory</span><span class="p">,</span> <span class="n">filename</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="p">.</span><span class="n">float32</span><span class="p">)</span>
+            <span class="n">min_length</span> <span class="o">=</span> <span class="nf">min</span><span class="p">(</span><span class="n">min_length</span><span class="p">,</span> <span class="n">df</span><span class="p">.</span><span class="n">values</span><span class="p">.</span><span class="nf">flatten</span><span class="p">().</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="s">Calculated min_length: </span><span class="si">{</span><span class="n">min_length</span><span class="si">}</span><span class="sh">"</span><span class="p">)</span>
+</code></pre></div></div>
+<p>뭐가 문제인지 출력해서 확인해 보기로<br />
+확인해 보니 아예 함수가 호출이 안된다???</p>
+
+<p>문제는 클래스의 메서드와 함수가 load_data로 같은 이름을 사용해서 그런것<br />
+바로 메서드의 이름을과 __init__의 load_data -&gt;load_files로 변경</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Traceback (most recent call last):
+  File "/mnt/c/Users/junun/documents/projects/src/train.py", line 13, in &lt;module&gt;
+    train_dataset = TensorDataset(torch.tensor(train_x, dtype=torch.float32), torch.tensor(train_y, dtype=torch.long))
+TypeError: can't convert np.ndarray of type numpy.str_. The only supported types are: float64, float32, float16, complex64, complex128, int64, int32, int16, int8, uint64, uint32, uint16, uint8, and bool.
+</code></pre></div></div>
+<p>이 오류는 numpy.ndarray에 문자열 데이터(numpy.str_)가 포함되어 있을 때 발생합니다.<br />
+즉, 라벨에 값을 문자로 넣으면 안되고 숫자 값으로 바꿔줘야 한다는 의미</p>
+
+<p>원핫 인코딩을 하기로 결정!!</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Traceback (most recent call last):
+  File "/mnt/c/Users/junun/documents/projects/src/train.py", line 10, in &lt;module&gt;
+    train_x, train_y, test_x, test_y, val_x, val_y = load_data('../data/train', '../data/test', '../data/val')
+  File "/mnt/c/Users/junun/documents/projects/src/dataload.py", line 62, in load_data
+    label_encoder.fit(train_dataset.labels)
+UnboundLocalError: local variable 'train_dataset' referenced before assignment
+</code></pre></div></div>
+<p>개같이 멸망!!!<br />
+이 오류는 train_dataset이 label_encoder.fit() 호출 전에 정의되지 않았기 때문에 발생합니다.<br />
+train_dataset을 먼저 생성한 후, label_encoder로 레이블을 학습해야 합니다.</p>
+
+  </div>
+</article>
+
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>rabbitjun</title>
+    <link rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body>
+    <header class="site-header">
+        <div class="container">
+            <a href="/" class="blog-name">RabbitJun</a>
+        </div>
+        <hr> <!-- 전체 너비의 선 -->
+    </header>
+    <div class="container sidebar-content">
+        <div class="sidebar">
+    <!-- 프로필 정보 -->
+    <div class="profile">
+        <img src="/assets/images/profile.jpg" alt="프로필 이미지" class="profile-image">
+        <h2>juneon</h2>
+        <p>아직 모르는게 많아 열심히 공부중</p>
+    </div>
+    
+    <!-- 사이드바 카테고리 목록 -->
+    <div class="sidebar-categories">
+        <ul>
+            
+            <li><a href="/category/objectdetection">objectdetection</a></li>
+            
+            <li><a href="/category/webcrawling">webcrawling</a></li>
+            
+            <li><a href="/category/linear_algebra">linear_algebra</a></li>
+            
+            <li><a href="/category/diary">diary</a></li>
+            
+            <li><a href="/category/computervision">computervision</a></li>
+            
+            <li><a href="/category/deeplearning">deeplearning</a></li>
+            
+            <li><a href="/category/preferences">preferences</a></li>
+            
+            <li><a href="/category/hnv">hnv</a></li>
+            
+            <li><a href="/category/network_program">network_program</a></li>
+            
+            <li><a href="/category/computer_structure">computer_structure</a></li>
+            
+        </ul>
+        
+    </div>
+</div>
+
+        <div class="content">
+            <article class="post-box">
+  <div class="post-header">
+    <h1>opencv4</h1>
+    <p class="post-date">Nov 1, 2024</p>
+  </div>
+  <div class="post-content">
+    <h1 id="웹-캠에서-비디오-읽기">웹 캠에서 비디오 읽기</h1>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">cv2</span> <span class="k">as</span> <span class="n">cv</span>
+<span class="kn">import</span> <span class="n">sys</span>
+
+<span class="n">cap</span><span class="o">=</span><span class="n">cv</span><span class="p">.</span><span class="nc">VideoCapture</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">cv</span><span class="p">.</span><span class="n">CAP_DSHOW</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="ow">not</span> <span class="n">cap</span><span class="p">.</span><span class="nf">isOpened</span><span class="p">():</span>
+    <span class="n">sys</span><span class="p">.</span><span class="nf">exit</span><span class="p">(</span><span class="sh">'</span><span class="s">camera connet to failed</span><span class="sh">'</span><span class="p">);</span>
+
+<span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
+    <span class="n">ret</span><span class="p">,</span><span class="n">frame</span><span class="o">=</span><span class="n">cap</span><span class="p">.</span><span class="nf">read</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">ret</span><span class="p">:</span>
+        <span class="nf">print</span><span class="p">(</span><span class="sh">'</span><span class="s">프레임 획득에 실패하여 루프를 나갑니다</span><span class="sh">'</span><span class="p">)</span>
+        <span class="k">break</span>
+    
+    <span class="n">frame</span> <span class="o">=</span> <span class="n">cv</span><span class="p">.</span><span class="nf">flip</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">cv</span><span class="p">.</span><span class="nf">imshow</span><span class="p">(</span><span class="sh">'</span><span class="s">video display</span><span class="sh">'</span><span class="p">,</span> <span class="n">frame</span><span class="p">)</span>
+
+    <span class="n">key</span><span class="o">=</span><span class="n">cv</span><span class="p">.</span><span class="nf">waitKey</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">key</span><span class="o">==</span><span class="nf">ord</span><span class="p">(</span><span class="sh">'</span><span class="s">q</span><span class="sh">'</span><span class="p">):</span>
+        <span class="k">break</span>
+
+<span class="n">cap</span><span class="p">.</span><span class="nf">release</span><span class="p">()</span>
+<span class="n">cv</span><span class="p">.</span><span class="nf">destoryALLWindows</span><span class="p">()</span>
+</code></pre></div></div>
+<p>opencv이는 윈도우에서 굴리는게 낫다는 판단 하에 윈도우에 환경을 만들어줬다.<br />
+<code class="language-plaintext highlighter-rouge">cv.VideoCapture(0,cv.CAP_DSHOW)</code>는 카메라와 연결을 시도한다<br />
+(<em>웹캠이 모니터와 일체형이 아니라 따로 부착했으면 웹캠을 따로 설치해야 한다</em>)<br />
+첫 번째 인수로 웹캠의 번호를 지정한다. (<em>장치관리자로 확인할 수 있다, 웹 캠이 하나밖에 없다면 그냥 0이라고 생각하면 된다</em>)<br />
+두 번째 인수 <code class="language-plaintext highlighter-rouge">cv.CAP_DSHOW</code>(<em>Capture DirectShow</em>)는 비디오가 화면에 바로 나타나게 한다.<br />
+<code class="language-plaintext highlighter-rouge">isOpend()</code> 함수를 통해 웹 캠과 연결이 되었는지 알 수 있다 잘 연결되면 True 아니면 False<br />
+<code class="language-plaintext highlighter-rouge">read()</code>함수는 호출한 순간의 영상 한 장, 즉 프레임을 획득하고 성공 여부와 함께 프레임을 반환한다.<br />
+<code class="language-plaintext highlighter-rouge">cv.flip()</code>은 이미지를 축에 따라 이미지를 뒤집는다.<br />
+1은 수직 축 기준, 0은 상하 반전, -1은 좌우 상하 모두 반전  <br />
+<code class="language-plaintext highlighter-rouge">cv.waitkey(1)</code>은 1밀리초 동안 키의 입력을 기다린다
+(<em>인수를 크게 설정해 기다리는 시간이 길어지면 지연이 발생해 비디오가 매끄럽지 않게 나타나는 부작용이 발생한다</em>)<br />
+<code class="language-plaintext highlighter-rouge">release()</code>함수를 사용하여 웹캠의 연결을 끊고 <code class="language-plaintext highlighter-rouge">cv.destroyALLWindows()</code>를 사용하여 윈도우를 모두 닫아준다.</p>
+
+
+  </div>
+</article>
+
+        </div>
+    </div>
+</body>
+</html>

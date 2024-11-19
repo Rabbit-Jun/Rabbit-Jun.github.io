@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>rabbitjun</title>
+    <link rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body>
+    <header class="site-header">
+        <div class="container">
+            <a href="/" class="blog-name">RabbitJun</a>
+        </div>
+        <hr> <!-- 전체 너비의 선 -->
+    </header>
+    <div class="container sidebar-content">
+        <div class="sidebar">
+    <!-- 프로필 정보 -->
+    <div class="profile">
+        <img src="/assets/images/profile.jpg" alt="프로필 이미지" class="profile-image">
+        <h2>juneon</h2>
+        <p>아직 모르는게 많아 열심히 공부중</p>
+    </div>
+    
+    <!-- 사이드바 카테고리 목록 -->
+    <div class="sidebar-categories">
+        <ul>
+            
+            <li><a href="/category/objectdetection">objectdetection</a></li>
+            
+            <li><a href="/category/webcrawling">webcrawling</a></li>
+            
+            <li><a href="/category/linear_algebra">linear_algebra</a></li>
+            
+            <li><a href="/category/diary">diary</a></li>
+            
+            <li><a href="/category/computervision">computervision</a></li>
+            
+            <li><a href="/category/deeplearning">deeplearning</a></li>
+            
+            <li><a href="/category/preferences">preferences</a></li>
+            
+            <li><a href="/category/hnv">hnv</a></li>
+            
+            <li><a href="/category/network_program">network_program</a></li>
+            
+            <li><a href="/category/computer_structure">computer_structure</a></li>
+            
+        </ul>
+        
+    </div>
+</div>
+
+        <div class="content">
+            <article class="post-box">
+  <div class="post-header">
+    <h1>binary video</h1>
+    <p class="post-date">Nov 7, 2024</p>
+  </div>
+  <div class="post-content">
+    <h1 id="이진-영상">이진 영상</h1>
+<p>이진 영상은 화소가 0(흑) 도는 1(백)인 영상이다.<br />
+따라서 화소당 1비트면 저장할 수 있어 프로그래밍이 편리하다.<br />
+컴퓨터 비전에서는 에지를 검출한 후 에지만 1로 표현하거나 물체를 검출한 후 물체는 1, 배경은 0으로 표시하는 등의 일에 이진 영상을 활용한다.<br />
+(<em>에지는 이미지에서 두드러지게 변화하는 부분을 의미한다</em>)</p>
+
+<p>명암 영상을 이진화하려면 임곗값 T보다 큰 화소는 1, 그렇지 않은 화소는 0으로 바꾸면 끄읕~~~~<br />
+<img src="image-5.png" alt="alt text" /><br />
+(<em>이진화 식, T의 설정이 중요하다</em>)</p>
+
+<hr />
+
+<p><img src="image-6.png" alt="alt text" /></p>
+
+<p>크기가 8<em>8이고 명암 단계가 L= 8인 영상이라 할 때, 이 영상의 히스토그램은 (b)이다.<br />
+히스토그램을 보면 [0,4] 와 [5,7]은 봉우리를 그리고 4는 이 둘을 구분한다. <br />
+(</em>흔히 계곡이라 함*)</p>
+
+<p>위의 식에서 계곡에 속하는 4를 T로 지정해서 4 아래로는 0 그 이상은 1로 지정하면 이진 영상을 얻을 수 있다는 말씀</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">cv2</span> <span class="k">as</span> <span class="n">cv</span>
+<span class="kn">import</span> <span class="n">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span> 
+
+<span class="n">img</span><span class="o">=</span><span class="n">cv</span><span class="p">.</span><span class="nf">imread</span><span class="p">(</span><span class="sh">'</span><span class="s">soccer.jpg</span><span class="sh">'</span><span class="p">)</span>
+<span class="n">h</span><span class="o">=</span><span class="n">cv</span><span class="p">.</span><span class="nf">calcHist</span><span class="p">([</span><span class="n">img</span><span class="p">],[</span><span class="mi">2</span><span class="p">],</span><span class="bp">None</span><span class="p">,[</span><span class="mi">256</span><span class="p">],[</span><span class="mi">0</span><span class="p">,</span><span class="mi">256</span><span class="p">])</span>
+<span class="n">plt</span><span class="p">.</span><span class="nf">plot</span><span class="p">(</span><span class="n">h</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="sh">'</span><span class="s">r</span><span class="sh">'</span><span class="p">,</span><span class="n">linewidth</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="nf">show</span><span class="p">()</span>
+</code></pre></div></div>
+<p><img src="image-7.png" alt="alt text" /></p>
+
+<p><code class="language-plaintext highlighter-rouge">calHist()</code>는 함수로 히스토그램을 구한다.</p>
+<ol>
+  <li><code class="language-plaintext highlighter-rouge">calHist()</code> 함수는 인수를 리스트로 주어야 한다.</li>
+  <li>첫 번째와 두 번째 인수는 영상과 영상의 채널 번호다.<br />
+(<em>채널 번호를 2로 설정 했기 때문에 R 채널에서 히스토그램으로 구한다</em>)</li>
+  <li>세 번째 인수는 히스토그램을 구할 영역을 지정하는 마스크이며 None이므로 전체 영상에서 히스토그램을 구한다.</li>
+  <li>네 번째 인수 256은 히스토그램의 칸의 수를 지정한다.</li>
+  <li>다섯 번째 인수는 셍볼 명암값의 범위를 지정한다.<br />
+(<em>ex [0,128]로 지정했다면 128 이상인 값은 세지 않는다.</em>)</li>
+</ol>
+
+<h3 id="오츄-알고리즘">오츄 알고리즘</h3>
+<p>오츄는 이진화를 식 (3,2)의 최적화 문제로 바라봤다.<br />
+<img src="image-8.png" alt="alt text" /><br />
+이 식은 모든 명암값에 대해 목적 함수 J를 계산하고 J가 최소인 명암값을 최적값 t hat으로 정한다. 이렇게 결정한 t hat을 이진화 식의 임곗값 T로 사용해 이진화 한다.</p>
+
+<p>목적 함수 J(t)는 t의 좋은 정도를 측정하는데 J가 작을수록 좋다.<br />
+오츄는 t로 이진화했을 때 0이 도는 화소의 분산과 1이 되는 화소의 분산의 가중치 합을 J로 사용했다.<br />
+가중치는 해당 화소의 개수이다. 분산이 작을수록 0인 화소 집합과 1인 화소 집합이 균일하기 때문에 좋은 이진 영상이 된다.<br />
+<img src="image-9.png" alt="alt text" /><br />
+<em>n은 t로 이진화된 영상에서 0인 화소와 1인 화소의 개수</em>
+<em>v는 0인 화소와 1인 화소의 분산</em></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">cv2</span> <span class="k">as</span> <span class="n">cv</span>
+<span class="kn">import</span> <span class="n">sys</span>
+
+<span class="n">img</span><span class="o">=</span> <span class="n">cv</span><span class="p">.</span><span class="nf">imread</span><span class="p">(</span><span class="sh">'</span><span class="s">soccer.jpg</span><span class="sh">'</span><span class="p">)</span>
+
+<span class="n">t</span><span class="p">,</span><span class="n">bin_img</span><span class="o">=</span><span class="n">cv</span><span class="p">.</span><span class="nf">threshold</span><span class="p">(</span><span class="n">img</span><span class="p">[:,:,</span><span class="mi">2</span><span class="p">],</span><span class="mi">0</span><span class="p">,</span><span class="mi">255</span><span class="p">,</span><span class="n">cv</span><span class="p">.</span><span class="n">THRESH_BINARY</span><span class="o">+</span><span class="n">cv</span><span class="p">.</span><span class="n">THRESH_OTSU</span><span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="sh">'</span><span class="s">오츄 알고리즘이 찾은 최적 임곗값=</span><span class="sh">'</span><span class="p">,</span><span class="n">t</span><span class="p">)</span>
+
+<span class="n">cv</span><span class="p">.</span><span class="nf">imshow</span><span class="p">(</span><span class="sh">'</span><span class="s">R channel</span><span class="sh">'</span><span class="p">,</span><span class="n">img</span><span class="p">[:,:,</span><span class="mi">2</span><span class="p">])</span>
+<span class="n">cv</span><span class="p">.</span><span class="nf">imshow</span><span class="p">(</span><span class="sh">'</span><span class="s">R channel binarization</span><span class="sh">'</span><span class="p">,</span> <span class="n">bin_img</span><span class="p">)</span>
+
+<span class="n">cv</span><span class="p">.</span><span class="nf">waitKey</span><span class="p">()</span>
+<span class="n">cv</span><span class="p">.</span><span class="nf">destroyAllWindows</span><span class="p">()</span>
+</code></pre></div></div>
+
+<ol>
+  <li><code class="language-plaintext highlighter-rouge">threshold()</code>함수의 첫 번째 인수가 img[:,:,2]이므로 R채널을 이진화한다.</li>
+  <li>두 번째와 세 번째 인수는 명암값의 범위를 지정한다.</li>
+  <li>네 번째 인수 cv.THRESH_BINART+cv.THRESH_OTSU는 오츄 알고리즘으로 이진화를 수행하게 한다.</li>
+  <li>THRESHOLD 함수는 알고리즘이 찾은 최적의 임곗값과 이진화된 영상을 반환한다.</li>
+</ol>
+
+<h3 id="최적화-문제">최적화 문제</h3>
+
+<p>매개변수 T는 해 공간을 구성한다.<br />
+(<em>해 공간은 발생할 수 있는 모든 해의 집합</em>)<br />
+식 (3,2)에서 l=256이라면 해 공간은 {0,1,2,…,255}이다.</p>
+
+<p>해 공간이 아주 작기 때문에 오츄 알고리즘은 모든 후보 해에 대해 식 (3,3)을 일일이 계산하고 최소가 되는 T를 최적해로 결정한다.<br />
+이와 같이 모든 해를 다 검사하는 방법을 <strong>낱낱 탐색 알고리즘</strong>이라고 한다.<br />
+(<em>근데 컴퓨터 비전이 푸는 문제는 해 공간이 어~~엄청 큰데 낱낱 탐색 알고리즘 적용하는건 솔직히 말이 안되지</em>)</p>
+
+<h3 id="연결-요소">연결 요소</h3>
+
+<p><img src="image-10.png" alt="alt text" /></p>
+
+<ol>
+  <li>맨 왼쪽은  (j, i)에 위치한 화소의 8개 이웃 화소를 표시한다.</li>
+  <li>가운데는 상하좌우에 있는 4개 이웃만 연결된 것으로 간주하는 4-연결성을 표시한다.</li>
+  <li>오른쪽은 대각선에 위치한 화소도 연겨된 것으로 간주하는 8-연결성이다.</li>
+</ol>
+
+<p>이진 영상에서 1의 값을 가진 연결된 화소의 집합을 연결 요소라 함<br />
+(<em>OpenCV에서 연결 요소는 connectedComponents 함수로 찾을 수 있다</em>)</p>
+
+<p><img src="image-11.png" alt="alt text" /></p>
+
+<p>(<em>예를 들자면 a를 4-연결성으로 한 b에서 좌측 상단은 1번 그룹이라 명명하고 상 또는 하 또는 좌 또는 우로만 연결된 그룹이고 우측 하단에 4는 같은 방식으로 연결된걸 4번 그룹이라 명명한거임</em> )</p>
+
+<h3 id="모폴로지">모폴로지</h3>
+
+<p><img src="image-12.png" alt="alt text" /></p>
+
+<p>영상을 변환하는 과정에서 하나의 물체가 여러 영역으로 분리되거나 다른 물체가 한 영역으로 붙는 경우 등이 발생한다.<br />
+이런 부작용을 누그러뜨리기 우해 모폴로지 연상을 사용한다.</p>
+
+<p>모폴로지는 구조 요소를 이용해 영역의 모양을 조작한다.<br />
+위 예에서 회색으로 표시한 것이 중심 화소</p>
+
+<p>모폴로지의 기본 연산은 팽창과 침식이다.</p>
+
+<ul>
+  <li>팽창은 구조 요소의 중심을 1인 화소에 씌운 다음 구조 요소에 해당하는 모든 화소를 1로 바꾼다.</li>
+  <li>침식은 구조 요소의 중심을 1인 화소 p에 씌운 다음 구조 요소에 해당하는 모든 화소가 1인 경우에 p를 1로 유지하고 그렇지 않으면 0으로 바꾼다.</li>
+</ul>
+
+<p><img src="image-13.png" alt="alt text" /></p>
+
+<ul>
+  <li>팽창은 작은 홈을 메우거나 끊어진 영역을 하나로 연결하는 등의 효과를 얻을 수 있다.(<em>영역을 크게 만듬</em>)</li>
+  <li>침식은 영역의 경계에 솟은 돌출 부분을 깍는 효과를 얻을 수 있다.(<em>영역을 작게 만듬</em>)</li>
+  <li>침식을 수행한 영상에 팽창 적용 == 대략 원래 크기 유지<br />
+침식 -&gt; 팽창 == 열림<br />
+팽창 -&gt; 침식 == 닫힘</li>
+</ul>
+
+<h2 id="실습">실습</h2>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">cv2</span> <span class="k">as</span> <span class="n">cv</span>
+<span class="kn">import</span> <span class="n">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">import</span> <span class="n">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+
+<span class="n">img</span><span class="o">=</span><span class="n">cv</span><span class="p">.</span><span class="nf">imread</span><span class="p">(</span><span class="sh">'</span><span class="s">a.png</span><span class="sh">'</span><span class="p">,</span> <span class="n">cv</span><span class="p">.</span><span class="n">IMREAD_UNCHANGED</span><span class="p">)</span>
+
+<span class="nf">print</span><span class="p">(</span><span class="n">img</span><span class="p">.</span><span class="n">shape</span><span class="p">)</span>
+
+<span class="n">t</span><span class="p">,</span><span class="n">bin_img</span><span class="o">=</span><span class="n">cv</span><span class="p">.</span><span class="nf">threshold</span><span class="p">(</span><span class="n">img</span><span class="p">[:,:,</span><span class="mi">3</span><span class="p">],</span><span class="mi">0</span><span class="p">,</span><span class="mi">255</span><span class="p">,</span><span class="n">cv</span><span class="p">.</span><span class="n">THRESH_BINARY</span><span class="o">+</span><span class="n">cv</span><span class="p">.</span><span class="n">THRESH_OTSU</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="nf">imshow</span><span class="p">(</span><span class="n">bin_img</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="sh">'</span><span class="s">gray</span><span class="sh">'</span><span class="p">),</span> <span class="n">plt</span><span class="p">.</span><span class="nf">xticks</span><span class="p">([]),</span> <span class="n">plt</span><span class="p">.</span><span class="nf">yticks</span><span class="p">([])</span>
+<span class="n">plt</span><span class="p">.</span><span class="nf">show</span><span class="p">()</span>
+
+<span class="n">b</span><span class="o">=</span><span class="n">bin_img</span><span class="p">[</span><span class="n">bin_img</span><span class="p">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">//</span><span class="mi">2</span><span class="p">:</span><span class="n">bin_img</span><span class="p">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">0</span><span class="p">:</span><span class="n">bin_img</span><span class="p">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">//</span><span class="mi">2</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">plt</span><span class="p">.</span><span class="nf">imshow</span><span class="p">(</span><span class="n">b</span><span class="p">,</span><span class="n">cmap</span><span class="o">=</span><span class="sh">'</span><span class="s">gray</span><span class="sh">'</span><span class="p">),</span> <span class="n">plt</span><span class="p">.</span><span class="nf">xticks</span><span class="p">([]),</span> <span class="n">plt</span><span class="p">.</span><span class="nf">yticks</span><span class="p">([])</span>
+<span class="n">plt</span><span class="p">.</span><span class="nf">show</span><span class="p">()</span>
+
+<span class="n">se</span><span class="o">=</span><span class="n">np</span><span class="p">.</span><span class="nf">uint8</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span>
+             <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span>
+             <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span>
+             <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span>
+             <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]])</span>
+
+<span class="n">b_dilation</span><span class="o">=</span><span class="n">cv</span><span class="p">.</span><span class="nf">dilate</span><span class="p">(</span><span class="n">b</span><span class="p">,</span><span class="n">se</span><span class="p">,</span> <span class="n">iterations</span> <span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="nf">imshow</span><span class="p">(</span><span class="n">b_dilation</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="sh">'</span><span class="s">gray</span><span class="sh">'</span><span class="p">),</span> <span class="n">plt</span><span class="p">.</span><span class="nf">xticks</span><span class="p">([]),</span> <span class="n">plt</span><span class="p">.</span><span class="nf">yticks</span><span class="p">([])</span>
+<span class="n">plt</span><span class="p">.</span><span class="nf">show</span><span class="p">()</span>
+
+<span class="n">b_erosion</span><span class="o">=</span><span class="n">cv</span><span class="p">.</span><span class="nf">erode</span><span class="p">(</span><span class="n">b</span><span class="p">,</span><span class="n">se</span><span class="p">,</span><span class="n">iterations</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="nf">imshow</span><span class="p">(</span><span class="n">b_erosion</span><span class="p">,</span><span class="n">cmap</span><span class="o">=</span><span class="sh">'</span><span class="s">gray</span><span class="sh">'</span><span class="p">),</span> <span class="n">plt</span><span class="p">.</span><span class="nf">xticks</span><span class="p">([]),</span> <span class="n">plt</span><span class="p">.</span><span class="nf">yticks</span><span class="p">([])</span>
+<span class="n">plt</span><span class="p">.</span><span class="nf">show</span><span class="p">()</span>
+
+<span class="n">b_closing</span><span class="o">=</span> <span class="n">cv</span><span class="p">.</span><span class="nf">erode</span><span class="p">(</span><span class="n">cv</span><span class="p">.</span><span class="nf">dilate</span><span class="p">(</span><span class="n">b</span><span class="p">,</span><span class="n">se</span><span class="p">,</span><span class="n">iterations</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span> <span class="n">se</span><span class="p">,</span> <span class="n">iterations</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="nf">imshow</span><span class="p">(</span><span class="n">b_closing</span><span class="p">,</span><span class="n">cmap</span><span class="o">=</span><span class="sh">'</span><span class="s">gray</span><span class="sh">'</span><span class="p">),</span> <span class="n">plt</span><span class="p">.</span><span class="nf">xticks</span><span class="p">([]),</span> <span class="n">plt</span><span class="p">.</span><span class="nf">yticks</span><span class="p">([])</span>
+<span class="n">plt</span><span class="p">.</span><span class="nf">show</span><span class="p">()</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    t,bin_img=cv.threshold(img[:,:,3],0,255,cv.THRESH_BINARY+cv.THRESH_OTSU)
+                           ~~~^^^^^^^
+TypeError: 'NoneType' object is not subscriptable
+</code></pre></div></div>
+<p>NoneType 객체는 첨자화를 할 수 없다???? <br />
+아!, 없는 이미지를 객체에 할당했구나 크크킄ㅋㅋ…</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>IndexError: index 3 is out of bounds for axis 2 with size 3
+</code></pre></div></div>
+<p>인덱스 3이 범위를 초과했고 axis 2( <em>세 번째 축, 즉 채널 축</em>)의 크기가 3이라는 의미</p>
+
+<p>알아보니 png가 4개의 채널이긴 한데 모든 png가 알파 채널을 가진것은 아니라고 한다.</p>
+
+<p><code class="language-plaintext highlighter-rouge">IMREAD_UNCHANGED</code> 인수를 주어 모든 채널을 읽어오도록 지정<br />
+<code class="language-plaintext highlighter-rouge">cmap = 'gray'</code> 로 지정해 명암 영상으로 출력한다.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>se=np.unit8([[0,0,1,0,0],
+             [0,1,1,1,0],
+             [1,1,1,1,1],
+             [0,1,1,1,0],
+             [0,0,1,0,0]])
+</code></pre></div></div>
+
+<p>는 그림 3-12의 구조를 객체에 저장한 것<br />
+<code class="language-plaintext highlighter-rouge">cv.dilate()</code>은 팽창 연산을 적용한다.<br />
+<code class="language-plaintext highlighter-rouge">iterations</code> 매개변수는 적용 회수를 나타낸다.<br />
+<code class="language-plaintext highlighter-rouge">cv.erode()</code> 는 닫기 연산을 적용한다.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+Traceback (most recent call last):
+  File "C:\Users\junun\documents\computervision\chap3\display4.py", line 23, in &lt;module&gt;
+    b_dilation=cv.dilate(b,se_iterations =1)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cv2.error: OpenCV(4.10.0) :-1: error: (-5:Bad argument) in function 'dilate'
+&gt; Overload resolution failed:
+&gt;  - dilate() missing required argument 'kernel' (pos 2)
+&gt;  - dilate() missing required argument 'kernel' (pos 2)
+</code></pre></div></div>
+
+<p>dilate() missing required argment ‘kernel’ (pos 2)<br />
+함수 호출에서 kernel 인자가 누락되었음을 나타낸다.</p>
+
+<p>여기서 se가 커널로 사용되는 것 같은데 내가 se_iterations 이렇게 , 대신 _를 적어서 나온 에러</p>
+
+  </div>
+</article>
+
+        </div>
+    </div>
+</body>
+</html>

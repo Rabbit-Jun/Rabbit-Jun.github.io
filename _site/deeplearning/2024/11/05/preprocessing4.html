@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>rabbitjun</title>
+    <link rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body>
+    <header class="site-header">
+        <div class="container">
+            <a href="/" class="blog-name">RabbitJun</a>
+        </div>
+        <hr> <!-- 전체 너비의 선 -->
+    </header>
+    <div class="container sidebar-content">
+        <div class="sidebar">
+    <!-- 프로필 정보 -->
+    <div class="profile">
+        <img src="/assets/images/profile.jpg" alt="프로필 이미지" class="profile-image">
+        <h2>juneon</h2>
+        <p>아직 모르는게 많아 열심히 공부중</p>
+    </div>
+    
+    <!-- 사이드바 카테고리 목록 -->
+    <div class="sidebar-categories">
+        <ul>
+            
+            <li><a href="/category/objectdetection">objectdetection</a></li>
+            
+            <li><a href="/category/webcrawling">webcrawling</a></li>
+            
+            <li><a href="/category/linear_algebra">linear_algebra</a></li>
+            
+            <li><a href="/category/diary">diary</a></li>
+            
+            <li><a href="/category/computervision">computervision</a></li>
+            
+            <li><a href="/category/deeplearning">deeplearning</a></li>
+            
+            <li><a href="/category/preferences">preferences</a></li>
+            
+            <li><a href="/category/hnv">hnv</a></li>
+            
+            <li><a href="/category/network_program">network_program</a></li>
+            
+            <li><a href="/category/computer_structure">computer_structure</a></li>
+            
+        </ul>
+        
+    </div>
+</div>
+
+        <div class="content">
+            <article class="post-box">
+  <div class="post-header">
+    <h1>preprocessing_data4</h1>
+    <p class="post-date">Nov 5, 2024</p>
+  </div>
+  <div class="post-content">
+    <h1 id="관절끼리의-각도-계산-값을-특징으로-넣어보자1">관절끼리의 각도 계산 값을 특징으로 넣어보자!(1)</h1>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">train_data_path</span> <span class="o">=</span> <span class="sh">'</span><span class="s">../data/train</span><span class="sh">'</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nf">read_csv</span><span class="p">(</span><span class="sa">f</span><span class="sh">'</span><span class="si">{</span><span class="n">train_data_path</span><span class="si">}</span><span class="s">/normal@CI09_Motion2-6 - 2of4.csv</span><span class="sh">'</span><span class="p">)</span>
+<span class="n">df</span><span class="p">.</span><span class="nf">head</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+</code></pre></div></div>
+<p><img src="../../assets/hnv/droped_crossfit_table.png" alt="droped_crossfit_table" /></p>
+
+<p>봐도 어찌해야 할지 감이 잘 안잡힌다.
+여기서 키 포인트를 이어 스켈레톤을 한번 만들어 보자</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+
+
+
+<span class="n">connections</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">(</span><span class="sh">'</span><span class="s">Head</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">Neck</span><span class="sh">'</span><span class="p">),</span> 
+    <span class="p">(</span><span class="sh">'</span><span class="s">Neck</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">LShoulder</span><span class="sh">'</span><span class="p">),</span> <span class="p">(</span><span class="sh">'</span><span class="s">Neck</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">RShoulder</span><span class="sh">'</span><span class="p">),</span>
+    <span class="p">(</span><span class="sh">'</span><span class="s">LShoulder</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">LElbow</span><span class="sh">'</span><span class="p">),</span> <span class="p">(</span><span class="sh">'</span><span class="s">RShoulder</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">RElbow</span><span class="sh">'</span><span class="p">),</span>
+    <span class="p">(</span><span class="sh">'</span><span class="s">LElbow</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">LWrist</span><span class="sh">'</span><span class="p">),</span> <span class="p">(</span><span class="sh">'</span><span class="s">RElbow</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">RWrist</span><span class="sh">'</span><span class="p">),</span>
+    <span class="p">(</span><span class="sh">'</span><span class="s">Neck</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">Hip</span><span class="sh">'</span><span class="p">),</span>
+    <span class="p">(</span><span class="sh">'</span><span class="s">Hip</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">LKnee</span><span class="sh">'</span><span class="p">),</span> <span class="p">(</span><span class="sh">'</span><span class="s">Hip</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">RKnee</span><span class="sh">'</span><span class="p">),</span>
+    <span class="p">(</span><span class="sh">'</span><span class="s">LKnee</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">LAnkle</span><span class="sh">'</span><span class="p">),</span> <span class="p">(</span><span class="sh">'</span><span class="s">RKnee</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">RAnkle</span><span class="sh">'</span><span class="p">)</span>
+<span class="p">]</span>
+
+<span class="c1"># 삼각형 연결 관계 설정
+</span><span class="n">triangle_connections</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">(</span><span class="sh">'</span><span class="s">LBigToe</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">LSmallToe</span><span class="sh">'</span><span class="p">),</span> <span class="p">(</span><span class="sh">'</span><span class="s">LSmallToe</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">LHeel</span><span class="sh">'</span><span class="p">),</span> <span class="p">(</span><span class="sh">'</span><span class="s">LHeel</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">LBigToe</span><span class="sh">'</span><span class="p">),</span>
+    <span class="p">(</span><span class="sh">'</span><span class="s">RBigToe</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">RSmallToe</span><span class="sh">'</span><span class="p">),</span> <span class="p">(</span><span class="sh">'</span><span class="s">RSmallToe</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">RHeel</span><span class="sh">'</span><span class="p">),</span> <span class="p">(</span><span class="sh">'</span><span class="s">RHeel</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">RBigToe</span><span class="sh">'</span><span class="p">)</span>
+<span class="p">]</span>
+
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nf">read_csv</span><span class="p">(</span><span class="sa">f</span><span class="sh">'</span><span class="si">{</span><span class="n">train_data_path</span><span class="si">}</span><span class="s">/normal@CI09_Motion2-3 - 4of4.csv</span><span class="sh">'</span><span class="p">)</span>
+<span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>  <span class="c1"># 첫 번째 프레임 선택
+</span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="nf">subplots</span><span class="p">()</span>
+
+<span class="c1"># 각 연결 관계에 따라 선 그리기
+</span><span class="k">for</span> <span class="n">point1</span><span class="p">,</span> <span class="n">point2</span> <span class="ow">in</span> <span class="n">connections</span><span class="p">:</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">x_values</span> <span class="o">=</span> <span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="sa">f</span><span class="sh">'</span><span class="si">{</span><span class="n">point1</span><span class="si">}</span><span class="s">_x</span><span class="sh">'</span><span class="p">][</span><span class="n">i</span><span class="p">],</span> <span class="n">df</span><span class="p">[</span><span class="sa">f</span><span class="sh">'</span><span class="si">{</span><span class="n">point2</span><span class="si">}</span><span class="s">_x</span><span class="sh">'</span><span class="p">][</span><span class="n">i</span><span class="p">]]</span>
+        <span class="n">y_values</span> <span class="o">=</span> <span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="sa">f</span><span class="sh">'</span><span class="si">{</span><span class="n">point1</span><span class="si">}</span><span class="s">_y</span><span class="sh">'</span><span class="p">][</span><span class="n">i</span><span class="p">],</span> <span class="n">df</span><span class="p">[</span><span class="sa">f</span><span class="sh">'</span><span class="si">{</span><span class="n">point2</span><span class="si">}</span><span class="s">_y</span><span class="sh">'</span><span class="p">][</span><span class="n">i</span><span class="p">]]</span>
+        <span class="n">ax</span><span class="p">.</span><span class="nf">plot</span><span class="p">(</span><span class="n">x_values</span><span class="p">,</span> <span class="n">y_values</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="sh">'</span><span class="s">o</span><span class="sh">'</span><span class="p">)</span>
+        
+        <span class="c1"># 각 포인트에 이름 표시
+</span>        <span class="n">ax</span><span class="p">.</span><span class="nf">text</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="sa">f</span><span class="sh">'</span><span class="si">{</span><span class="n">point1</span><span class="si">}</span><span class="s">_x</span><span class="sh">'</span><span class="p">][</span><span class="n">i</span><span class="p">],</span> <span class="n">df</span><span class="p">[</span><span class="sa">f</span><span class="sh">'</span><span class="si">{</span><span class="n">point1</span><span class="si">}</span><span class="s">_y</span><span class="sh">'</span><span class="p">][</span><span class="n">i</span><span class="p">],</span> <span class="n">point1</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="sh">'</span><span class="s">right</span><span class="sh">'</span><span class="p">)</span>
+        <span class="n">ax</span><span class="p">.</span><span class="nf">text</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="sa">f</span><span class="sh">'</span><span class="si">{</span><span class="n">point2</span><span class="si">}</span><span class="s">_x</span><span class="sh">'</span><span class="p">][</span><span class="n">i</span><span class="p">],</span> <span class="n">df</span><span class="p">[</span><span class="sa">f</span><span class="sh">'</span><span class="si">{</span><span class="n">point2</span><span class="si">}</span><span class="s">_y</span><span class="sh">'</span><span class="p">][</span><span class="n">i</span><span class="p">],</span> <span class="n">point2</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="sh">'</span><span class="s">right</span><span class="sh">'</span><span class="p">)</span>
+    <span class="k">except</span> <span class="nb">KeyError</span><span class="p">:</span>
+        <span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"'</span><span class="si">{</span><span class="n">point1</span><span class="si">}</span><span class="sh">'</span><span class="s"> or </span><span class="sh">'</span><span class="si">{</span><span class="n">point2</span><span class="si">}</span><span class="sh">'</span><span class="s"> column not found in the data.</span><span class="sh">"</span><span class="p">)</span>
+        <span class="k">continue</span>
+
+<span class="c1"># 삼각형 그리기 및 Ankle-heel 연결
+</span><span class="k">for</span> <span class="n">side</span> <span class="ow">in</span> <span class="p">[</span><span class="sh">'</span><span class="s">L</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">R</span><span class="sh">'</span><span class="p">]:</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="c1"># 삼각형 꼭짓점 좌표
+</span>        <span class="n">big_toe</span> <span class="o">=</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="sa">f</span><span class="sh">'</span><span class="si">{</span><span class="n">side</span><span class="si">}</span><span class="s">BigToe_x</span><span class="sh">'</span><span class="p">][</span><span class="n">i</span><span class="p">],</span> <span class="n">df</span><span class="p">[</span><span class="sa">f</span><span class="sh">'</span><span class="si">{</span><span class="n">side</span><span class="si">}</span><span class="s">BigToe_y</span><span class="sh">'</span><span class="p">][</span><span class="n">i</span><span class="p">])</span>
+        <span class="n">small_toe</span> <span class="o">=</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="sa">f</span><span class="sh">'</span><span class="si">{</span><span class="n">side</span><span class="si">}</span><span class="s">SmallToe_x</span><span class="sh">'</span><span class="p">][</span><span class="n">i</span><span class="p">],</span> <span class="n">df</span><span class="p">[</span><span class="sa">f</span><span class="sh">'</span><span class="si">{</span><span class="n">side</span><span class="si">}</span><span class="s">SmallToe_y</span><span class="sh">'</span><span class="p">][</span><span class="n">i</span><span class="p">])</span>
+        <span class="n">heel</span> <span class="o">=</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="sa">f</span><span class="sh">'</span><span class="si">{</span><span class="n">side</span><span class="si">}</span><span class="s">Heel_x</span><span class="sh">'</span><span class="p">][</span><span class="n">i</span><span class="p">],</span> <span class="n">df</span><span class="p">[</span><span class="sa">f</span><span class="sh">'</span><span class="si">{</span><span class="n">side</span><span class="si">}</span><span class="s">Heel_y</span><span class="sh">'</span><span class="p">][</span><span class="n">i</span><span class="p">])</span>
+        
+        <span class="c1"># 삼각형 그리기
+</span>        <span class="n">ax</span><span class="p">.</span><span class="nf">plot</span><span class="p">([</span><span class="n">big_toe</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">small_toe</span><span class="p">[</span><span class="mi">0</span><span class="p">]],</span> <span class="p">[</span><span class="n">big_toe</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">small_toe</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span> <span class="sh">'</span><span class="s">b-</span><span class="sh">'</span><span class="p">)</span>
+        <span class="n">ax</span><span class="p">.</span><span class="nf">plot</span><span class="p">([</span><span class="n">small_toe</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">heel</span><span class="p">[</span><span class="mi">0</span><span class="p">]],</span> <span class="p">[</span><span class="n">small_toe</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">heel</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span> <span class="sh">'</span><span class="s">b-</span><span class="sh">'</span><span class="p">)</span>
+        <span class="n">ax</span><span class="p">.</span><span class="nf">plot</span><span class="p">([</span><span class="n">heel</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">big_toe</span><span class="p">[</span><span class="mi">0</span><span class="p">]],</span> <span class="p">[</span><span class="n">heel</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">big_toe</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span> <span class="sh">'</span><span class="s">b-</span><span class="sh">'</span><span class="p">)</span>
+        
+        <span class="c1"># Ankle을 Heel에 연결
+</span>        <span class="n">ankle</span> <span class="o">=</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="sa">f</span><span class="sh">'</span><span class="si">{</span><span class="n">side</span><span class="si">}</span><span class="s">Ankle_x</span><span class="sh">'</span><span class="p">][</span><span class="n">i</span><span class="p">],</span> <span class="n">df</span><span class="p">[</span><span class="sa">f</span><span class="sh">'</span><span class="si">{</span><span class="n">side</span><span class="si">}</span><span class="s">Ankle_y</span><span class="sh">'</span><span class="p">][</span><span class="n">i</span><span class="p">])</span>
+        <span class="n">ax</span><span class="p">.</span><span class="nf">plot</span><span class="p">([</span><span class="n">ankle</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">heel</span><span class="p">[</span><span class="mi">0</span><span class="p">]],</span> <span class="p">[</span><span class="n">ankle</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">heel</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span> <span class="sh">'</span><span class="s">b-</span><span class="sh">'</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="sh">'</span><span class="s">o</span><span class="sh">'</span><span class="p">)</span>
+        
+        <span class="c1"># Ankle, BigToe, SmallToe, Heel에 이름 표시
+</span>        <span class="n">ax</span><span class="p">.</span><span class="nf">text</span><span class="p">(</span><span class="n">ankle</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">ankle</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="sa">f</span><span class="sh">'</span><span class="si">{</span><span class="n">side</span><span class="si">}</span><span class="s">Ankle</span><span class="sh">'</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="sh">'</span><span class="s">right</span><span class="sh">'</span><span class="p">)</span>
+        <span class="n">ax</span><span class="p">.</span><span class="nf">text</span><span class="p">(</span><span class="n">big_toe</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">big_toe</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="sa">f</span><span class="sh">'</span><span class="si">{</span><span class="n">side</span><span class="si">}</span><span class="s">BigToe</span><span class="sh">'</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="sh">'</span><span class="s">right</span><span class="sh">'</span><span class="p">)</span>
+        <span class="n">ax</span><span class="p">.</span><span class="nf">text</span><span class="p">(</span><span class="n">small_toe</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">small_toe</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="sa">f</span><span class="sh">'</span><span class="si">{</span><span class="n">side</span><span class="si">}</span><span class="s">SmallToe</span><span class="sh">'</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="sh">'</span><span class="s">right</span><span class="sh">'</span><span class="p">)</span>
+        <span class="n">ax</span><span class="p">.</span><span class="nf">text</span><span class="p">(</span><span class="n">heel</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">heel</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="sa">f</span><span class="sh">'</span><span class="si">{</span><span class="n">side</span><span class="si">}</span><span class="s">Heel</span><span class="sh">'</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="sh">'</span><span class="s">right</span><span class="sh">'</span><span class="p">)</span>
+        
+    <span class="k">except</span> <span class="nb">KeyError</span><span class="p">:</span>
+        <span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"'</span><span class="si">{</span><span class="n">side</span><span class="si">}</span><span class="s">BigToe</span><span class="sh">'</span><span class="s">, </span><span class="sh">'</span><span class="si">{</span><span class="n">side</span><span class="si">}</span><span class="s">SmallToe</span><span class="sh">'</span><span class="s">, </span><span class="sh">'</span><span class="si">{</span><span class="n">side</span><span class="si">}</span><span class="s">Heel</span><span class="sh">'</span><span class="s">, or </span><span class="sh">'</span><span class="si">{</span><span class="n">side</span><span class="si">}</span><span class="s">Ankle</span><span class="sh">'</span><span class="s"> column not found in the data.</span><span class="sh">"</span><span class="p">)</span>
+        <span class="k">continue</span>
+
+<span class="c1"># 그래프 설정
+</span><span class="n">ax</span><span class="p">.</span><span class="nf">invert_yaxis</span><span class="p">()</span>  <span class="c1"># y축 뒤집기 (시각화 필요에 따라 조정)
+</span><span class="n">plt</span><span class="p">.</span><span class="nf">title</span><span class="p">(</span><span class="sh">"</span><span class="s">Skeleton Visualization - Frame 1</span><span class="sh">"</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="nf">show</span><span class="p">()</span>
+</code></pre></div></div>
+<p>왠만하면 직접 만들려 했으나 노가다가 너무 힘들어서 gpt한테 맡겼다.<br />
+근데 보다보니 head 인덱스가 있는데 눈이 필요 없을 듯해 눈도 지워야 겠다.<br />
+<img src="../../assets/hnv/croosfit_skeleton.png" alt="croosfit_skeleton" />
+발목과 바로 이으니 부자연스러워서 각 꼭짓점에서 발목과 연결하기로 결정</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">for</span> <span class="n">side</span> <span class="ow">in</span> <span class="p">[</span><span class="sh">'</span><span class="s">L</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">R</span><span class="sh">'</span><span class="p">]:</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="c1"># 삼각형 꼭짓점 좌표
+</span>        <span class="n">big_toe</span> <span class="o">=</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="sa">f</span><span class="sh">'</span><span class="si">{</span><span class="n">side</span><span class="si">}</span><span class="s">BigToe_x</span><span class="sh">'</span><span class="p">][</span><span class="n">i</span><span class="p">],</span> <span class="n">df</span><span class="p">[</span><span class="sa">f</span><span class="sh">'</span><span class="si">{</span><span class="n">side</span><span class="si">}</span><span class="s">BigToe_y</span><span class="sh">'</span><span class="p">][</span><span class="n">i</span><span class="p">])</span>
+        <span class="n">small_toe</span> <span class="o">=</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="sa">f</span><span class="sh">'</span><span class="si">{</span><span class="n">side</span><span class="si">}</span><span class="s">SmallToe_x</span><span class="sh">'</span><span class="p">][</span><span class="n">i</span><span class="p">],</span> <span class="n">df</span><span class="p">[</span><span class="sa">f</span><span class="sh">'</span><span class="si">{</span><span class="n">side</span><span class="si">}</span><span class="s">SmallToe_y</span><span class="sh">'</span><span class="p">][</span><span class="n">i</span><span class="p">])</span>
+        <span class="n">heel</span> <span class="o">=</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="sa">f</span><span class="sh">'</span><span class="si">{</span><span class="n">side</span><span class="si">}</span><span class="s">Heel_x</span><span class="sh">'</span><span class="p">][</span><span class="n">i</span><span class="p">],</span> <span class="n">df</span><span class="p">[</span><span class="sa">f</span><span class="sh">'</span><span class="si">{</span><span class="n">side</span><span class="si">}</span><span class="s">Heel_y</span><span class="sh">'</span><span class="p">][</span><span class="n">i</span><span class="p">])</span>
+        
+        <span class="c1"># 삼각형 그리기
+</span>        <span class="n">ax</span><span class="p">.</span><span class="nf">plot</span><span class="p">([</span><span class="n">big_toe</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">small_toe</span><span class="p">[</span><span class="mi">0</span><span class="p">]],</span> <span class="p">[</span><span class="n">big_toe</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">small_toe</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span> <span class="sh">'</span><span class="s">b-</span><span class="sh">'</span><span class="p">)</span>
+        <span class="n">ax</span><span class="p">.</span><span class="nf">plot</span><span class="p">([</span><span class="n">small_toe</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">heel</span><span class="p">[</span><span class="mi">0</span><span class="p">]],</span> <span class="p">[</span><span class="n">small_toe</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">heel</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span> <span class="sh">'</span><span class="s">b-</span><span class="sh">'</span><span class="p">)</span>
+        <span class="n">ax</span><span class="p">.</span><span class="nf">plot</span><span class="p">([</span><span class="n">heel</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">big_toe</span><span class="p">[</span><span class="mi">0</span><span class="p">]],</span> <span class="p">[</span><span class="n">heel</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">big_toe</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span> <span class="sh">'</span><span class="s">b-</span><span class="sh">'</span><span class="p">)</span>
+        
+        <span class="c1"># Ankle 위치
+</span>        <span class="n">ankle</span> <span class="o">=</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="sa">f</span><span class="sh">'</span><span class="si">{</span><span class="n">side</span><span class="si">}</span><span class="s">Ankle_x</span><span class="sh">'</span><span class="p">][</span><span class="n">i</span><span class="p">],</span> <span class="n">df</span><span class="p">[</span><span class="sa">f</span><span class="sh">'</span><span class="si">{</span><span class="n">side</span><span class="si">}</span><span class="s">Ankle_y</span><span class="sh">'</span><span class="p">][</span><span class="n">i</span><span class="p">])</span>
+        
+        <span class="c1"># Ankle을 삼각형의 각 꼭짓점과 연결
+</span>        <span class="n">ax</span><span class="p">.</span><span class="nf">plot</span><span class="p">([</span><span class="n">ankle</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">big_toe</span><span class="p">[</span><span class="mi">0</span><span class="p">]],</span> <span class="p">[</span><span class="n">ankle</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">big_toe</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span> <span class="sh">'</span><span class="s">b-</span><span class="sh">'</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="sh">'</span><span class="s">o</span><span class="sh">'</span><span class="p">)</span>
+        <span class="n">ax</span><span class="p">.</span><span class="nf">plot</span><span class="p">([</span><span class="n">ankle</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">small_toe</span><span class="p">[</span><span class="mi">0</span><span class="p">]],</span> <span class="p">[</span><span class="n">ankle</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">small_toe</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span> <span class="sh">'</span><span class="s">b-</span><span class="sh">'</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="sh">'</span><span class="s">o</span><span class="sh">'</span><span class="p">)</span>
+        <span class="n">ax</span><span class="p">.</span><span class="nf">plot</span><span class="p">([</span><span class="n">ankle</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">heel</span><span class="p">[</span><span class="mi">0</span><span class="p">]],</span> <span class="p">[</span><span class="n">ankle</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">heel</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span> <span class="sh">'</span><span class="s">b-</span><span class="sh">'</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="sh">'</span><span class="s">o</span><span class="sh">'</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><img src="../../assets/hnv/crossfit_skeleton.png" alt="crossfit_skeleton" /></p>
+
+  </div>
+</article>
+
+        </div>
+    </div>
+</body>
+</html>

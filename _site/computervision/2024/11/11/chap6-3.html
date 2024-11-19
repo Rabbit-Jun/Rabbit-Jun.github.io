@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>rabbitjun</title>
+    <link rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body>
+    <header class="site-header">
+        <div class="container">
+            <a href="/" class="blog-name">RabbitJun</a>
+        </div>
+        <hr> <!-- 전체 너비의 선 -->
+    </header>
+    <div class="container sidebar-content">
+        <div class="sidebar">
+    <!-- 프로필 정보 -->
+    <div class="profile">
+        <img src="/assets/images/profile.jpg" alt="프로필 이미지" class="profile-image">
+        <h2>juneon</h2>
+        <p>아직 모르는게 많아 열심히 공부중</p>
+    </div>
+    
+    <!-- 사이드바 카테고리 목록 -->
+    <div class="sidebar-categories">
+        <ul>
+            
+            <li><a href="/category/objectdetection">objectdetection</a></li>
+            
+            <li><a href="/category/webcrawling">webcrawling</a></li>
+            
+            <li><a href="/category/linear_algebra">linear_algebra</a></li>
+            
+            <li><a href="/category/diary">diary</a></li>
+            
+            <li><a href="/category/computervision">computervision</a></li>
+            
+            <li><a href="/category/deeplearning">deeplearning</a></li>
+            
+            <li><a href="/category/preferences">preferences</a></li>
+            
+            <li><a href="/category/hnv">hnv</a></li>
+            
+            <li><a href="/category/network_program">network_program</a></li>
+            
+            <li><a href="/category/computer_structure">computer_structure</a></li>
+            
+        </ul>
+        
+    </div>
+</div>
+
+        <div class="content">
+            <article class="post-box">
+  <div class="post-header">
+    <h1>grabcut</h1>
+    <p class="post-date">Nov 11, 2024</p>
+  </div>
+  <div class="post-content">
+    <h1 id="관심-물체를-분할">관심 물체를 분할</h1>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">cv2</span> <span class="k">as</span> <span class="n">cv</span>
+<span class="kn">import</span> <span class="n">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">import</span> <span class="n">sys</span>
+<span class="kn">from</span> <span class="n">PyQt6.QtWidgets</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="k">class</span> <span class="nc">Orim</span><span class="p">(</span><span class="n">QMainWindow</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="n">self</span><span class="p">):</span>
+        <span class="nf">super</span><span class="p">().</span><span class="nf">__init__</span><span class="p">()</span>
+        <span class="n">self</span><span class="p">.</span><span class="nf">setWindowTitle</span><span class="p">(</span><span class="sh">'</span><span class="s">오림</span><span class="sh">'</span><span class="p">)</span>
+        <span class="n">self</span><span class="p">.</span><span class="nf">setGeometry</span><span class="p">(</span><span class="mi">200</span><span class="p">,</span><span class="mi">200</span><span class="p">,</span><span class="mi">700</span><span class="p">,</span><span class="mi">200</span><span class="p">)</span>
+
+        <span class="n">fileButton</span><span class="o">=</span><span class="nc">QPushButton</span><span class="p">(</span><span class="sh">'</span><span class="s">file</span><span class="sh">'</span><span class="p">,</span> <span class="n">self</span><span class="p">)</span>
+        <span class="n">painButton</span><span class="o">=</span><span class="nc">QPushButton</span><span class="p">(</span><span class="sh">'</span><span class="s">painting</span><span class="sh">'</span><span class="p">,</span><span class="n">self</span><span class="p">)</span>
+        <span class="n">cutButton</span><span class="o">=</span><span class="nc">QPushButton</span><span class="p">(</span><span class="sh">'</span><span class="s">orim</span><span class="sh">'</span><span class="p">,</span><span class="n">self</span><span class="p">)</span>
+        <span class="n">incButton</span><span class="o">=</span><span class="nc">QPushButton</span><span class="p">(</span><span class="sh">'</span><span class="s">+</span><span class="sh">'</span><span class="p">,</span><span class="n">self</span><span class="p">)</span>
+        <span class="n">decButton</span><span class="o">=</span><span class="nc">QPushButton</span><span class="p">(</span><span class="sh">'</span><span class="s">-</span><span class="sh">'</span><span class="p">,</span><span class="n">self</span><span class="p">)</span>
+        <span class="n">saveButton</span><span class="o">=</span><span class="nc">QPushButton</span><span class="p">(</span><span class="sh">'</span><span class="s">save</span><span class="sh">'</span><span class="p">,</span> <span class="n">self</span><span class="p">)</span>
+        <span class="n">quitButton</span><span class="o">=</span><span class="nc">QPushButton</span><span class="p">(</span><span class="sh">'</span><span class="s">exit</span><span class="sh">'</span><span class="p">,</span> <span class="n">self</span><span class="p">)</span>
+
+        <span class="n">fileButton</span><span class="p">.</span><span class="nf">setGeometry</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">100</span><span class="p">,</span><span class="mi">30</span><span class="p">)</span>
+        <span class="n">painButton</span><span class="p">.</span><span class="nf">setGeometry</span><span class="p">(</span><span class="mi">110</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">100</span><span class="p">,</span><span class="mi">30</span><span class="p">)</span>
+        <span class="n">cutButton</span><span class="p">.</span><span class="nf">setGeometry</span><span class="p">(</span><span class="mi">210</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">100</span><span class="p">,</span><span class="mi">30</span><span class="p">)</span>
+        <span class="n">incButton</span><span class="p">.</span><span class="nf">setGeometry</span><span class="p">(</span><span class="mi">310</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">50</span><span class="p">,</span><span class="mi">30</span><span class="p">)</span>
+        <span class="n">decButton</span><span class="p">.</span><span class="nf">setGeometry</span><span class="p">(</span><span class="mi">360</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">50</span><span class="p">,</span><span class="mi">30</span><span class="p">)</span>
+        <span class="n">saveButton</span><span class="p">.</span><span class="nf">setGeometry</span><span class="p">(</span><span class="mi">410</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">30</span><span class="p">)</span>
+        <span class="n">quitButton</span><span class="p">.</span><span class="nf">setGeometry</span><span class="p">(</span><span class="mi">510</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">100</span><span class="p">,</span><span class="mi">30</span><span class="p">)</span>
+
+        <span class="n">fileButton</span><span class="p">.</span><span class="n">clicked</span><span class="p">.</span><span class="nf">connect</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">fileOpenFunction</span><span class="p">)</span>
+        <span class="n">painButton</span><span class="p">.</span><span class="n">clicked</span><span class="p">.</span><span class="nf">connect</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">paintFunction</span><span class="p">)</span>
+        <span class="n">cutButton</span><span class="p">.</span><span class="n">clicked</span><span class="p">.</span><span class="nf">connect</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">cutFunction</span><span class="p">)</span>
+        <span class="n">incButton</span><span class="p">.</span><span class="n">clicked</span><span class="p">.</span><span class="nf">connect</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">incFunction</span><span class="p">)</span>
+        <span class="n">decButton</span><span class="p">.</span><span class="n">clicked</span><span class="p">.</span><span class="nf">connect</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">decFunction</span><span class="p">)</span>
+        <span class="n">saveButton</span><span class="p">.</span><span class="n">clicked</span><span class="p">.</span><span class="nf">connect</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">saveFunction</span><span class="p">)</span>
+        <span class="n">quitButton</span><span class="p">.</span><span class="n">clicked</span><span class="p">.</span><span class="nf">connect</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">quitFunction</span><span class="p">)</span>
+
+        <span class="n">self</span><span class="p">.</span><span class="n">BrushSiz</span><span class="o">=</span><span class="mi">5</span>  <span class="c1"># 페인팅 붓의 크기
+</span>        <span class="n">self</span><span class="p">.</span><span class="n">LColor</span><span class="p">,</span><span class="n">self</span><span class="p">.</span><span class="n">RColor</span><span class="o">=</span><span class="p">(</span><span class="mi">255</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">),(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">255</span><span class="p">)</span>  <span class="c1"># 파란색 물체, 빨간색 배경
+</span>
+    <span class="k">def</span> <span class="nf">fileOpenFunction</span><span class="p">(</span><span class="n">self</span><span class="p">):</span>
+        <span class="n">fname</span><span class="o">=</span><span class="n">QFileDialog</span><span class="p">.</span><span class="nf">getOpenFileName</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="sh">'</span><span class="s">Open File</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">./</span><span class="sh">'</span><span class="p">)</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">img</span><span class="o">=</span><span class="n">cv</span><span class="p">.</span><span class="nf">imread</span><span class="p">(</span><span class="n">fname</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="k">if</span> <span class="n">self</span><span class="p">.</span><span class="n">img</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span> <span class="n">sys</span><span class="p">.</span><span class="nf">exit</span><span class="p">(</span><span class="sh">'</span><span class="s">file not found</span><span class="sh">'</span><span class="p">)</span>
+
+        <span class="n">self</span><span class="p">.</span><span class="n">img_show</span><span class="o">=</span><span class="n">np</span><span class="p">.</span><span class="nf">copy</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">img</span><span class="p">)</span>  <span class="c1"># 사용자가 색칠한 정보를 표시, 이후에 원본 영상이 필요하기 때문에 원래 내용을 유지하려고 copy로 별도의 객체 사용
+</span>        <span class="n">cv</span><span class="p">.</span><span class="nf">imshow</span><span class="p">(</span><span class="sh">'</span><span class="s">Painting</span><span class="sh">'</span><span class="p">,</span> <span class="n">self</span><span class="p">.</span><span class="n">img_show</span><span class="p">)</span>
+
+        <span class="n">self</span><span class="p">.</span><span class="n">mask</span><span class="o">=</span><span class="n">np</span><span class="p">.</span><span class="nf">zeros</span><span class="p">((</span><span class="n">self</span><span class="p">.</span><span class="n">img</span><span class="p">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">self</span><span class="p">.</span><span class="n">img</span><span class="p">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> <span class="n">np</span><span class="p">.</span><span class="n">uint8</span><span class="p">)</span>  <span class="c1"># 사용자가 색칠한 정보를 저장할 mask 객체를 생성
+</span>        <span class="n">self</span><span class="p">.</span><span class="n">mask</span><span class="p">[:,:]</span><span class="o">=</span><span class="n">cv</span><span class="p">.</span><span class="n">GC_PR_BGD</span>  <span class="c1"># 초깃값으로 GC_PR_BGD, 즉 배경일 것 같음으로 표시
+</span>    
+    <span class="k">def</span> <span class="nf">paintFunction</span><span class="p">(</span><span class="n">self</span><span class="p">):</span>
+        <span class="n">cv</span><span class="p">.</span><span class="nf">setMouseCallback</span><span class="p">(</span><span class="sh">'</span><span class="s">Painting</span><span class="sh">'</span><span class="p">,</span> <span class="n">self</span><span class="p">.</span><span class="n">painting</span><span class="p">)</span>
+    
+    <span class="k">def</span> <span class="nf">painting</span><span class="p">(</span><span class="n">self</span><span class="p">,</span><span class="n">event</span><span class="p">,</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">flags</span><span class="p">,</span><span class="n">param</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">event</span><span class="o">==</span><span class="n">cv</span><span class="p">.</span><span class="n">EVENT_LBUTTONDOWN</span><span class="p">:</span>
+            <span class="n">cv</span><span class="p">.</span><span class="nf">circle</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">img_show</span><span class="p">,(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">),</span><span class="n">self</span><span class="p">.</span><span class="n">BrushSiz</span><span class="p">,</span><span class="n">self</span><span class="p">.</span><span class="n">LColor</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># 왼쪽 버튼을 클릭하면 파란색
+</span>            <span class="n">cv</span><span class="p">.</span><span class="nf">circle</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">mask</span><span class="p">,(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">),</span><span class="n">self</span><span class="p">.</span><span class="n">BrushSiz</span><span class="p">,</span><span class="n">cv</span><span class="p">.</span><span class="n">GC_FGD</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># GC_FGD는 mask에 전경으로 표시
+</span>        <span class="k">elif</span> <span class="n">event</span><span class="o">==</span><span class="n">cv</span><span class="p">.</span><span class="n">EVENT_RBUTTONDOWN</span><span class="p">:</span>
+            <span class="n">cv</span><span class="p">.</span><span class="nf">circle</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">img_show</span><span class="p">,(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">),</span><span class="n">self</span><span class="p">.</span><span class="n">BrushSiz</span><span class="p">,</span><span class="n">self</span><span class="p">.</span><span class="n">RColor</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># 오른쪽 버튼을 클릭하면 빨간색
+</span>            <span class="n">cv</span><span class="p">.</span><span class="nf">circle</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">mask</span><span class="p">,(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">),</span><span class="n">self</span><span class="p">.</span><span class="n">BrushSiz</span><span class="p">,</span><span class="n">cv</span><span class="p">.</span><span class="n">GC_BGD</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># GC_BGD는 mask에 배경으로 표시
+</span>        <span class="k">elif</span> <span class="n">event</span><span class="o">==</span><span class="n">cv</span><span class="p">.</span><span class="n">EVENT_MOUSEMOVE</span> <span class="ow">and</span> <span class="n">flags</span><span class="o">==</span><span class="n">cv</span><span class="p">.</span><span class="n">EVENT_FLAG_LBUTTON</span><span class="p">:</span>
+            <span class="n">cv</span><span class="p">.</span><span class="nf">circle</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">img_show</span><span class="p">,(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">),</span><span class="n">self</span><span class="p">.</span><span class="n">BrushSiz</span><span class="p">,</span><span class="n">self</span><span class="p">.</span><span class="n">LColor</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># 왼쪽 버튼을 클릭하고 이동하면 파란색
+</span>            <span class="n">cv</span><span class="p">.</span><span class="nf">circle</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">mask</span><span class="p">,(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">),</span><span class="n">self</span><span class="p">.</span><span class="n">BrushSiz</span><span class="p">,</span><span class="n">cv</span><span class="p">.</span><span class="n">GC_FGD</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">event</span><span class="o">==</span><span class="n">cv</span><span class="p">.</span><span class="n">EVENT_MOUSEMOVE</span> <span class="ow">and</span> <span class="n">flags</span><span class="o">==</span><span class="n">cv</span><span class="p">.</span><span class="n">EVENT_FLAG_RBUTTON</span><span class="p">:</span>
+            <span class="n">cv</span><span class="p">.</span><span class="nf">circle</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">img_show</span><span class="p">,(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">),</span><span class="n">self</span><span class="p">.</span><span class="n">BrushSiz</span><span class="p">,</span><span class="n">self</span><span class="p">.</span><span class="n">RColor</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+            <span class="n">cv</span><span class="p">.</span><span class="nf">circle</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">mask</span><span class="p">,(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">),</span><span class="n">self</span><span class="p">.</span><span class="n">BrushSiz</span><span class="p">,</span><span class="n">cv</span><span class="p">.</span><span class="n">GC_BGD</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+
+        <span class="n">cv</span><span class="p">.</span><span class="nf">imshow</span><span class="p">(</span><span class="sh">'</span><span class="s">Painting</span><span class="sh">'</span><span class="p">,</span> <span class="n">self</span><span class="p">.</span><span class="n">img_show</span><span class="p">)</span>
+    
+    <span class="k">def</span> <span class="nf">cutFunction</span><span class="p">(</span><span class="n">self</span><span class="p">):</span>
+        <span class="n">background</span><span class="o">=</span><span class="n">np</span><span class="p">.</span><span class="nf">zeros</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span><span class="mi">65</span><span class="p">),</span><span class="n">np</span><span class="p">.</span><span class="n">float64</span><span class="p">)</span>
+        <span class="n">foreground</span><span class="o">=</span><span class="n">np</span><span class="p">.</span><span class="nf">zeros</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span><span class="mi">65</span><span class="p">),</span><span class="n">np</span><span class="p">.</span><span class="n">float64</span><span class="p">)</span>
+        <span class="n">cv</span><span class="p">.</span><span class="nf">grabCut</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">img</span><span class="p">,</span><span class="n">self</span><span class="p">.</span><span class="n">mask</span><span class="p">,</span><span class="bp">None</span><span class="p">,</span><span class="n">background</span><span class="p">,</span><span class="n">foreground</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="n">cv</span><span class="p">.</span><span class="n">GC_INIT_WITH_MASK</span><span class="p">)</span>
+        <span class="n">mask2</span><span class="o">=</span><span class="n">np</span><span class="p">.</span><span class="nf">where</span><span class="p">((</span><span class="n">self</span><span class="p">.</span><span class="n">mask</span><span class="o">==</span><span class="mi">2</span><span class="p">)</span><span class="o">|</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">mask</span><span class="o">==</span><span class="mi">0</span><span class="p">),</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">).</span><span class="nf">astype</span><span class="p">(</span><span class="sh">'</span><span class="s">uint8</span><span class="sh">'</span><span class="p">)</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">grabImg</span><span class="o">=</span><span class="n">self</span><span class="p">.</span><span class="n">img</span><span class="o">*</span><span class="n">mask2</span><span class="p">[:,:,</span><span class="n">np</span><span class="p">.</span><span class="n">newaxis</span><span class="p">]</span>
+        <span class="n">cv</span><span class="p">.</span><span class="nf">imshow</span><span class="p">(</span><span class="sh">'</span><span class="s">Scissoring</span><span class="sh">'</span><span class="p">,</span><span class="n">self</span><span class="p">.</span><span class="n">grabImg</span><span class="p">)</span>
+    
+    <span class="k">def</span> <span class="nf">incFunction</span><span class="p">(</span><span class="n">self</span><span class="p">):</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">BrushSiz</span><span class="o">=</span><span class="nf">max</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">self</span><span class="p">.</span><span class="n">BrushSiz</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+    
+    <span class="k">def</span> <span class="nf">decFunction</span><span class="p">(</span><span class="n">self</span><span class="p">):</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">BrushSiz</span><span class="o">=</span><span class="nf">max</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">self</span><span class="p">.</span><span class="n">BrushSiz</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+    
+    <span class="k">def</span> <span class="nf">saveFunction</span><span class="p">(</span><span class="n">self</span><span class="p">):</span>
+        <span class="n">fname</span><span class="o">=</span><span class="n">QFileDialog</span><span class="p">.</span><span class="nf">getSaveFileName</span><span class="p">(</span><span class="n">self</span><span class="p">,</span><span class="sh">'</span><span class="s">save file</span><span class="sh">'</span><span class="p">,</span><span class="sh">'</span><span class="s">./</span><span class="sh">'</span><span class="p">)</span>
+        <span class="n">cv</span><span class="p">.</span><span class="nf">imwrite</span><span class="p">(</span><span class="n">fname</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">self</span><span class="p">.</span><span class="n">grabImg</span><span class="p">)</span>
+    
+    <span class="k">def</span> <span class="nf">quitFunction</span><span class="p">(</span><span class="n">self</span><span class="p">):</span>
+        <span class="n">cv</span><span class="p">.</span><span class="nf">destroyAllWindows</span><span class="p">()</span>
+        <span class="n">self</span><span class="p">.</span><span class="nf">close</span><span class="p">()</span>
+
+<span class="n">app</span><span class="o">=</span><span class="nc">QApplication</span><span class="p">(</span><span class="n">sys</span><span class="p">.</span><span class="n">argv</span><span class="p">)</span>
+<span class="n">win</span><span class="o">=</span><span class="nc">Orim</span><span class="p">()</span>
+<span class="n">win</span><span class="p">.</span><span class="nf">show</span><span class="p">()</span>
+<span class="n">app</span><span class="p">.</span><span class="nf">exec</span><span class="p">()</span>
+
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cv.GC_BGD (값: 0): 확실히 배경인 픽셀
+cv.GC_FGD (값: 1): 확실히 전경인 픽셀
+cv.GC_PR_BGD (값: 2): 배경일 가능성이 높은 픽셀
+cv.GC_PR_FGD (값: 3): 전경일 가능성이 높은 픽셀
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">background</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nf">zeros</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">65</span><span class="p">),</span> <span class="n">np</span><span class="p">.</span><span class="n">float64</span><span class="p">)</span>
+<span class="n">foreground</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nf">zeros</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">65</span><span class="p">),</span> <span class="n">np</span><span class="p">.</span><span class="n">float64</span><span class="p">)</span>
+</code></pre></div></div>
+<p><code class="language-plaintext highlighter-rouge">grabCut</code>은 이미지에서 전경과 배경을 구분하기 위해 두 개의 임시 히스토그램 배열이 필요</p>
+
+<p><code class="language-plaintext highlighter-rouge">cv.grabCut(self.img, self.mask, None, background, foreground, 5, cv.GC_INIT_WITH_MASK)</code></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>self.img: 처리할 원본 이미지입니다.
+self.mask: 사용자 색칠 정보를 기반으로 만든 마스크입니다. 사용자가 파란색으로 칠한 부분은 전경으로, 빨간색으로 칠한 부분은 배경으로 간주됩니다.
+background와 foreground: grabCut에 필요한 임시 배열입니다.
+5: 반복 횟수로, grabCut 알고리즘의 반복 학습 수를 의미합니다.
+cv.GC_INIT_WITH_MASK: mask에 이미 설정된 전경/배경 정보를 초기화하여 grabCut을 실행하도록 지정합니다.
+</code></pre></div></div>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">mask2</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nf">where</span><span class="p">((</span><span class="n">self</span><span class="p">.</span><span class="n">mask</span> <span class="o">==</span> <span class="mi">2</span><span class="p">)</span> <span class="o">|</span> <span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">mask</span> <span class="o">==</span> <span class="mi">0</span><span class="p">),</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">).</span><span class="nf">astype</span><span class="p">(</span><span class="sh">'</span><span class="s">uint8</span><span class="sh">'</span><span class="p">)</span>
+
+</code></pre></div></div>
+<p><code class="language-plaintext highlighter-rouge">np.where</code></p>
+<ul>
+  <li>배열을 조건에 따라 값을 설정할 때 사용하는 함수입니다. np.where는 조건을 만족하는 위치에 첫 번째 인자의 값을, 그렇지 않은 위치에 두 번째 인자의 값을 할당합니다.</li>
+  <li><code class="language-plaintext highlighter-rouge">(self.mask == 2) | (self.mask == 0)</code>: 이 조건은 self.mask 배열에서 0 또는 2인 값을 가진 위치를 찾습니다.</li>
+</ul>
+
+<p><code class="language-plaintext highlighter-rouge">np.where((self.mask == 2) | (self.mask == 0), 0, 1)</code></p>
+<ul>
+  <li>조건을 만족하는 위치는 0(배경)으로 설정합니다.</li>
+  <li>조건을 만족하지 않는 위치(즉, self.mask가 1 또는 3인 위치)는 1(전경)으로 설정합니다.</li>
+</ul>
+
+<p><code class="language-plaintext highlighter-rouge">grabCut</code> 알고리즘의 출력으로, 각 픽셀을 전경 또는 배경으로 분류
+(<em>배경 픽셀을 0으로, 전경 픽셀을 1로 설정하여 이미지 추출에 사용</em>)</p>
+
+<p><code class="language-plaintext highlighter-rouge">self.grabImg = self.img * mask2[:, :, np.newaxis]</code><br />
+원본 이미지에 <code class="language-plaintext highlighter-rouge">mask2</code>를 곱하여 전경만 남기는 방식. 이렇게 하면 전경외의 영역은 모두 배경이 제거된 이미지 생성</p>
+
+<p><code class="language-plaintext highlighter-rouge">np.newaxis</code>는 NumPy 배열에 새로운 축을 추가할 때 사용하는 키워드입니다.<br />
+이를 통해 배열의 차원을 늘릴 수 있습니다.</p>
+
+<p>(<em>만약 mask2가 (height, width) 모양의 2D 배열이라면, mask2[:, :, np.newaxis]는 (height, width, 1) 형태의 3D 배열이 됩니다.</em>)</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    self.mask=np.zeros((self.img.shape[0], self.img.shape[1], np.uint8))
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: 'type' object cannot be interpreted as an integer
+</code></pre></div></div>
+<p><code class="language-plaintext highlighter-rouge">np.zeros()</code></p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>numpy.zeros(shape, dtype=float, order='C', *, like=None)
+Return a new array of given shape and type, filled with zeros.
+
+Parameters:
+shapeint or tuple of ints
+Shape of the new array, e.g., (2, 3) or 2.
+
+dtypedata-type, optional
+The desired data-type for the array, e.g., numpy.int8. Default is numpy.float64.
+
+order{‘C’, ‘F’}, optional, default: ‘C’
+Whether to store multi-dimensional data in row-major (C-style) or column-major (Fortran-style) order in memory.
+
+likearray_like, optional
+Reference object to allow the creation of arrays which are not NumPy arrays. If an array-like passed in as like supports the __array_function__ protocol, the result will be defined by it. In this case, it ensures the creation of an array object compatible with that passed in via this argument.
+</code></pre></div></div>
+<p><code class="language-plaintext highlighter-rouge">shape</code>을 첫번 째 인자로 <code class="language-plaintext highlighter-rouge">(self.img.shape[0], self.img.shape[1])</code>넣고 두 번째 인자로 <code class="language-plaintext highlighter-rouge">dtype</code>을 넣어야 했는데 <code class="language-plaintext highlighter-rouge">)</code>가 아닌 <code class="language-plaintext highlighter-rouge">,</code>를 넣어서 첫 번쨰 인자에 <code class="language-plaintext highlighter-rouge">np.uint8</code>가 들어감</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cv2.error: OpenCV(4.10.0) D:\a\opencv-python\opencv-python\opencv\modules\highgui\src\window_w32.cpp:2543: error: (-27:Null pointer) NULL window: 'Painting' in function 'cvSetMouseCallback'
+</code></pre></div></div>
+<p><code class="language-plaintext highlighter-rouge">cv2.setMouseCallback</code>함수가 <code class="language-plaintext highlighter-rouge">Painting</code>이라는 창을 못 찾아서 발생하는 오류,
+즉, 내가 다른 함수에서 창을 열 때 창의 이름을 다르게 적어서 발생한 것.</p>
+
+  </div>
+</article>
+
+        </div>
+    </div>
+</body>
+</html>

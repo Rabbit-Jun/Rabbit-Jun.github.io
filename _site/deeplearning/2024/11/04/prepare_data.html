@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>rabbitjun</title>
+    <link rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body>
+    <header class="site-header">
+        <div class="container">
+            <a href="/" class="blog-name">RabbitJun</a>
+        </div>
+        <hr> <!-- 전체 너비의 선 -->
+    </header>
+    <div class="container sidebar-content">
+        <div class="sidebar">
+    <!-- 프로필 정보 -->
+    <div class="profile">
+        <img src="/assets/images/profile.jpg" alt="프로필 이미지" class="profile-image">
+        <h2>juneon</h2>
+        <p>아직 모르는게 많아 열심히 공부중</p>
+    </div>
+    
+    <!-- 사이드바 카테고리 목록 -->
+    <div class="sidebar-categories">
+        <ul>
+            
+            <li><a href="/category/objectdetection">objectdetection</a></li>
+            
+            <li><a href="/category/webcrawling">webcrawling</a></li>
+            
+            <li><a href="/category/linear_algebra">linear_algebra</a></li>
+            
+            <li><a href="/category/diary">diary</a></li>
+            
+            <li><a href="/category/computervision">computervision</a></li>
+            
+            <li><a href="/category/deeplearning">deeplearning</a></li>
+            
+            <li><a href="/category/preferences">preferences</a></li>
+            
+            <li><a href="/category/hnv">hnv</a></li>
+            
+            <li><a href="/category/network_program">network_program</a></li>
+            
+            <li><a href="/category/computer_structure">computer_structure</a></li>
+            
+        </ul>
+        
+    </div>
+</div>
+
+        <div class="content">
+            <article class="post-box">
+  <div class="post-header">
+    <h1>prepare_data</h1>
+    <p class="post-date">Nov 4, 2024</p>
+  </div>
+  <div class="post-content">
+    <h1 id="데이터-준비하기">데이터 준비하기</h1>
+<p>나같은 경우에는 교수님이 추천해주신 ai허브에서 크로스핏 데이터를 다운 받았다.<br />
+근데 폴더 안에 폴더안에 폴더형태로 되어있어 이걸 먼저 정리해야 내가 뭔갈 할 수 있을거라 판단!!<br />
+일단 폴더의 내용을 보기 위해 <code class="language-plaintext highlighter-rouge">ls -R</code>을 눌렀는데….</p>
+
+<p>끝이 안보이게 한없이 내려가는 터미널…</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./팔자세오류/초급/CB08/2/camera2/video:
+annotation.json
+
+./팔자세오류/초급/CB08/2/camera3:
+local_keypoints  video
+
+.
+.
+.
+
+./팔자세오류/초급/CB08/2/camera7:
+local_keypoints  video
+</code></pre></div></div>
+<p>나는 주어진 keypoints를 이용할거니 내게 필요한것은 local_keypoints가 있는 csv파일 뿐 하여 이 파일을 제외한 나머지는 버리기로 결정!!<br />
+옮기기전에 <code class="language-plaintext highlighter-rouge">find . -type d -name "local_keypoints" | wc -l</code>을 이용해서 파일들의 개수를 한번 검색해보니 <strong>2952</strong>개 드드</p>
+
+<p>그럼 이제 파일을 내가 쓸려는 폴더에 복사를 한번 해보자(<em>나는 c드라이브에 넣을 용량이 없어서 d드라이브에 넣었기에 파일 시스템이 다르다, 즉 복사를 해서 옮겨야 한다</em>)</p>
+
+<p>바로 <code class="language-plaintext highlighter-rouge">find . -type d -name "local_keypoints" -exec cp -r {} "path"\;</code>을 해줘 내가 사용할 프로젝트의 디렉터리로 복사!</p>
+
+<p>음… 그런데 복사된 상태가 뭔가 이상하다 싶어 곰곰히 생각을 해보니<br />
+정상과 비정상을 따로 구분해줘야 했는데 그것도 하지 않았고 무엇보다 아까 검색했을때는 2952개였던 폴더가 내 프로젝트에는 local_keypoints라는 폴더가 하나 밖에 없다???</p>
+
+<p>어찌된걸까요?<br />
+정답은 바로 덮어쓰기가 되었다는 것!ㅋㅋㅌㅌㅋㅋ ㅠ.ㅠ</p>
+
+<p>해서 정상과 비정상을 나누고 혹시 몰라 <code class="language-plaintext highlighter-rouge">find ./'path' -type d -name 'name' |wc -l</code>을 하여 개수도 세보고 <code class="language-plaintext highlighter-rouge">find ./'path' -type d -name 'name' -exec ls -R {} \;</code>를 해보니 내가 사용할려는 csv 파일도 이름이 중복이 되네ㅠ.ㅜ<br />
+(<em>궁금한 분들은 아래에 내 데이터의 구조를 간략히 보여주겠다.</em>)</p>
+
+<p>하여 나는 경로에서 4번째 값과 motion* 파일이름을 합하여 프로젝트의 데이터 폴더에 복사하기로 했다.</p>
+<div class="language-zsh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/zsh</span>
+
+<span class="c"># 데이터 폴더와 복사 폴더 배열 정의</span>
+<span class="nv">data_folder</span><span class="o">=(</span><span class="s2">"가슴및고관절오류"</span> <span class="s2">"고관절이동오류"</span> <span class="s2">"정상"</span> <span class="s2">"팔자세오류"</span><span class="o">)</span>
+<span class="nv">cp_folder</span><span class="o">=(</span><span class="s2">"chest_and_hip_joint_errors"</span> <span class="s2">"hip_joint_movement_errors"</span> <span class="s2">"normal"</span> <span class="s2">"arm_posture_errors"</span><span class="o">)</span>
+
+<span class="c"># 배열 인덱스를 사용하여 각 폴더 처리</span>
+<span class="k">for </span>i <span class="k">in</span> <span class="o">{</span>1..<span class="k">${#</span><span class="nv">data_folder</span><span class="p">[@]</span><span class="k">}</span><span class="o">}</span><span class="p">;</span> <span class="k">do</span>
+    <span class="c"># 각 데이터 폴더에서 파일 찾기 및 복사</span>
+    find ./<span class="k">${</span><span class="nv">data_folder</span><span class="p">[i]</span><span class="k">}</span> <span class="nt">-type</span> f <span class="nt">-name</span> <span class="s2">"Motion*.csv"</span> | <span class="k">while </span><span class="nb">read </span>filepath<span class="p">;</span> <span class="k">do</span>
+        <span class="c"># 경로 중 4번째 요소 추출</span>
+        <span class="nb">dirname</span><span class="o">=</span><span class="si">$(</span><span class="nb">echo</span> <span class="s2">"</span><span class="nv">$filepath</span><span class="s2">"</span> | <span class="nb">cut</span> <span class="nt">-d</span> <span class="s1">'/'</span> <span class="nt">-f</span> 4<span class="si">)</span>
+        
+        <span class="c"># 파일명 추출 및 새 파일 이름 생성</span>
+        <span class="nv">filename</span><span class="o">=</span><span class="si">$(</span><span class="nb">basename</span> <span class="s2">"</span><span class="nv">$filepath</span><span class="s2">"</span><span class="si">)</span>
+        <span class="nv">new_filename</span><span class="o">=</span><span class="s2">"</span><span class="k">${</span><span class="nv">dirname</span><span class="k">}</span><span class="s2">_</span><span class="k">${</span><span class="nv">filename</span><span class="k">}</span><span class="s2">"</span>
+        
+        <span class="c"># 파일을 지정된 복사 폴더로 복사</span>
+        <span class="nb">cp</span> <span class="s2">"</span><span class="nv">$filepath</span><span class="s2">"</span> <span class="s2">"</span><span class="nv">$dm</span><span class="s2">/projects/data/</span><span class="k">${</span><span class="nv">cp_folder</span><span class="p">[i]</span><span class="k">}</span><span class="s2">/</span><span class="nv">$new_filename</span><span class="s2">"</span>
+    <span class="k">done
+done</span>
+
+</code></pre></div></div>
+<p><strong>zsh는 배열 인덱싱이 1부터 시작한다</strong><br />
+코드를 보면 알겠지만 비정상에 해당하는게 3가지나 된다.</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(base) ➜  data find . -type f -name "*.csv" | wc -l
+2224
+(base) ➜  data find ./normal -type f -name "*.csv" | wc -l
+1224
+(base) ➜  data find ./hip_joint_movement_errors -type f -name "*.csv" | wc -l
+352
+(base) ➜  data find ./arm_posture_errors -type f -name "*.csv" | wc -l
+336
+(base) ➜  data find ./chest_and_hip_joint_errors -type f -name "*.csv" | wc -l
+312
+</code></pre></div></div>
+<p>normal이 비정상보다 더 개수가 많다.<br />
+어찌 처리해야 할지 고민이다.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="n">base</span><span class="p">)</span> <span class="err">➜</span>  <span class="n">data</span> <span class="n">find</span> <span class="p">.</span><span class="o">/</span><span class="n">val</span><span class="o">/</span><span class="n">normal</span> <span class="o">-</span><span class="nb">type</span> <span class="n">f</span> <span class="o">-</span><span class="n">name</span> <span class="sh">"</span><span class="s">*.csv</span><span class="sh">"</span> <span class="o">|</span> <span class="n">wc</span> <span class="o">-</span><span class="n">l</span>
+<span class="mi">112</span>
+
+<span class="p">(</span><span class="n">base</span><span class="p">)</span> <span class="err">➜</span>  <span class="n">data</span> <span class="n">find</span> <span class="p">.</span><span class="o">/</span><span class="n">val</span><span class="o">/</span><span class="n">hip_joint_movement_errors</span> <span class="o">-</span><span class="nb">type</span> <span class="n">f</span> <span class="o">-</span><span class="n">name</span> <span class="sh">"</span><span class="s">*.csv</span><span class="sh">"</span> <span class="o">|</span> <span class="n">wc</span> <span class="o">-</span><span class="n">l</span>
+<span class="mi">120</span>
+<span class="p">(</span><span class="n">base</span><span class="p">)</span> <span class="err">➜</span>  <span class="n">data</span> <span class="n">find</span> <span class="p">.</span><span class="o">/</span><span class="n">val</span><span class="o">/</span><span class="n">arm_posture_errors</span> <span class="o">-</span><span class="nb">type</span> <span class="n">f</span> <span class="o">-</span><span class="n">name</span> <span class="sh">"</span><span class="s">*.csv</span><span class="sh">"</span> <span class="o">|</span> <span class="n">wc</span> <span class="o">-</span><span class="n">l</span>
+<span class="mi">80</span>
+<span class="p">(</span><span class="n">base</span><span class="p">)</span> <span class="err">➜</span>  <span class="n">data</span> <span class="n">find</span> <span class="p">.</span><span class="o">/</span><span class="n">val</span><span class="o">/</span><span class="n">chest_and_hip_joint_errors</span> <span class="o">-</span><span class="nb">type</span> <span class="n">f</span> <span class="o">-</span><span class="n">name</span> <span class="sh">"</span><span class="s">*.csv</span><span class="sh">"</span> <span class="o">|</span> <span class="n">wc</span> <span class="o">-</span><span class="n">l</span>
+<span class="mi">96</span>
+<span class="p">(</span><span class="n">base</span><span class="p">)</span> <span class="err">➜</span>  <span class="n">data</span> <span class="n">find</span> <span class="p">.</span><span class="o">/</span><span class="n">val</span> <span class="o">-</span><span class="nb">type</span> <span class="n">f</span> <span class="o">-</span><span class="n">name</span> <span class="sh">"</span><span class="s">*.csv</span><span class="sh">"</span> <span class="o">|</span> <span class="n">wc</span> <span class="o">-</span><span class="n">l</span>
+<span class="mi">408</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(base) ➜  data ls
+train  val
+</code></pre></div></div>
+<p>작업 진행도 20%</p>
+
+<p>.<br />
+.<br />
+.</p>
+
+<p><em>처음 만난 나의 안타까운 데이터구조</em></p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./가슴및고관절오류/고급/CA01/1/camera1/local_keypoints:
+Motion2-2.csv
+./가슴및고관절오류/고급/CA01/1/camera2/local_keypoints:
+Motion2-3.csv
+./가슴및고관절오류/고급/CA01/1/camera3/local_keypoints:
+Motion2-4.csv
+./가슴및고관절오류/고급/CA01/1/camera4/local_keypoints:
+Motion2-5.csv
+./가슴및고관절오류/고급/CA01/1/camera5/local_keypoints:
+Motion2-6.csv
+./가슴및고관절오류/고급/CA01/1/camera6/local_keypoints:
+Motion2-7.csv
+./가슴및고관절오류/고급/CA01/1/camera7/local_keypoints:
+Motion2-8.csv
+./가슴및고관절오류/고급/CA01/2/camera0/local_keypoints:
+Motion2-1.csv
+./가슴및고관절오류/고급/CA01/2/camera1/local_keypoints:
+Motion2-2.csv
+</code></pre></div></div>
+
+  </div>
+</article>
+
+        </div>
+    </div>
+</body>
+</html>

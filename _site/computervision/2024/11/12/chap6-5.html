@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>rabbitjun</title>
+    <link rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body>
+    <header class="site-header">
+        <div class="container">
+            <a href="/" class="blog-name">RabbitJun</a>
+        </div>
+        <hr> <!-- 전체 너비의 선 -->
+    </header>
+    <div class="container sidebar-content">
+        <div class="sidebar">
+    <!-- 프로필 정보 -->
+    <div class="profile">
+        <img src="/assets/images/profile.jpg" alt="프로필 이미지" class="profile-image">
+        <h2>juneon</h2>
+        <p>아직 모르는게 많아 열심히 공부중</p>
+    </div>
+    
+    <!-- 사이드바 카테고리 목록 -->
+    <div class="sidebar-categories">
+        <ul>
+            
+            <li><a href="/category/objectdetection">objectdetection</a></li>
+            
+            <li><a href="/category/webcrawling">webcrawling</a></li>
+            
+            <li><a href="/category/linear_algebra">linear_algebra</a></li>
+            
+            <li><a href="/category/diary">diary</a></li>
+            
+            <li><a href="/category/computervision">computervision</a></li>
+            
+            <li><a href="/category/deeplearning">deeplearning</a></li>
+            
+            <li><a href="/category/preferences">preferences</a></li>
+            
+            <li><a href="/category/hnv">hnv</a></li>
+            
+            <li><a href="/category/network_program">network_program</a></li>
+            
+            <li><a href="/category/computer_structure">computer_structure</a></li>
+            
+        </ul>
+        
+    </div>
+</div>
+
+        <div class="content">
+            <article class="post-box">
+  <div class="post-header">
+    <h1>paranoma</h1>
+    <p class="post-date">Nov 12, 2024</p>
+  </div>
+  <div class="post-content">
+    <h1 id="sift를-이용한-영상-봉합">SIFT를 이용한 영상 봉합</h1>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="n">PyQt6.QtWidgets</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">import</span> <span class="n">cv2</span>
+<span class="kn">import</span> <span class="n">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">import</span> <span class="n">winsound</span>
+<span class="kn">import</span> <span class="n">sys</span>
+
+<span class="k">class</span> <span class="nc">Panorama</span><span class="p">(</span><span class="n">QMainWindow</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="n">self</span><span class="p">):</span>
+        <span class="nf">super</span><span class="p">().</span><span class="nf">__init__</span><span class="p">()</span>
+        <span class="n">self</span><span class="p">.</span><span class="nf">setWindowTitle</span><span class="p">(</span><span class="sh">"</span><span class="s">파노라마 영상</span><span class="sh">"</span><span class="p">)</span>
+        <span class="n">self</span><span class="p">.</span><span class="nf">setGeometry</span><span class="p">(</span><span class="mi">200</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">700</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span>
+
+        <span class="n">collectButton</span> <span class="o">=</span> <span class="nc">QPushButton</span><span class="p">(</span><span class="sh">"</span><span class="s">영상 수집</span><span class="sh">"</span><span class="p">,</span> <span class="n">self</span><span class="p">)</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">showButton</span> <span class="o">=</span> <span class="nc">QPushButton</span><span class="p">(</span><span class="sh">"</span><span class="s">영상 보기</span><span class="sh">"</span><span class="p">,</span> <span class="n">self</span><span class="p">)</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">stitchButton</span> <span class="o">=</span> <span class="nc">QPushButton</span><span class="p">(</span><span class="sh">"</span><span class="s">봉합</span><span class="sh">"</span><span class="p">,</span> <span class="n">self</span><span class="p">)</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">saveButton</span> <span class="o">=</span> <span class="nc">QPushButton</span><span class="p">(</span><span class="sh">"</span><span class="s">저장</span><span class="sh">"</span><span class="p">,</span> <span class="n">self</span><span class="p">)</span>
+        <span class="n">quitButton</span> <span class="o">=</span> <span class="nc">QPushButton</span><span class="p">(</span><span class="sh">"</span><span class="s">나가기</span><span class="sh">"</span><span class="p">,</span> <span class="n">self</span><span class="p">)</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">label</span> <span class="o">=</span> <span class="nc">QLabel</span><span class="p">(</span><span class="sh">"</span><span class="s">환영합니다!</span><span class="sh">"</span><span class="p">,</span> <span class="n">self</span><span class="p">)</span>
+
+        <span class="n">collectButton</span><span class="p">.</span><span class="nf">setGeometry</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">30</span><span class="p">)</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">showButton</span><span class="p">.</span><span class="nf">setGeometry</span><span class="p">(</span><span class="mi">110</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">30</span><span class="p">)</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">stitchButton</span><span class="p">.</span><span class="nf">setGeometry</span><span class="p">(</span><span class="mi">210</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">30</span><span class="p">)</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">saveButton</span><span class="p">.</span><span class="nf">setGeometry</span><span class="p">(</span><span class="mi">310</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">30</span><span class="p">)</span>
+        <span class="n">quitButton</span><span class="p">.</span><span class="nf">setGeometry</span><span class="p">(</span><span class="mi">450</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">30</span><span class="p">)</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">label</span><span class="p">.</span><span class="nf">setGeometry</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">70</span><span class="p">,</span> <span class="mi">600</span><span class="p">,</span> <span class="mi">170</span><span class="p">)</span>
+
+        <span class="n">self</span><span class="p">.</span><span class="n">showButton</span><span class="p">.</span><span class="nf">setEnabled</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">stitchButton</span><span class="p">.</span><span class="nf">setEnabled</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">saveButton</span><span class="p">.</span><span class="nf">setEnabled</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+
+        <span class="n">collectButton</span><span class="p">.</span><span class="n">clicked</span><span class="p">.</span><span class="nf">connect</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">collectFunction</span><span class="p">)</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">showButton</span><span class="p">.</span><span class="n">clicked</span><span class="p">.</span><span class="nf">connect</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">showFunction</span><span class="p">)</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">stitchButton</span><span class="p">.</span><span class="n">clicked</span><span class="p">.</span><span class="nf">connect</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">stitchFunction</span><span class="p">)</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">saveButton</span><span class="p">.</span><span class="n">clicked</span><span class="p">.</span><span class="nf">connect</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">saveFunction</span><span class="p">)</span>
+        <span class="n">quitButton</span><span class="p">.</span><span class="n">clicked</span><span class="p">.</span><span class="nf">connect</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">quitFunction</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">collectFunction</span><span class="p">(</span><span class="n">self</span><span class="p">):</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">showButton</span><span class="p">.</span><span class="nf">setEnabled</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span> <span class="c1"># 버튼 비활성
+</span>        <span class="n">self</span><span class="p">.</span><span class="n">stitchButton</span><span class="p">.</span><span class="nf">setEnabled</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">saveButton</span><span class="p">.</span><span class="nf">setEnabled</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">label</span><span class="p">.</span><span class="nf">setText</span><span class="p">(</span><span class="sh">"</span><span class="s">c를 여러 번 눌러 수집하고 끝나면 q를 눌러 비디오를 끕니다.</span><span class="sh">"</span><span class="p">)</span>
+
+        <span class="n">self</span><span class="p">.</span><span class="n">cap</span> <span class="o">=</span> <span class="n">cv2</span><span class="p">.</span><span class="nc">VideoCapture</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">cv2</span><span class="p">.</span><span class="n">CAP_DSHOW</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">self</span><span class="p">.</span><span class="n">cap</span><span class="p">.</span><span class="nf">isOpened</span><span class="p">():</span><span class="n">sys</span><span class="p">.</span><span class="nf">exit</span><span class="p">(</span><span class="sh">"</span><span class="s">카메라 연결 실패</span><span class="sh">"</span><span class="p">)</span>
+
+        <span class="n">self</span><span class="p">.</span><span class="n">imgs</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
+            <span class="n">ret</span><span class="p">,</span> <span class="n">frame</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">cap</span><span class="p">.</span><span class="nf">read</span><span class="p">()</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">ret</span><span class="p">:</span><span class="k">break</span>
+
+            <span class="n">cv2</span><span class="p">.</span><span class="nf">imshow</span><span class="p">(</span><span class="sh">"</span><span class="s">video display</span><span class="sh">"</span><span class="p">,</span> <span class="n">frame</span><span class="p">)</span>
+
+            <span class="n">key</span> <span class="o">=</span> <span class="n">cv2</span><span class="p">.</span><span class="nf">waitKey</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">key</span> <span class="o">==</span> <span class="nf">ord</span><span class="p">(</span><span class="sh">"</span><span class="s">c</span><span class="sh">"</span><span class="p">):</span>
+                <span class="n">self</span><span class="p">.</span><span class="n">imgs</span><span class="p">.</span><span class="nf">append</span><span class="p">(</span><span class="n">frame</span><span class="p">)</span>  <span class="c1"># 영상 저장
+</span>            <span class="k">elif</span> <span class="n">key</span> <span class="o">==</span> <span class="nf">ord</span><span class="p">(</span><span class="sh">"</span><span class="s">q</span><span class="sh">"</span><span class="p">):</span>
+                <span class="n">self</span><span class="p">.</span><span class="n">cap</span><span class="p">.</span><span class="nf">release</span><span class="p">()</span>
+                <span class="n">cv2</span><span class="p">.</span><span class="nf">destroyWindow</span><span class="p">(</span><span class="sh">"</span><span class="s">video display</span><span class="sh">"</span><span class="p">)</span>
+                <span class="k">break</span>
+
+        <span class="k">if</span> <span class="nf">len</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">imgs</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">2</span><span class="p">:</span>  <span class="c1"># 수집한 영상이 2장 이상이면 버튼 활성화
+</span>            <span class="n">self</span><span class="p">.</span><span class="n">showButton</span><span class="p">.</span><span class="nf">setEnabled</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+            <span class="n">self</span><span class="p">.</span><span class="n">stitchButton</span><span class="p">.</span><span class="nf">setEnabled</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+            <span class="n">self</span><span class="p">.</span><span class="n">saveButton</span><span class="p">.</span><span class="nf">setEnabled</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">showFunction</span><span class="p">(</span><span class="n">self</span><span class="p">):</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">label</span><span class="p">.</span><span class="nf">setText</span><span class="p">(</span><span class="sh">"</span><span class="s">수집된 영상은 </span><span class="sh">"</span> <span class="o">+</span> <span class="nf">str</span><span class="p">(</span><span class="nf">len</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">imgs</span><span class="p">))</span> <span class="o">+</span> <span class="sh">"</span><span class="s">장 입니다.</span><span class="sh">"</span><span class="p">)</span>
+        <span class="n">stack</span> <span class="o">=</span> <span class="n">cv2</span><span class="p">.</span><span class="nf">resize</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">imgs</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">dsize</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">fx</span><span class="o">=</span><span class="mf">0.25</span><span class="p">,</span> <span class="n">fy</span><span class="o">=</span><span class="mf">0.25</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nf">len</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">imgs</span><span class="p">)):</span>
+            <span class="n">stack</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nf">hstack</span><span class="p">((</span><span class="n">stack</span><span class="p">,</span> <span class="n">cv2</span><span class="p">.</span><span class="nf">resize</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">imgs</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">dsize</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">fx</span><span class="o">=</span><span class="mf">0.25</span><span class="p">,</span> <span class="n">fy</span><span class="o">=</span><span class="mf">0.25</span><span class="p">)))</span>
+        <span class="n">cv2</span><span class="p">.</span><span class="nf">imshow</span><span class="p">(</span><span class="sh">"</span><span class="s">Image collection</span><span class="sh">"</span><span class="p">,</span> <span class="n">stack</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">stitchFunction</span><span class="p">(</span><span class="n">self</span><span class="p">):</span>
+        <span class="n">stitcher</span> <span class="o">=</span> <span class="n">cv2</span><span class="p">.</span><span class="nc">Stitcher_create</span><span class="p">()</span>  <span class="c1"># sticher 객체 생성
+</span>        <span class="n">status</span><span class="p">,</span> <span class="n">self</span><span class="p">.</span><span class="n">img_stitched</span> <span class="o">=</span> <span class="n">stitcher</span><span class="p">.</span><span class="nf">stitch</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">imgs</span><span class="p">)</span>  <span class="c1"># 봉합 성공 여부와 봉합된 영상을 반환
+</span>        <span class="k">if</span> <span class="n">status</span> <span class="o">==</span> <span class="n">cv2</span><span class="p">.</span><span class="n">STITCHER_OK</span><span class="p">:</span>  <span class="c1"># 스티칭 작업이 성공적으로 완료되면
+</span>            <span class="n">cv2</span><span class="p">.</span><span class="nf">imshow</span><span class="p">(</span><span class="sh">"</span><span class="s">Image stitched panorama</span><span class="sh">"</span><span class="p">,</span> <span class="n">self</span><span class="p">.</span><span class="n">img_stitched</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">winsound</span><span class="p">.</span><span class="nc">Beep</span><span class="p">(</span><span class="mi">3000</span><span class="p">,</span> <span class="mi">500</span><span class="p">)</span>
+            <span class="n">self</span><span class="p">.</span><span class="n">label</span><span class="p">.</span><span class="nf">setText</span><span class="p">(</span><span class="sh">"</span><span class="s">파노라마 제작에 실패했습니다. 다시 시도하세요.</span><span class="sh">"</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">saveFunction</span><span class="p">(</span><span class="n">self</span><span class="p">):</span>
+        <span class="n">fname</span> <span class="o">=</span> <span class="n">QFileDialog</span><span class="p">.</span><span class="nf">getSaveFileName</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="sh">"</span><span class="s">파일 저장</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">./</span><span class="sh">"</span><span class="p">)</span>
+        <span class="n">cv2</span><span class="p">.</span><span class="nf">imwrite</span><span class="p">(</span><span class="n">fname</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">self</span><span class="p">.</span><span class="n">img_stitched</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">quitFunction</span><span class="p">(</span><span class="n">self</span><span class="p">):</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">cap</span><span class="p">.</span><span class="nf">release</span><span class="p">()</span>
+        <span class="n">cv2</span><span class="p">.</span><span class="nf">destroyAllWindows</span><span class="p">()</span>
+        <span class="n">self</span><span class="p">.</span><span class="nf">close</span><span class="p">()</span>
+
+<span class="n">app</span> <span class="o">=</span> <span class="nc">QApplication</span><span class="p">(</span><span class="n">sys</span><span class="p">.</span><span class="n">argv</span><span class="p">)</span>
+<span class="n">win</span> <span class="o">=</span> <span class="nc">Panorama</span><span class="p">()</span>
+<span class="n">win</span><span class="p">.</span><span class="nf">show</span><span class="p">()</span>
+<span class="n">app</span><span class="p">.</span><span class="nf">exec</span><span class="p">()</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>QFileDialog는 PyQt와 Qt 라이브러리에서 제공하는 파일 선택 대화 상자입니다. 사용자가 파일이나 폴더를 열거나 저장할 때 파일 경로를 쉽게 선택할 수 있도록 GUI 대화 상자를 제공합니다.
+
+QFileDialog는 일반적으로 파일을 열기, 저장하거나 특정 디렉토리 선택 기능이 필요할 때 사용됩니다.
+
+주요 기능과 메서드
+QFileDialog는 다음과 같은 기능을 제공합니다.
+
+파일 열기 (getOpenFileName): 파일을 선택하는 대화 상자를 열고, 사용자가 선택한 파일의 경로를 반환합니다.
+여러 파일 열기 (getOpenFileNames): 여러 파일을 선택할 수 있는 대화 상자를 열고, 선택한 파일들의 경로 목록을 반환합니다.
+파일 저장 (getSaveFileName): 파일을 저장할 위치를 선택할 수 있는 대화 상자를 열어, 사용자가 선택한 파일 경로를 반환합니다.
+디렉토리 선택 (getExistingDirectory): 폴더를 선택할 수 있는 대화 상자를 열고, 선택한 폴더의 경로를 반환합니다.
+</code></pre></div></div>
+
+<p>왜 봉합이 안되나 했더니</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>같은 이미지로 스티칭 시도 시 발생하는 일:
+이미지 간 겹침이 없음: stitch() 함수는 여러 이미지를 겹치는 부분을 찾아서 이어붙입니다. 하지만 같은 이미지를 주면, 겹칠 부분이 없기 때문에 이미지 매칭을 제대로 할 수 없습니다.
+스티칭 실패: 동일한 이미지를 입력하면, 스티칭에 실패하거나 결과가 제대로 나오지 않습니다. cv2.Stitcher_create() 함수는 두 이미지 이상의 다양한 정보와 겹침 영역을 필요로 하기 때문에 같은 이미지를 주면 스티칭 작업이 불가능합니다.
+</code></pre></div></div>
+
+  </div>
+</article>
+
+        </div>
+    </div>
+</body>
+</html>

@@ -1,7 +1,7 @@
 ---
 title: chap6_ThreadTCPServer
 date: 2024-11-07
-categories: network_program
+category: network_program
 layout: post
 ---
 ```C++

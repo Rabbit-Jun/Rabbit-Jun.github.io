@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>rabbitjun</title>
+    <link rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body>
+    <header class="site-header">
+        <div class="container">
+            <a href="/" class="blog-name">RabbitJun</a>
+        </div>
+        <hr> <!-- 전체 너비의 선 -->
+    </header>
+    <div class="container sidebar-content">
+        <div class="sidebar">
+    <!-- 프로필 정보 -->
+    <div class="profile">
+        <img src="/assets/images/profile.jpg" alt="프로필 이미지" class="profile-image">
+        <h2>juneon</h2>
+        <p>아직 모르는게 많아 열심히 공부중</p>
+    </div>
+    
+    <!-- 사이드바 카테고리 목록 -->
+    <div class="sidebar-categories">
+        <ul>
+            
+            <li><a href="/category/objectdetection">objectdetection</a></li>
+            
+            <li><a href="/category/webcrawling">webcrawling</a></li>
+            
+            <li><a href="/category/linear_algebra">linear_algebra</a></li>
+            
+            <li><a href="/category/diary">diary</a></li>
+            
+            <li><a href="/category/computervision">computervision</a></li>
+            
+            <li><a href="/category/deeplearning">deeplearning</a></li>
+            
+            <li><a href="/category/preferences">preferences</a></li>
+            
+            <li><a href="/category/hnv">hnv</a></li>
+            
+            <li><a href="/category/network_program">network_program</a></li>
+            
+            <li><a href="/category/computer_structure">computer_structure</a></li>
+            
+        </ul>
+        
+    </div>
+</div>
+
+        <div class="content">
+            <article class="post-box">
+  <div class="post-header">
+    <h1>dataload2</h1>
+    <p class="post-date">Nov 6, 2024</p>
+  </div>
+  <div class="post-content">
+    <h1 id="datalaod2">datalaod2</h1>
+<p>시간이 급박하여 제대로 공부하지 못하고 gpt가 뱉는대로 그냥 해버렸다 ㅠ.ㅜ 
+시간이 날 때 다시 보면서 공부해야지 ㅠ.ㅜ</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">os</span>
+<span class="kn">import</span> <span class="n">pandas</span> <span class="k">as</span> <span class="n">pd</span>
+<span class="kn">import</span> <span class="n">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">from</span> <span class="n">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">StandardScaler</span>
+<span class="kn">from</span> <span class="n">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">LabelEncoder</span>
+<span class="kn">import</span> <span class="n">torch</span>
+<span class="kn">from</span> <span class="n">torch.utils.data</span> <span class="kn">import</span> <span class="n">Dataset</span>
+
+<span class="k">class</span> <span class="nc">CustomDataset</span><span class="p">(</span><span class="n">Dataset</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">directory</span><span class="p">,</span> <span class="n">min_length</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">scaler</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">label_encoder</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">data</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">labels</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">min_length</span> <span class="o">=</span> <span class="n">min_length</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">scaler</span> <span class="o">=</span> <span class="n">scaler</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">label_encoder</span> <span class="o">=</span> <span class="n">label_encoder</span>
+        <span class="n">self</span><span class="p">.</span><span class="nf">load_files</span><span class="p">(</span><span class="n">directory</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">load_files</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">directory</span><span class="p">):</span>
+        <span class="n">files</span> <span class="o">=</span> <span class="p">[</span><span class="n">f</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">os</span><span class="p">.</span><span class="nf">listdir</span><span class="p">(</span><span class="n">directory</span><span class="p">)</span> <span class="k">if</span> <span class="n">f</span><span class="p">.</span><span class="nf">endswith</span><span class="p">(</span><span class="sh">'</span><span class="s">.csv</span><span class="sh">'</span><span class="p">)]</span>
+
+        <span class="c1"># 각 데이터셋에서 주어진 min_length에 맞춰 자르기
+</span>        <span class="k">for</span> <span class="n">filename</span> <span class="ow">in</span> <span class="n">files</span><span class="p">:</span>
+            <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nf">read_csv</span><span class="p">(</span><span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="nf">join</span><span class="p">(</span><span class="n">directory</span><span class="p">,</span> <span class="n">filename</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="p">.</span><span class="n">float32</span><span class="p">)</span>
+            <span class="n">file_data</span> <span class="o">=</span> <span class="n">df</span><span class="p">.</span><span class="n">values</span><span class="p">.</span><span class="nf">flatten</span><span class="p">()[:</span><span class="n">self</span><span class="p">.</span><span class="n">min_length</span><span class="p">]</span>
+            <span class="n">self</span><span class="p">.</span><span class="n">data</span><span class="p">.</span><span class="nf">append</span><span class="p">(</span><span class="n">file_data</span><span class="p">)</span>
+            <span class="n">label</span> <span class="o">=</span> <span class="n">filename</span><span class="p">.</span><span class="nf">split</span><span class="p">(</span><span class="sh">'</span><span class="s">@</span><span class="sh">'</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">self</span><span class="p">.</span><span class="n">labels</span><span class="p">.</span><span class="nf">append</span><span class="p">(</span><span class="n">label</span><span class="p">)</span>
+
+        <span class="n">self</span><span class="p">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nf">vstack</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">data</span><span class="p">)</span>
+        <span class="c1"># 레이블 인코딩
+</span>        <span class="k">if</span> <span class="n">self</span><span class="p">.</span><span class="n">label_encoder</span><span class="p">:</span>
+            <span class="n">self</span><span class="p">.</span><span class="n">labels</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">label_encoder</span><span class="p">.</span><span class="nf">transform</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">labels</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">self</span><span class="p">.</span><span class="n">labels</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nf">array</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">labels</span><span class="p">)</span>
+
+
+        <span class="k">if</span> <span class="n">self</span><span class="p">.</span><span class="n">scaler</span><span class="p">:</span>
+            <span class="n">self</span><span class="p">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">scaler</span><span class="p">.</span><span class="nf">transform</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">data</span><span class="p">)</span>
+
+
+    <span class="k">def</span> <span class="nf">__len__</span><span class="p">(</span><span class="n">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nf">len</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">data</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__getitem__</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">idx</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">torch</span><span class="p">.</span><span class="nf">tensor</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">data</span><span class="p">[</span><span class="n">idx</span><span class="p">]),</span> <span class="n">torch</span><span class="p">.</span><span class="nf">tensor</span><span class="p">(</span><span class="nf">int</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">labels</span><span class="p">[</span><span class="n">idx</span><span class="p">]))</span>
+
+<span class="k">def</span> <span class="nf">load_data</span><span class="p">(</span><span class="n">train_dir</span><span class="p">,</span> <span class="n">test_dir</span><span class="p">,</span> <span class="n">val_dir</span><span class="p">):</span>
+    <span class="c1"># 모든 파일에서 최소 길이를 계산
+</span>    <span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">load_data 호출 시작</span><span class="sh">"</span><span class="p">)</span>
+
+    <span class="n">min_length</span> <span class="o">=</span> <span class="nf">float</span><span class="p">(</span><span class="sh">'</span><span class="s">inf</span><span class="sh">'</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">directory</span> <span class="ow">in</span> <span class="p">[</span><span class="n">train_dir</span><span class="p">,</span> <span class="n">test_dir</span><span class="p">,</span> <span class="n">val_dir</span><span class="p">]:</span>
+        <span class="n">files</span> <span class="o">=</span> <span class="p">[</span><span class="n">f</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">os</span><span class="p">.</span><span class="nf">listdir</span><span class="p">(</span><span class="n">directory</span><span class="p">)</span> <span class="k">if</span> <span class="n">f</span><span class="p">.</span><span class="nf">endswith</span><span class="p">(</span><span class="sh">'</span><span class="s">.csv</span><span class="sh">'</span><span class="p">)]</span>
+        <span class="k">for</span> <span class="n">filename</span> <span class="ow">in</span> <span class="n">files</span><span class="p">:</span>
+            <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nf">read_csv</span><span class="p">(</span><span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="nf">join</span><span class="p">(</span><span class="n">directory</span><span class="p">,</span> <span class="n">filename</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="p">.</span><span class="n">float32</span><span class="p">)</span>
+            <span class="n">min_length</span> <span class="o">=</span> <span class="nf">min</span><span class="p">(</span><span class="n">min_length</span><span class="p">,</span> <span class="n">df</span><span class="p">.</span><span class="n">values</span><span class="p">.</span><span class="nf">flatten</span><span class="p">().</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="s">Calculated min_length: </span><span class="si">{</span><span class="n">min_length</span><span class="si">}</span><span class="sh">"</span><span class="p">)</span>
+
+    <span class="n">scaler</span> <span class="o">=</span> <span class="nc">StandardScaler</span><span class="p">()</span>
+    <span class="n">label_encoder</span> <span class="o">=</span> <span class="nc">LabelEncoder</span><span class="p">()</span>
+
+    <span class="c1"># 훈련 데이터셋을 먼저 로드하여 레이블 인코딩 학습
+</span>    <span class="n">temp_train_dataset</span> <span class="o">=</span> <span class="nc">CustomDataset</span><span class="p">(</span><span class="n">train_dir</span><span class="p">,</span> <span class="n">min_length</span><span class="o">=</span><span class="n">min_length</span><span class="p">)</span>
+    <span class="n">label_encoder</span><span class="p">.</span><span class="nf">fit</span><span class="p">(</span><span class="n">temp_train_dataset</span><span class="p">.</span><span class="n">labels</span><span class="p">)</span>  <span class="c1"># 레이블 인코더 학습
+</span>
+    <span class="c1"># Training data
+</span>    <span class="n">train_dataset</span> <span class="o">=</span> <span class="nc">CustomDataset</span><span class="p">(</span><span class="n">train_dir</span><span class="p">,</span> <span class="n">min_length</span><span class="o">=</span><span class="n">min_length</span><span class="p">,</span>  <span class="n">label_encoder</span><span class="o">=</span><span class="n">label_encoder</span><span class="p">)</span>
+    <span class="n">train_data</span> <span class="o">=</span> <span class="n">scaler</span><span class="p">.</span><span class="nf">fit_transform</span><span class="p">(</span><span class="n">train_dataset</span><span class="p">.</span><span class="n">data</span><span class="p">)</span>
+    <span class="n">train_labels</span> <span class="o">=</span> <span class="n">train_dataset</span><span class="p">.</span><span class="n">labels</span>
+
+    <span class="c1"># Validation data
+</span>    <span class="n">val_dataset</span> <span class="o">=</span> <span class="nc">CustomDataset</span><span class="p">(</span><span class="n">val_dir</span><span class="p">,</span> <span class="n">min_length</span><span class="o">=</span><span class="n">min_length</span><span class="p">,</span> <span class="n">scaler</span><span class="o">=</span><span class="n">scaler</span><span class="p">,</span>  <span class="n">label_encoder</span><span class="o">=</span><span class="n">label_encoder</span><span class="p">)</span>
+    <span class="n">val_data</span> <span class="o">=</span> <span class="n">val_dataset</span><span class="p">.</span><span class="n">data</span>
+    <span class="n">val_labels</span> <span class="o">=</span> <span class="n">val_dataset</span><span class="p">.</span><span class="n">labels</span>
+
+    <span class="c1"># Test data
+</span>    <span class="n">test_dataset</span> <span class="o">=</span> <span class="nc">CustomDataset</span><span class="p">(</span><span class="n">test_dir</span><span class="p">,</span> <span class="n">min_length</span><span class="o">=</span><span class="n">min_length</span><span class="p">,</span> <span class="n">scaler</span><span class="o">=</span><span class="n">scaler</span><span class="p">,</span>  <span class="n">label_encoder</span><span class="o">=</span><span class="n">label_encoder</span><span class="p">)</span>
+    <span class="n">test_data</span> <span class="o">=</span> <span class="n">test_dataset</span><span class="p">.</span><span class="n">data</span>
+    <span class="n">test_labels</span> <span class="o">=</span> <span class="n">test_dataset</span><span class="p">.</span><span class="n">labels</span>
+
+    <span class="k">return</span> <span class="n">train_data</span><span class="p">,</span> <span class="n">train_labels</span><span class="p">,</span> <span class="n">test_data</span><span class="p">,</span> <span class="n">test_labels</span><span class="p">,</span> <span class="n">val_data</span><span class="p">,</span> <span class="n">val_labels</span>
+</code></pre></div></div>
+
+
+  </div>
+</article>
+
+        </div>
+    </div>
+</body>
+</html>

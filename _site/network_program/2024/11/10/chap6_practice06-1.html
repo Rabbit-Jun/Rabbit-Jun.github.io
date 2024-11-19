@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>rabbitjun</title>
+    <link rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body>
+    <header class="site-header">
+        <div class="container">
+            <a href="/" class="blog-name">RabbitJun</a>
+        </div>
+        <hr> <!-- 전체 너비의 선 -->
+    </header>
+    <div class="container sidebar-content">
+        <div class="sidebar">
+    <!-- 프로필 정보 -->
+    <div class="profile">
+        <img src="/assets/images/profile.jpg" alt="프로필 이미지" class="profile-image">
+        <h2>juneon</h2>
+        <p>아직 모르는게 많아 열심히 공부중</p>
+    </div>
+    
+    <!-- 사이드바 카테고리 목록 -->
+    <div class="sidebar-categories">
+        <ul>
+            
+            <li><a href="/category/objectdetection">objectdetection</a></li>
+            
+            <li><a href="/category/webcrawling">webcrawling</a></li>
+            
+            <li><a href="/category/linear_algebra">linear_algebra</a></li>
+            
+            <li><a href="/category/diary">diary</a></li>
+            
+            <li><a href="/category/computervision">computervision</a></li>
+            
+            <li><a href="/category/deeplearning">deeplearning</a></li>
+            
+            <li><a href="/category/preferences">preferences</a></li>
+            
+            <li><a href="/category/hnv">hnv</a></li>
+            
+            <li><a href="/category/network_program">network_program</a></li>
+            
+            <li><a href="/category/computer_structure">computer_structure</a></li>
+            
+        </ul>
+        
+    </div>
+</div>
+
+        <div class="content">
+            <article class="post-box">
+  <div class="post-header">
+    <h1>chap6_pratice06</h1>
+    <p class="post-date">Nov 10, 2024</p>
+  </div>
+  <div class="post-content">
+    <h3 id="multithreadtcpserver-예제를-수정하여-연결된-클라이언트의-주소-정보ip-주소-포트-번호를-스레드-함수-인수를-활용하여-전달하시오-이렇게-하면-getpeername-함수를-사용하지-않고도-스레드-함수에서-클라이언트-정보를-출력할수-있다">MultithreadTCPServer 예제를 수정하여, 연결된 클라이언트의 주소 정보(IP 주소, 포트 번호)를 스레드 함수 인수를 활용하여 전달하시오. (이렇게 하면 getpeername() 함수를 사용하지 않고도 스레드 함수에서 클라이언트 정보를 출력할수 있다.)</h3>
+
+<p>교수님에게서 답장이 왔다.</p>
+
+<hr />
+
+<p><em>ProcessClient(LPVOID arg) 함수의 arg로 기존의 클라이언트 소켓 전달 뿐만 아니라,
+소켓의 주소 출력을 위한 struct sockaddr_in addr 도 같이 전달하여 화면에 출력해주면 됩니다.</em></p>
+
+<hr />
+
+<p>MultithreadTCPServer</p>
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">"..\..\Common.h"</span><span class="cp">
+</span>
+<span class="kt">char</span><span class="o">*</span> <span class="n">SERVERIP</span> <span class="o">=</span> <span class="p">(</span><span class="kt">char</span><span class="o">*</span><span class="p">)</span><span class="s">"127.0.0.1"</span><span class="p">;</span>
+<span class="cp">#define SERVERPORT 9000
+#define BUFSIZE    512
+</span>
+
+<span class="c1">// 클라이언트와 데이터 통신</span>
+<span class="n">DWORD</span> <span class="n">WINAPI</span> <span class="nf">ProcessClient</span><span class="p">(</span><span class="n">LPVOID</span> <span class="n">arg</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">SOCKET</span> <span class="n">client_sock</span> <span class="o">=</span> <span class="p">(</span><span class="n">SOCKET</span><span class="p">)</span><span class="n">arg</span><span class="p">;</span>
+	<span class="kt">int</span> <span class="n">retval</span><span class="p">;</span>
+	<span class="k">struct</span> <span class="nc">sockaddr_in</span> <span class="n">clientaddr</span><span class="p">;</span>
+	<span class="kt">char</span> <span class="n">addr</span><span class="p">[</span><span class="n">INET_ADDRSTRLEN</span><span class="p">];</span>
+	<span class="kt">int</span> <span class="n">addrlen</span><span class="p">;</span>
+	<span class="kt">char</span> <span class="n">buf</span><span class="p">[</span><span class="n">BUFSIZE</span> <span class="o">+</span> <span class="mi">1</span><span class="p">];</span>
+
+	<span class="c1">//클라이언트 정보 얻기</span>
+	<span class="n">addrlen</span> <span class="o">=</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">clientaddr</span><span class="p">);</span>
+	<span class="c1">// getpeername(client_sock, (struct sockaddr*) &amp; clientaddr, &amp;addrlen);</span>
+	<span class="n">inet_ntop</span><span class="p">(</span><span class="n">AF_INET</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">clientaddr</span><span class="p">.</span><span class="n">sin_addr</span><span class="p">,</span> <span class="n">addr</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">addr</span><span class="p">));</span>
+
+	<span class="k">while</span> <span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+		<span class="c1">// 데이터 받기</span>
+		<span class="n">retval</span> <span class="o">=</span> <span class="n">recv</span><span class="p">(</span><span class="n">client_sock</span><span class="p">,</span> <span class="n">buf</span><span class="p">,</span> <span class="n">BUFSIZE</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">retval</span> <span class="o">==</span> <span class="n">SOCKET_ERROR</span><span class="p">)</span> <span class="p">{</span>
+			<span class="n">err_display</span><span class="p">(</span><span class="s">"recv()"</span><span class="p">);</span>
+			<span class="k">break</span><span class="p">;</span>
+		<span class="p">}</span>
+		<span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">retval</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+			<span class="k">break</span><span class="p">;</span>
+
+		<span class="c1">//받은 데이터 출력</span>
+		<span class="n">buf</span><span class="p">[</span><span class="n">retval</span><span class="p">]</span> <span class="o">=</span> <span class="sc">'\0'</span><span class="p">;</span>
+		<span class="n">printf</span><span class="p">(</span><span class="s">"[TCP/%s:%d]%s</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">addr</span><span class="p">,</span> <span class="n">ntohs</span><span class="p">(</span><span class="n">clientaddr</span><span class="p">.</span><span class="n">sin_port</span><span class="p">),</span> <span class="n">buf</span><span class="p">);</span>
+
+		<span class="c1">// 데이터 보내기</span>
+		<span class="n">retval</span> <span class="o">=</span> <span class="n">send</span><span class="p">(</span><span class="n">client_sock</span><span class="p">,</span> <span class="n">buf</span><span class="p">,</span> <span class="n">retval</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">retval</span> <span class="o">==</span> <span class="n">SOCKET_ERROR</span><span class="p">)</span> <span class="p">{</span>
+			<span class="n">err_display</span><span class="p">(</span><span class="s">"send()"</span><span class="p">);</span>
+			<span class="k">break</span><span class="p">;</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+
+	<span class="c1">// 소켓 담기</span>
+	<span class="n">closesocket</span><span class="p">(</span><span class="n">client_sock</span><span class="p">);</span>
+	<span class="n">printf</span><span class="p">(</span><span class="s">"[TCP 서버] 클라이언트의 종료: IP 주소 = %s, 포트 번호 = %d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="n">addr</span><span class="p">,</span> <span class="n">ntohs</span><span class="p">(</span><span class="n">clientaddr</span><span class="p">.</span><span class="n">sin_port</span><span class="p">));</span>
+	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+
+
+
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span><span class="o">*</span> <span class="n">argv</span><span class="p">[])</span>
+<span class="p">{</span>
+	<span class="kt">int</span> <span class="n">retval</span><span class="p">;</span>
+
+
+	<span class="c1">// 윈속 초기화</span>
+	<span class="n">WSADATA</span> <span class="n">wsa</span><span class="p">;</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">WSAStartup</span><span class="p">(</span><span class="n">MAKEWORD</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="o">&amp;</span><span class="n">wsa</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span>
+		<span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
+
+	<span class="c1">// 소켓 생성</span>
+	<span class="n">SOCKET</span> <span class="n">listen_sock</span> <span class="o">=</span> <span class="n">socket</span><span class="p">(</span><span class="n">AF_INET</span><span class="p">,</span> <span class="n">SOCK_STREAM</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">listen_sock</span> <span class="o">==</span> <span class="n">INVALID_SOCKET</span><span class="p">)</span> <span class="n">err_quit</span><span class="p">(</span><span class="s">"socket()"</span><span class="p">);</span>
+
+	<span class="c1">// bind()</span>
+	<span class="k">struct</span> <span class="nc">sockaddr_in</span> <span class="n">serveraddr</span><span class="p">;</span>
+	<span class="n">memset</span><span class="p">(</span><span class="o">&amp;</span><span class="n">serveraddr</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">serveraddr</span><span class="p">));</span>
+	<span class="n">serveraddr</span><span class="p">.</span><span class="n">sin_family</span> <span class="o">=</span> <span class="n">AF_INET</span><span class="p">;</span>
+	<span class="n">serveraddr</span><span class="p">.</span><span class="n">sin_addr</span><span class="p">.</span><span class="n">s_addr</span> <span class="o">=</span> <span class="n">htonl</span><span class="p">(</span><span class="n">INADDR_ANY</span><span class="p">);</span>
+	<span class="n">serveraddr</span><span class="p">.</span><span class="n">sin_port</span> <span class="o">=</span> <span class="n">htons</span><span class="p">(</span><span class="n">SERVERPORT</span><span class="p">);</span>
+
+	<span class="n">retval</span> <span class="o">=</span> <span class="n">bind</span><span class="p">(</span><span class="n">listen_sock</span><span class="p">,</span> <span class="p">(</span><span class="k">struct</span> <span class="nc">sockaddr</span><span class="o">*</span><span class="p">)</span><span class="o">&amp;</span><span class="n">serveraddr</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">serveraddr</span><span class="p">));</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">retval</span> <span class="o">==</span> <span class="n">SOCKET_ERROR</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">err_display</span><span class="p">(</span><span class="s">"bind()"</span><span class="p">);</span>
+	
+	<span class="p">}</span>
+
+	<span class="c1">//listen()</span>
+	<span class="n">retval</span> <span class="o">=</span> <span class="n">listen</span><span class="p">(</span><span class="n">listen_sock</span><span class="p">,</span> <span class="n">SOMAXCONN</span><span class="p">);</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">retval</span> <span class="o">==</span> <span class="n">SOCKET_ERROR</span><span class="p">)</span> <span class="n">err_quit</span><span class="p">(</span><span class="s">"listen()"</span><span class="p">);</span>
+
+
+
+	<span class="c1">// 데이터 통신에 사용할 변수</span>
+	<span class="n">SOCKET</span> <span class="n">client_sock</span><span class="p">;</span>
+	<span class="k">struct</span> <span class="nc">sockaddr_in</span> <span class="n">clientaddr</span><span class="p">;</span>
+	<span class="kt">int</span> <span class="n">addrlen</span><span class="p">;</span>
+	<span class="n">HANDLE</span> <span class="n">hThread</span><span class="p">;</span>
+
+	
+	<span class="k">while</span> <span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+		<span class="c1">// accept()</span>
+		<span class="n">addrlen</span> <span class="o">=</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">clientaddr</span><span class="p">);</span>
+		<span class="n">client_sock</span> <span class="o">=</span> <span class="n">accept</span><span class="p">(</span><span class="n">listen_sock</span><span class="p">,</span> <span class="p">(</span><span class="k">struct</span> <span class="nc">sockaddr</span><span class="o">*</span><span class="p">)</span><span class="o">&amp;</span><span class="n">clientaddr</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">addrlen</span><span class="p">);</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">client_sock</span> <span class="o">==</span> <span class="n">INVALID_SOCKET</span><span class="p">)</span> <span class="p">{</span>
+			<span class="n">err_display</span><span class="p">(</span><span class="s">"accept()"</span><span class="p">);</span>
+			<span class="k">break</span><span class="p">;</span>
+		<span class="p">}</span>
+
+		<span class="c1">// 접속한 클라이언트 정보 출력</span>
+		<span class="kt">char</span> <span class="n">addr</span><span class="p">[</span><span class="n">INET_ADDRSTRLEN</span><span class="p">];</span>
+		<span class="n">inet_ntop</span><span class="p">(</span><span class="n">AF_INET</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">clientaddr</span><span class="p">.</span><span class="n">sin_addr</span><span class="p">,</span> <span class="n">addr</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">addr</span><span class="p">));</span>
+		<span class="n">printf</span><span class="p">(</span><span class="s">"</span><span class="se">\n</span><span class="s">[TCP 서버] 클라이언트 접속: IP 주소 =%s, 포트 번호 =%d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">addr</span><span class="p">,</span> <span class="n">ntohs</span><span class="p">(</span><span class="n">clientaddr</span><span class="p">.</span><span class="n">sin_port</span><span class="p">));</span>
+
+		<span class="c1">//스레드 생성</span>
+		<span class="n">hThread</span> <span class="o">=</span> <span class="n">CreateThread</span><span class="p">(</span><span class="nb">NULL</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">ProcessClient</span><span class="p">,</span> <span class="p">(</span><span class="n">LPVOID</span><span class="p">)</span><span class="n">client_sock</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">hThread</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span> <span class="p">{</span> <span class="n">closesocket</span><span class="p">(</span><span class="n">client_sock</span><span class="p">);</span> <span class="p">}</span>
+		<span class="k">else</span> <span class="p">{</span><span class="n">CloseHandle</span><span class="p">(</span><span class="n">hThread</span><span class="p">);}</span>
+
+	<span class="p">}</span>
+
+
+	<span class="c1">// 소켓 닫기</span>
+	<span class="n">closesocket</span><span class="p">(</span><span class="n">listen_sock</span><span class="p">);</span>
+
+	<span class="c1">// 윈속 종료</span>
+	<span class="n">WSACleanup</span><span class="p">();</span>
+	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+<p>에서 수정을 가할 시간이 왔다 이말이지요</p>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">"..\..\Common.h"</span><span class="cp">
+</span>
+<span class="kt">char</span><span class="o">*</span> <span class="n">SERVERIP</span> <span class="o">=</span> <span class="p">(</span><span class="kt">char</span><span class="o">*</span><span class="p">)</span><span class="s">"127.0.0.1"</span><span class="p">;</span>
+<span class="cp">#define SERVERPORT 9000
+#define BUFSIZE    512
+</span>
+
+<span class="k">struct</span> <span class="nc">ClientInfo</span> <span class="p">{</span>
+	<span class="n">SOCKET</span> <span class="n">client_sock</span><span class="p">;</span>
+	<span class="k">struct</span> <span class="nc">sockaddr_in</span> <span class="n">clientaddr</span><span class="p">;</span>
+<span class="p">};</span>
+
+
+<span class="c1">// 클라이언트와 데이터 통신</span>
+<span class="n">DWORD</span> <span class="n">WINAPI</span> <span class="nf">ProcessClient</span><span class="p">(</span><span class="n">LPVOID</span> <span class="n">arg</span><span class="p">)</span>
+<span class="p">{</span>	
+	<span class="n">ClientInfo</span><span class="o">*</span> <span class="n">clientInfo</span> <span class="o">=</span> <span class="p">(</span><span class="n">ClientInfo</span><span class="o">*</span><span class="p">)</span><span class="n">arg</span><span class="p">;</span>
+	<span class="n">SOCKET</span> <span class="n">client_sock</span> <span class="o">=</span> <span class="n">clientInfo</span><span class="o">-&gt;</span><span class="n">client_sock</span><span class="p">;</span>
+	<span class="k">struct</span> <span class="nc">sockaddr_in</span> <span class="n">clientaddr</span> <span class="o">=</span> <span class="n">clientInfo</span> <span class="o">-&gt;</span> <span class="n">clientaddr</span><span class="p">;</span>
+	<span class="kt">char</span> <span class="n">addr</span><span class="p">[</span><span class="n">INET_ADDRSTRLEN</span><span class="p">];</span>
+	<span class="n">inet_ntop</span><span class="p">(</span><span class="n">AF_INET</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">clientaddr</span><span class="p">.</span><span class="n">sin_addr</span><span class="p">,</span> <span class="n">addr</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">addr</span><span class="p">));</span>
+	<span class="kt">char</span> <span class="n">buf</span><span class="p">[</span><span class="n">BUFSIZE</span> <span class="o">+</span> <span class="mi">1</span><span class="p">];</span>
+	<span class="kt">int</span> <span class="n">retval</span><span class="p">;</span>
+
+
+	<span class="k">while</span> <span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+		<span class="c1">// 데이터 받기</span>
+		<span class="n">retval</span> <span class="o">=</span> <span class="n">recv</span><span class="p">(</span><span class="n">client_sock</span><span class="p">,</span> <span class="n">buf</span><span class="p">,</span> <span class="n">BUFSIZE</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">retval</span> <span class="o">==</span> <span class="n">SOCKET_ERROR</span><span class="p">)</span> <span class="p">{</span>
+			<span class="n">err_display</span><span class="p">(</span><span class="s">"recv()"</span><span class="p">);</span>
+			<span class="k">break</span><span class="p">;</span>
+		<span class="p">}</span>
+		<span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">retval</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+			<span class="k">break</span><span class="p">;</span>
+
+		<span class="c1">//받은 데이터 출력</span>
+		<span class="n">buf</span><span class="p">[</span><span class="n">retval</span><span class="p">]</span> <span class="o">=</span> <span class="sc">'\0'</span><span class="p">;</span>
+		<span class="n">printf</span><span class="p">(</span><span class="s">"[TCP/%s:%d]%s</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">addr</span><span class="p">,</span> <span class="n">ntohs</span><span class="p">(</span><span class="n">clientaddr</span><span class="p">.</span><span class="n">sin_port</span><span class="p">),</span> <span class="n">buf</span><span class="p">);</span>
+
+		<span class="c1">// 데이터 보내기</span>
+		<span class="n">retval</span> <span class="o">=</span> <span class="n">send</span><span class="p">(</span><span class="n">client_sock</span><span class="p">,</span> <span class="n">buf</span><span class="p">,</span> <span class="n">retval</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">retval</span> <span class="o">==</span> <span class="n">SOCKET_ERROR</span><span class="p">)</span> <span class="p">{</span>
+			<span class="n">err_display</span><span class="p">(</span><span class="s">"send()"</span><span class="p">);</span>
+			<span class="k">break</span><span class="p">;</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+
+	<span class="c1">// 소켓 담기</span>
+	<span class="n">closesocket</span><span class="p">(</span><span class="n">client_sock</span><span class="p">);</span>
+	<span class="n">printf</span><span class="p">(</span><span class="s">"[TCP 서버] 클라이언트의 종료: IP 주소 = %s, 포트 번호 = %d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">addr</span><span class="p">,</span> <span class="n">ntohs</span><span class="p">(</span><span class="n">clientaddr</span><span class="p">.</span><span class="n">sin_port</span><span class="p">));</span>
+	
+	<span class="k">delete</span> <span class="n">clientInfo</span><span class="p">;</span>
+
+
+	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+
+
+
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span><span class="o">*</span> <span class="n">argv</span><span class="p">[])</span>
+<span class="p">{</span>
+	<span class="kt">int</span> <span class="n">retval</span><span class="p">;</span>
+
+
+	<span class="c1">// 윈속 초기화</span>
+	<span class="n">WSADATA</span> <span class="n">wsa</span><span class="p">;</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">WSAStartup</span><span class="p">(</span><span class="n">MAKEWORD</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="o">&amp;</span><span class="n">wsa</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span>
+		<span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
+
+	<span class="c1">// 소켓 생성</span>
+	<span class="n">SOCKET</span> <span class="n">listen_sock</span> <span class="o">=</span> <span class="n">socket</span><span class="p">(</span><span class="n">AF_INET</span><span class="p">,</span> <span class="n">SOCK_STREAM</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">listen_sock</span> <span class="o">==</span> <span class="n">INVALID_SOCKET</span><span class="p">)</span> <span class="n">err_quit</span><span class="p">(</span><span class="s">"socket()"</span><span class="p">);</span>
+
+	<span class="c1">// bind()</span>
+	<span class="k">struct</span> <span class="nc">sockaddr_in</span> <span class="n">serveraddr</span><span class="p">;</span>
+	<span class="n">memset</span><span class="p">(</span><span class="o">&amp;</span><span class="n">serveraddr</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">serveraddr</span><span class="p">));</span>
+	<span class="n">serveraddr</span><span class="p">.</span><span class="n">sin_family</span> <span class="o">=</span> <span class="n">AF_INET</span><span class="p">;</span>
+	<span class="n">serveraddr</span><span class="p">.</span><span class="n">sin_addr</span><span class="p">.</span><span class="n">s_addr</span> <span class="o">=</span> <span class="n">htonl</span><span class="p">(</span><span class="n">INADDR_ANY</span><span class="p">);</span>
+	<span class="n">serveraddr</span><span class="p">.</span><span class="n">sin_port</span> <span class="o">=</span> <span class="n">htons</span><span class="p">(</span><span class="n">SERVERPORT</span><span class="p">);</span>
+
+	<span class="n">retval</span> <span class="o">=</span> <span class="n">bind</span><span class="p">(</span><span class="n">listen_sock</span><span class="p">,</span> <span class="p">(</span><span class="k">struct</span> <span class="nc">sockaddr</span><span class="o">*</span><span class="p">)</span><span class="o">&amp;</span><span class="n">serveraddr</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">serveraddr</span><span class="p">));</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">retval</span> <span class="o">==</span> <span class="n">SOCKET_ERROR</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">err_display</span><span class="p">(</span><span class="s">"bind()"</span><span class="p">);</span>
+
+	<span class="p">}</span>
+
+	<span class="c1">//listen()</span>
+	<span class="n">retval</span> <span class="o">=</span> <span class="n">listen</span><span class="p">(</span><span class="n">listen_sock</span><span class="p">,</span> <span class="n">SOMAXCONN</span><span class="p">);</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">retval</span> <span class="o">==</span> <span class="n">SOCKET_ERROR</span><span class="p">)</span> <span class="n">err_quit</span><span class="p">(</span><span class="s">"listen()"</span><span class="p">);</span>
+
+
+
+	<span class="c1">// 데이터 통신에 사용할 변수</span>
+	<span class="n">SOCKET</span> <span class="n">client_sock</span><span class="p">;</span>
+	<span class="k">struct</span> <span class="nc">sockaddr_in</span> <span class="n">clientaddr</span><span class="p">;</span>
+	<span class="kt">int</span> <span class="n">addrlen</span><span class="p">;</span>
+	<span class="n">HANDLE</span> <span class="n">hThread</span><span class="p">;</span>
+
+
+	<span class="k">while</span> <span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+		<span class="c1">// accept()</span>
+		<span class="n">addrlen</span> <span class="o">=</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">clientaddr</span><span class="p">);</span>
+		<span class="n">client_sock</span> <span class="o">=</span> <span class="n">accept</span><span class="p">(</span><span class="n">listen_sock</span><span class="p">,</span> <span class="p">(</span><span class="k">struct</span> <span class="nc">sockaddr</span><span class="o">*</span><span class="p">)</span><span class="o">&amp;</span><span class="n">clientaddr</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">addrlen</span><span class="p">);</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">client_sock</span> <span class="o">==</span> <span class="n">INVALID_SOCKET</span><span class="p">)</span> <span class="p">{</span>
+			<span class="n">err_display</span><span class="p">(</span><span class="s">"accept()"</span><span class="p">);</span>
+			<span class="k">break</span><span class="p">;</span>
+		<span class="p">}</span>
+
+		<span class="c1">// 접속한 클라이언트 정보 출력</span>
+		<span class="kt">char</span> <span class="n">addr</span><span class="p">[</span><span class="n">INET_ADDRSTRLEN</span><span class="p">];</span>
+		<span class="n">inet_ntop</span><span class="p">(</span><span class="n">AF_INET</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">clientaddr</span><span class="p">.</span><span class="n">sin_addr</span><span class="p">,</span> <span class="n">addr</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">addr</span><span class="p">));</span>
+		<span class="n">printf</span><span class="p">(</span><span class="s">"</span><span class="se">\n</span><span class="s">[TCP 서버] 클라이언트 접속: IP 주소 =%s, 포트 번호 =%d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">addr</span><span class="p">,</span> <span class="n">ntohs</span><span class="p">(</span><span class="n">clientaddr</span><span class="p">.</span><span class="n">sin_port</span><span class="p">));</span>
+
+
+		<span class="n">ClientInfo</span><span class="o">*</span> <span class="n">clientInfo</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ClientInfo</span><span class="p">;</span>
+		<span class="n">clientInfo</span><span class="o">-&gt;</span><span class="n">client_sock</span> <span class="o">=</span> <span class="n">client_sock</span><span class="p">;</span>
+		<span class="n">clientInfo</span><span class="o">-&gt;</span><span class="n">clientaddr</span> <span class="o">=</span> <span class="n">clientaddr</span><span class="p">;</span>
+
+
+		<span class="c1">//스레드 생성</span>
+		<span class="n">hThread</span> <span class="o">=</span> <span class="n">CreateThread</span><span class="p">(</span><span class="nb">NULL</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">ProcessClient</span><span class="p">,</span> <span class="p">(</span><span class="n">LPVOID</span><span class="p">)</span><span class="n">clientInfo</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">hThread</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span> <span class="p">{</span> <span class="n">closesocket</span><span class="p">(</span><span class="n">client_sock</span><span class="p">);</span> <span class="p">}</span>
+		<span class="k">else</span> <span class="p">{</span> <span class="n">CloseHandle</span><span class="p">(</span><span class="n">hThread</span><span class="p">);</span> <span class="p">}</span>
+
+	<span class="p">}</span>
+
+
+	<span class="c1">// 소켓 닫기</span>
+	<span class="n">closesocket</span><span class="p">(</span><span class="n">listen_sock</span><span class="p">);</span>
+
+	<span class="c1">// 윈속 종료</span>
+	<span class="n">WSACleanup</span><span class="p">();</span>
+	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>바뀐 부분은</p>
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="cp"># main 함수 부분
+</span><span class="n">ClientInfo</span><span class="o">*</span> <span class="n">clientInfo</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ClientInfo</span><span class="p">;</span>
+<span class="n">clientInfo</span><span class="o">-&gt;</span><span class="n">client_sock</span> <span class="o">=</span> <span class="n">client_sock</span><span class="p">;</span>
+<span class="n">clientInfo</span><span class="o">-&gt;</span><span class="n">clientaddr</span> <span class="o">=</span> <span class="n">clientaddr</span><span class="p">;</span>
+
+<span class="cp"># processClient 함수 부분
+</span>
+<span class="n">ClientInfo</span><span class="o">*</span> <span class="n">clientInfo</span> <span class="o">=</span> <span class="p">(</span><span class="n">ClientInfo</span><span class="o">*</span><span class="p">)</span><span class="n">arg</span><span class="p">;</span>
+<span class="n">SOCKET</span> <span class="n">client_sock</span> <span class="o">=</span> <span class="n">clientInfo</span><span class="o">-&gt;</span><span class="n">client_sock</span><span class="p">;</span>
+<span class="k">struct</span> <span class="nc">sockaddr_in</span> <span class="n">clientaddr</span> <span class="o">=</span> <span class="n">clientInfo</span> <span class="o">-&gt;</span> <span class="n">clientaddr</span><span class="p">;</span>
+
+<span class="cp"># 구조체 선언
+</span>
+<span class="k">struct</span> <span class="nc">ClientInfo</span> <span class="p">{</span>
+	<span class="n">SOCKET</span> <span class="n">client_sock</span><span class="p">;</span>
+	<span class="k">struct</span> <span class="nc">sockaddr_in</span> <span class="n">clientaddr</span><span class="p">;</span>
+<span class="p">};</span>
+
+
+</code></pre></div></div>
+<h3 id="구조체-선언">구조체 선언</h3>
+<p>구조체를 선언하여 <code class="language-plaintext highlighter-rouge">client_sock</code>와 <code class="language-plaintext highlighter-rouge">clientaddr</code>을 함꼐 담아준다.</p>
+
+<h3 id="main-함수-부분">main 함수 부분</h3>
+<ol>
+  <li>메인에서 <code class="language-plaintext highlighter-rouge">clinetInfo</code>의 주소 위치에 <code class="language-plaintext highlighter-rouge">clientInfo</code>라는 변수 명으로 해서 새로운 <code class="language-plaintext highlighter-rouge">ClinetInfo</code> 값으로 초기화한다.</li>
+  <li><code class="language-plaintext highlighter-rouge">clientInfo</code>가 가리키는 구조체 <code class="language-plaintext highlighter-rouge">ClientInfo</code>의 멤버인 <code class="language-plaintext highlighter-rouge">client_sock</code>에 
+메인에서 <code class="language-plaintext highlighter-rouge">accep</code>을 통해 받은 <code class="language-plaintext highlighter-rouge">client_sock</code>할당</li>
+  <li>마찬가지로 <code class="language-plaintext highlighter-rouge">clientaddr</code>에 <code class="language-plaintext highlighter-rouge">ClientInfo</code> 구조체의 멤버인 <code class="language-plaintext highlighter-rouge">clientaddr</code>를 할당</li>
+  <li><code class="language-plaintext highlighter-rouge">hThread = CreateThread(NULL, 0, ProcessClient, (LPVOID)clientInfo, 0, NULL);</code> 에서 void 형태로 ProcessClient함수에 인수로 <code class="language-plaintext highlighter-rouge">clientInfo</code>의 포인터 전달(<em>1번에 의해 clientInfo는 ClinetInfo 구조체를 가리킴</em>)</li>
+</ol>
+
+<h3 id="processclient함수-부분">processClient함수 부분</h3>
+<ol>
+  <li><code class="language-plaintext highlighter-rouge">(ClientInfo *)</code> 구조체 지식임을 명시적으로 지정하여 <code class="language-plaintext highlighter-rouge">arg</code> 포인터가 <code class="language-plaintext highlighter-rouge">ClientInfo</code>를 가리킴을 명시적으로 알림
+(<em><code class="language-plaintext highlighter-rouge">DWORD WINAPI ProcessClient(LPVOID arg)</code>에서 void 형태로 <code class="language-plaintext highlighter-rouge">arg</code>를 매개변수로 받았기 때문에 함수 안에서 이를 형 변현해야 구조체의 맴버에 접근한다</em>)</li>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">client_sock</code>에 <code class="language-plaintext highlighter-rouge">ClinetInfo</code>의 구조체인 <code class="language-plaintext highlighter-rouge">clinet_sock</code>를 할당한다</p>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">delete clientInfo</code>로 힙에 할당된 메모리 반환
+(<em>new로 할당된 메모리는 자동으로 해제되지 않는다</em>)</li>
+</ol>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>힙(Heap) 메모리:
+
+new, malloc 등 동적 메모리 할당 함수를 통해 생성된 변수들이 힙에 저장됩니다.
+예를 들어, ClientInfo* clientInfo = new ClientInfo;와 같이 동적으로 생성된 변수들은 힙에 위치합니다.
+힙에 할당된 메모리는 수동으로 delete 또는 free를 사용해 해제해야 합니다. 그렇지 않으면 **메모리 누수(memory leak)**가 발생합니다.
+힙은 프로그램 전체에서 공유되므로, 여러 함수나 스레드에서도 접근할 수 있습니다.
+스택(Stack) 메모리:
+
+함수 내에서 선언된 일반 변수나 함수 매개변수들은 스택에 저장됩니다.
+예를 들어, int x = 10;과 같이 함수 내에서 선언된 지역 변수나, 함수에 전달되는 인자들은 스택에 위치합니다.
+스택은 함수가 종료되면 자동으로 해제되므로, 별도로 메모리 관리를 할 필요가 없습니다.
+스택은 각 함수 호출마다 독립적으로 할당되기 때문에, 다른 함수나 스레드에서는 해당 스택 메모리에 직접 접근할 수 없습니다.
+전역 변수와 정적 변수:
+
+전역 변수와 static 키워드로 선언된 변수는 프로그램 시작 시 데이터 영역에 할당되며, 프로그램이 종료될 때까지 유지됩니다.
+이들 변수는 힙이나 스택이 아닌 별도의 메모리 영역에 저장됩니다.
+</code></pre></div></div>
+<p>즉, getpeername()만 지우면 된다는건 헛소리였다.<br />
+왜냐면 클라이언트의 정보를 전달 할 수가 없으니깐</p>
+
+  </div>
+</article>
+
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>rabbitjun</title>
+    <link rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body>
+    <header class="site-header">
+        <div class="container">
+            <a href="/" class="blog-name">RabbitJun</a>
+        </div>
+        <hr> <!-- 전체 너비의 선 -->
+    </header>
+    <div class="container sidebar-content">
+        <div class="sidebar">
+    <!-- 프로필 정보 -->
+    <div class="profile">
+        <img src="/assets/images/profile.jpg" alt="프로필 이미지" class="profile-image">
+        <h2>juneon</h2>
+        <p>아직 모르는게 많아 열심히 공부중</p>
+    </div>
+    
+    <!-- 사이드바 카테고리 목록 -->
+    <div class="sidebar-categories">
+        <ul>
+            
+            <li><a href="/category/objectdetection">objectdetection</a></li>
+            
+            <li><a href="/category/webcrawling">webcrawling</a></li>
+            
+            <li><a href="/category/linear_algebra">linear_algebra</a></li>
+            
+            <li><a href="/category/diary">diary</a></li>
+            
+            <li><a href="/category/computervision">computervision</a></li>
+            
+            <li><a href="/category/deeplearning">deeplearning</a></li>
+            
+            <li><a href="/category/preferences">preferences</a></li>
+            
+            <li><a href="/category/hnv">hnv</a></li>
+            
+            <li><a href="/category/network_program">network_program</a></li>
+            
+            <li><a href="/category/computer_structure">computer_structure</a></li>
+            
+        </ul>
+        
+    </div>
+</div>
+
+        <div class="content">
+            <article class="post-box">
+  <div class="post-header">
+    <h1>if __name__ == "__main__"</h1>
+    <p class="post-date">Nov 11, 2024</p>
+  </div>
+  <div class="post-content">
+    <h1 id="mainpy-훝어보기">main.py 훝어보기</h1>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="sh">"</span><span class="s">__main__</span><span class="sh">"</span><span class="p">:</span>
+    <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="p">.</span><span class="nc">ArgumentParser</span><span class="p">()</span>
+    <span class="n">parser</span><span class="p">.</span><span class="nf">add_argument</span><span class="p">(</span><span class="sh">'</span><span class="s">-m</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">--model</span><span class="sh">'</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="sh">'</span><span class="s">resnet</span><span class="sh">'</span><span class="p">)</span>
+    <span class="n">parser</span><span class="p">.</span><span class="nf">add_argument</span><span class="p">(</span><span class="sh">'</span><span class="s">-b</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">--batch_size</span><span class="sh">'</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="sh">'</span><span class="s">batch</span><span class="sh">'</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span> <span class="o">=</span><span class="mi">32</span><span class="p">)</span>
+    <span class="n">parser</span><span class="p">.</span><span class="nf">add_argument</span><span class="p">(</span><span class="sh">'</span><span class="s">-e</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">--epoch</span><span class="sh">'</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+    <span class="n">parser</span><span class="p">.</span><span class="nf">add_argument</span><span class="p">(</span><span class="sh">'</span><span class="s">-d</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">--data_path</span><span class="sh">'</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="sh">'</span><span class="s">data</span><span class="sh">'</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="sh">'</span><span class="s">../dataset</span><span class="sh">'</span><span class="p">)</span>
+    <span class="n">parser</span><span class="p">.</span><span class="nf">add_argument</span><span class="p">(</span><span class="sh">'</span><span class="s">-s</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">--save_path</span><span class="sh">'</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="sh">'</span><span class="s">save</span><span class="sh">'</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">defaul</span><span class="o">=</span><span class="sh">'</span><span class="s">./checkpoint/</span><span class="sh">'</span><span class="p">)</span>
+    <span class="n">parser</span><span class="p">.</span><span class="nf">add_argument</span><span class="p">(</span><span class="sh">'</span><span class="s">dc</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">--device</span><span class="sh">'</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span> <span class="sh">'</span><span class="s">gpu</span><span class="sh">'</span><span class="p">)</span>
+    <span class="n">parser</span><span class="p">.</span><span class="nf">add_argument</span><span class="p">(</span><span class="sh">'</span><span class="s">-g</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">--gpus</span><span class="sh">'</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">nargs</span><span class="o">=</span> <span class="sh">'</span><span class="s">+</span><span class="sh">'</span><span class="p">,</span> <span class="n">default</span> <span class="o">=</span><span class="sh">'</span><span class="s">0</span><span class="sh">'</span><span class="p">)</span>
+    <span class="n">parser</span><span class="p">.</span><span class="nf">add_argument</span><span class="p">(</span><span class="sh">'</span><span class="s">-p</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">--precision</span><span class="sh">'</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="sh">'</span><span class="s">32-ture</span><span class="sh">'</span><span class="p">)</span>
+    <span class="n">parser</span><span class="p">.</span><span class="nf">add_argument</span><span class="p">(</span><span class="sh">'</span><span class="s">-mo</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">--mode</span><span class="sh">'</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">default</span> <span class="o">=</span><span class="sh">'</span><span class="s">train</span><span class="sh">'</span><span class="p">)</span>
+    <span class="n">parser</span><span class="p">.</span><span class="nf">add_argument</span><span class="p">(</span><span class="sh">'</span><span class="s">-c</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">--ckpt_path</span><span class="sh">'</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="sh">'</span><span class="s">ckpt</span><span class="sh">'</span><span class="p">,</span><span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="sh">'</span><span class="s">./checkpoint/</span><span class="sh">'</span><span class="p">)</span>
+    <span class="n">args</span> <span class="o">=</span> <span class="n">parser</span><span class="p">.</span><span class="nf">parse_args</span><span class="p">()</span>
+
+    <span class="nf">main</span><span class="p">(</span><span class="n">args</span><span class="p">.</span><span class="n">model</span><span class="p">,</span> <span class="n">args</span><span class="p">.</span><span class="n">data</span><span class="p">,</span> <span class="n">args</span><span class="p">.</span><span class="n">batch</span><span class="p">,</span> <span class="n">args</span><span class="p">.</span><span class="n">epoch</span><span class="p">,</span> <span class="n">args</span><span class="p">.</span><span class="n">save</span><span class="p">,</span> <span class="n">args</span><span class="p">.</span><span class="n">device</span><span class="p">,</span> <span class="n">args</span><span class="p">.</span><span class="n">precision</span><span class="p">,</span> <span class="n">args</span><span class="p">.</span><span class="n">mode</span><span class="p">,</span> <span class="n">args</span><span class="p">.</span><span class="n">ckpt</span><span class="p">)</span>
+</code></pre></div></div>
+<ul>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">if __name__ == "__main__":</code>은 해당 스크립트를 직접 실행할 때만 그 안의 콛가 실행되도록 하는 역할을 한다.</p>
+  </li>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">argparse.ArgumentParser()</code> 는 Python의 <code class="language-plaintext highlighter-rouge">argparse</code> 모듈을 이용해 명령줄 인자를 정의하고 파싱하기 위한 기본 객체를 생성<br />
+이를 통해 명령줄에서 스크립트에 전달할 인자를 정의하고, 사용자가 입력한 인자를 Python 코드 내에서 사용 가능</p>
+  </li>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">add_argument('-m', '--model', type=str, default='resnet')</code>는 <code class="language-plaintext highlighter-rouge">-m</code> 또는 <code class="language-plaintext highlighter-rouge">--model</code> 옵션으로 모델 설정, 아무것도 지정안하면 기본은 <code class="language-plaintext highlighter-rouge">resnet</code> *ex) python main.py -m ‘vgg’</p>
+  </li>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">args =parse_args()</code>는 명령줄에서 입력한 인자들을 <code class="language-plaintext highlighter-rouge">args</code> 변수에 저장하여, 이후 코드에서 <code class="language-plaintext highlighter-rouge">args.m</code> 또는 <code class="language-plaintext highlighter-rouge">args.model</code>을 통해 입력된 값을 사용할 수 있다.</p>
+  </li>
+  <li>
+    <p>`    main(args.model, args.data, args.batch, args.epoch, args.save, args.device, args.precision, args.mode, args.ckpt)<code class="language-plaintext highlighter-rouge"> 그리고 </code>main`함수에 인자로 넣어준다.</p>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">dest</code>는 파싱된 값이 저장될 변수의 이름을 지정할 때 사용.
+    <ul>
+      <li>ex) <code class="language-plaintext highlighter-rouge">parser.add_argument('-b', '--batch_size', dest='batch', type=int, default=32)</code>와 같이 설정하면, 명령줄에서 <code class="language-plaintext highlighter-rouge">-b</code> 또는 <code class="language-plaintext highlighter-rouge">--batch_size</code>로 받은 값은 <code class="language-plaintext highlighter-rouge">args.batch</code>로 접근할 수 있습니다.</li>
+      <li>ex) <code class="language-plaintext highlighter-rouge">python main.py -b 64</code> 이 경우, <code class="language-plaintext highlighter-rouge">args.batch</code>의 값은 64로 설정됩니다.</li>
+    </ul>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">nargs</code>는  <code class="language-plaintext highlighter-rouge">argparse</code>에서 인자의 개수를 지정하는 옵션
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">'+'</code>: ㅎ나 이상의 인자를 받을 때 사용 <em>ex) -g 0 1 2 이렇게 하면 [‘0’,’1’,’2’]라는 리스트 전달</em></li>
+      <li><code class="language-plaintext highlighter-rouge">'*'</code> : 0개 이상의 인자를 받을 수 있으며 <code class="language-plaintext highlighter-rouge">-g</code> 뒤에 아무 값도 주지 않아도 오류가 발생하지 않으며, 값이 주어지면 여러 값을 리스트로 받는다.</li>
+      <li><code class="language-plaintext highlighter-rouge">?</code>: 최대 1개의 인자를 받을 때 사용, 값이 없으면 <code class="language-plaintext highlighter-rouge">None</code> 또는 기본값 할당</li>
+    </ul>
+  </li>
+</ul>
+
+  </div>
+</article>
+
+        </div>
+    </div>
+</body>
+</html>

@@ -1,7 +1,7 @@
 ---
 title: model
 date: 2024-06-27
-categories: objectdetection
+category: objectdetection
 layout: post
 ---
 

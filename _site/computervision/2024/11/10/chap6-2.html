@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>rabbitjun</title>
+    <link rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body>
+    <header class="site-header">
+        <div class="container">
+            <a href="/" class="blog-name">RabbitJun</a>
+        </div>
+        <hr> <!-- 전체 너비의 선 -->
+    </header>
+    <div class="container sidebar-content">
+        <div class="sidebar">
+    <!-- 프로필 정보 -->
+    <div class="profile">
+        <img src="/assets/images/profile.jpg" alt="프로필 이미지" class="profile-image">
+        <h2>juneon</h2>
+        <p>아직 모르는게 많아 열심히 공부중</p>
+    </div>
+    
+    <!-- 사이드바 카테고리 목록 -->
+    <div class="sidebar-categories">
+        <ul>
+            
+            <li><a href="/category/objectdetection">objectdetection</a></li>
+            
+            <li><a href="/category/webcrawling">webcrawling</a></li>
+            
+            <li><a href="/category/linear_algebra">linear_algebra</a></li>
+            
+            <li><a href="/category/diary">diary</a></li>
+            
+            <li><a href="/category/computervision">computervision</a></li>
+            
+            <li><a href="/category/deeplearning">deeplearning</a></li>
+            
+            <li><a href="/category/preferences">preferences</a></li>
+            
+            <li><a href="/category/hnv">hnv</a></li>
+            
+            <li><a href="/category/network_program">network_program</a></li>
+            
+            <li><a href="/category/computer_structure">computer_structure</a></li>
+            
+        </ul>
+        
+    </div>
+</div>
+
+        <div class="content">
+            <article class="post-box">
+  <div class="post-header">
+    <h1>Extending opencv</h1>
+    <p class="post-date">Nov 10, 2024</p>
+  </div>
+  <div class="post-content">
+    <h1 id="opencv에-pyqt를-붙여-프로그램-확장하기">OpenCV에 PyQT를 붙여 프로그램 확장하기</h1>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="n">PyQt6.QtWidgets</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">import</span> <span class="n">sys</span>
+<span class="kn">import</span> <span class="n">cv2</span> <span class="k">as</span> <span class="n">cv</span>
+
+<span class="k">class</span> <span class="nc">Video</span><span class="p">(</span><span class="n">QMainWindow</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="n">self</span><span class="p">):</span>
+        <span class="nf">super</span><span class="p">().</span><span class="nf">__init__</span><span class="p">()</span>
+        <span class="n">self</span><span class="p">.</span><span class="nf">setWindowTitle</span><span class="p">(</span><span class="sh">'</span><span class="s">비디오에서 프레임 수집</span><span class="sh">'</span><span class="p">)</span> <span class="c1"># 윈도우 이름과 위치 지정
+</span>        <span class="n">self</span><span class="p">.</span><span class="nf">setGeometry</span><span class="p">(</span><span class="mi">200</span><span class="p">,</span><span class="mi">200</span><span class="p">,</span><span class="mi">500</span><span class="p">,</span><span class="mi">100</span><span class="p">)</span>
+
+        <span class="n">videoButton</span><span class="o">=</span><span class="nc">QPushButton</span><span class="p">(</span><span class="sh">'</span><span class="s">비디오 켜기</span><span class="sh">'</span><span class="p">,</span> <span class="n">self</span><span class="p">)</span> <span class="c1"># 버튼 생성
+</span>        <span class="n">captureButton</span><span class="o">=</span><span class="nc">QPushButton</span><span class="p">(</span><span class="sh">'</span><span class="s">프레임 접기</span><span class="sh">'</span><span class="p">,</span> <span class="n">self</span><span class="p">)</span>
+        <span class="n">saveButton</span><span class="o">=</span><span class="nc">QPushButton</span><span class="p">(</span><span class="sh">'</span><span class="s">프레임 저장</span><span class="sh">'</span><span class="p">,</span> <span class="n">self</span><span class="p">)</span>
+        <span class="n">quitButton</span><span class="o">=</span><span class="nc">QPushButton</span><span class="p">(</span><span class="sh">'</span><span class="s">나가기</span><span class="sh">'</span><span class="p">,</span> <span class="n">self</span><span class="p">)</span>
+
+        <span class="n">videoButton</span><span class="p">.</span><span class="nf">setGeometry</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">100</span><span class="p">,</span><span class="mi">30</span><span class="p">)</span>
+        <span class="n">captureButton</span><span class="p">.</span><span class="nf">setGeometry</span><span class="p">(</span><span class="mi">110</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">100</span><span class="p">,</span><span class="mi">30</span><span class="p">)</span>
+        <span class="n">saveButton</span><span class="p">.</span><span class="nf">setGeometry</span><span class="p">(</span><span class="mi">210</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">100</span><span class="p">,</span><span class="mi">30</span><span class="p">)</span>
+        <span class="n">quitButton</span><span class="p">.</span><span class="nf">setGeometry</span><span class="p">(</span><span class="mi">310</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">100</span><span class="p">,</span><span class="mi">30</span><span class="p">)</span>
+
+        <span class="n">videoButton</span><span class="p">.</span><span class="n">clicked</span><span class="p">.</span><span class="nf">connect</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">videoFunction</span><span class="p">)</span> <span class="c1"># 콜백 함수 지정
+</span>        <span class="n">captureButton</span><span class="p">.</span><span class="n">clicked</span><span class="p">.</span><span class="nf">connect</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">captureFunction</span><span class="p">)</span>
+        <span class="n">saveButton</span><span class="p">.</span><span class="n">clicked</span><span class="p">.</span><span class="nf">connect</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">saveFunction</span><span class="p">)</span>
+        <span class="n">quitButton</span><span class="p">.</span><span class="n">clicked</span><span class="p">.</span><span class="nf">connect</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">quitFunction</span><span class="p">)</span>
+    
+    <span class="k">def</span> <span class="nf">videoFunction</span><span class="p">(</span><span class="n">self</span><span class="p">):</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">cap</span><span class="o">=</span><span class="n">cv</span><span class="p">.</span><span class="nc">VideoCapture</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">cv</span><span class="p">.</span><span class="n">CAP_DSHOW</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">self</span><span class="p">.</span><span class="n">cap</span><span class="p">.</span><span class="nf">isOpened</span><span class="p">():</span><span class="n">self</span><span class="p">.</span><span class="nf">close</span><span class="p">()</span> <span class="c1"># 카메라와 연결 시도
+</span>
+        <span class="k">while</span> <span class="bp">True</span><span class="p">:</span> <span class="c1"># 비디오에서 프레임을 획득하여 frame 변수에 저장하고 video display라는 윈도우에 표시
+</span>            <span class="n">ret</span><span class="p">,</span><span class="n">self</span><span class="p">.</span><span class="n">frame</span><span class="o">=</span><span class="n">self</span><span class="p">.</span><span class="n">cap</span><span class="p">.</span><span class="nf">read</span><span class="p">()</span> <span class="c1">#다른 함수와 공유하기 위해 멤버 변수로 선언 
+</span>            <span class="k">if</span> <span class="ow">not</span> <span class="n">ret</span><span class="p">:</span><span class="k">break</span>
+            <span class="n">cv</span><span class="p">.</span><span class="nf">imshow</span><span class="p">(</span><span class="sh">'</span><span class="s">video dsiplay</span><span class="sh">'</span><span class="p">,</span><span class="n">self</span><span class="p">.</span><span class="n">frame</span><span class="p">)</span>
+            <span class="n">cv</span><span class="p">.</span><span class="nf">waitKey</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    
+    <span class="k">def</span> <span class="nf">captureFunction</span><span class="p">(</span><span class="n">self</span><span class="p">):</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">capturedFrame</span><span class="o">=</span><span class="n">self</span><span class="p">.</span><span class="n">frame</span>
+        <span class="n">cv</span><span class="p">.</span><span class="nf">imshow</span><span class="p">(</span><span class="sh">'</span><span class="s">Captured Frame</span><span class="sh">'</span><span class="p">,</span><span class="n">self</span><span class="p">.</span><span class="n">capturedFrame</span><span class="p">)</span>
+    
+    <span class="k">def</span> <span class="nf">saveFunction</span><span class="p">(</span><span class="n">self</span><span class="p">):</span> <span class="c1"># 파일 저장
+</span>        <span class="n">fname</span><span class="o">=</span><span class="n">QFileDialog</span><span class="p">.</span><span class="nf">getSaveFileName</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="sh">'</span><span class="s">save file</span><span class="sh">'</span><span class="p">,</span><span class="sh">'</span><span class="s">./</span><span class="sh">'</span><span class="p">)</span> <span class="c1"># 두 번째 인수는 브라우징 윈도우의 제목을 지정, 세 번째 인수는 현재 폴더에 브라우징하라고 지시
+</span>        <span class="n">cv</span><span class="p">.</span><span class="nf">imwrite</span><span class="p">(</span><span class="n">fname</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">self</span><span class="p">.</span><span class="n">capturedFrame</span><span class="p">)</span>
+    
+    <span class="k">def</span> <span class="nf">quitFunction</span><span class="p">(</span><span class="n">self</span><span class="p">):</span> <span class="c1"># 카메라와 연결 끊음
+</span>        <span class="n">self</span><span class="p">.</span><span class="n">cap</span><span class="p">.</span><span class="nf">release</span><span class="p">()</span>
+        <span class="n">cv</span><span class="p">.</span><span class="nf">destroyAllWindows</span><span class="p">()</span>
+        <span class="n">self</span><span class="p">.</span><span class="nf">close</span><span class="p">()</span>
+
+<span class="n">app</span><span class="o">=</span><span class="nc">QApplication</span><span class="p">(</span><span class="n">sys</span><span class="p">.</span><span class="n">argv</span><span class="p">)</span>
+<span class="n">win</span><span class="o">=</span><span class="nc">Video</span><span class="p">()</span>
+<span class="n">win</span><span class="p">.</span><span class="nf">show</span><span class="p">()</span>
+<span class="n">app</span><span class="p">.</span><span class="nf">exec</span><span class="p">()</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Traceback (most recent call last):
+  File "C:\Users\junun\documents\computervision\chap6\display2.py", line 42, in saveFunction
+    cv.imwrite(fname[0],self.capturedFrame)
+cv2.error: OpenCV(4.10.0) D:\a\opencv-python\opencv-python\opencv\modules\imgcodecs\src\loadsave.cpp:708: error: (-2:Unspecified error) could not find a writer for the specified extension in function 'cv::imwrite_'
+</code></pre></div></div>
+<p>확장자 명을 png,jpg로 해야 함</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Traceback (most recent call last):
+  File "C:\Users\junun\documents\computervision\chap6\display2.py", line 42, in saveFunction
+    cv.imwrite(fname[0],self.capturedFrame)
+                        ^^^^^^^^^^^^^^^^^^
+AttributeError: 'Video' object has no attribute 'capturedFrame'
+</code></pre></div></div>
+<p>비디오 켜기가 동작중에만 작동함</p>
+
+<p>` fname=QFileDialog.getSaveFileName(self, ‘save file’,’./’)`</p>
+
+<p><code class="language-plaintext highlighter-rouge">QFileDialog.</code>는 PyQt에서 파일을 열거나 저장하는 대화 상자를 띄우는 역할을 하는 클래스 
+<code class="language-plaintext highlighter-rouge">self</code>는 일반적으로 현재 클래스의 인스턴스를 가리킨다.<br />
+즉, 대화 상자가 이 클래스 인스턴스를 부모로 가지게 된다.</p>
+
+<p>(<em>부모로 지정하면 대화 샂아가 부모 창의 중앙에 열리고, 부모 창이 닫히면 대화상자도 자동으로 닫히는 등의 연관성을 가진다</em>)</p>
+
+  </div>
+</article>
+
+        </div>
+    </div>
+</body>
+</html>

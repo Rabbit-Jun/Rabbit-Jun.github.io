@@ -1,7 +1,7 @@
 ---
 title: prepare_data
 date: 2024-11-04
-categories: deeplearning
+category: deeplearning
 layout: post
 ---
 # 데이터 준비하기

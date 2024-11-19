@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>rabbitjun</title>
+    <link rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body>
+    <header class="site-header">
+        <div class="container">
+            <a href="/" class="blog-name">RabbitJun</a>
+        </div>
+        <hr> <!-- 전체 너비의 선 -->
+    </header>
+    <div class="container sidebar-content">
+        <div class="sidebar">
+    <!-- 프로필 정보 -->
+    <div class="profile">
+        <img src="/assets/images/profile.jpg" alt="프로필 이미지" class="profile-image">
+        <h2>juneon</h2>
+        <p>아직 모르는게 많아 열심히 공부중</p>
+    </div>
+    
+    <!-- 사이드바 카테고리 목록 -->
+    <div class="sidebar-categories">
+        <ul>
+            
+            <li><a href="/category/objectdetection">objectdetection</a></li>
+            
+            <li><a href="/category/webcrawling">webcrawling</a></li>
+            
+            <li><a href="/category/linear_algebra">linear_algebra</a></li>
+            
+            <li><a href="/category/diary">diary</a></li>
+            
+            <li><a href="/category/computervision">computervision</a></li>
+            
+            <li><a href="/category/deeplearning">deeplearning</a></li>
+            
+            <li><a href="/category/preferences">preferences</a></li>
+            
+            <li><a href="/category/hnv">hnv</a></li>
+            
+            <li><a href="/category/network_program">network_program</a></li>
+            
+            <li><a href="/category/computer_structure">computer_structure</a></li>
+            
+        </ul>
+        
+    </div>
+</div>
+
+        <div class="content">
+            <article class="post-box">
+  <div class="post-header">
+    <h1>opencv5</h1>
+    <p class="post-date">Nov 2, 2024</p>
+  </div>
+  <div class="post-content">
+    <h1 id="영상에-도형을-그리고-글씨-쓰기">영상에 도형을 그리고 글씨 쓰기</h1>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">cv2</span> <span class="k">as</span> <span class="n">cv</span>
+<span class="kn">import</span> <span class="n">sys</span>
+<span class="n">img</span><span class="o">=</span><span class="n">cv</span><span class="p">.</span><span class="nf">imread</span><span class="p">(</span><span class="sh">'</span><span class="s">img/soccer_gray_small.jpg</span><span class="sh">'</span><span class="p">)</span>
+<span class="k">if</span> <span class="n">img</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+    <span class="n">sys</span><span class="p">.</span><span class="nf">exit</span><span class="p">(</span><span class="sh">'</span><span class="s">파일을 찾을 수 없습니다</span><span class="sh">'</span><span class="p">)</span>
+
+<span class="n">cv</span><span class="p">.</span><span class="nf">rectangle</span><span class="p">(</span><span class="n">img</span><span class="p">,(</span><span class="mi">400</span><span class="p">,</span><span class="mi">200</span><span class="p">),(</span><span class="mi">200</span><span class="p">,</span><span class="mi">100</span><span class="p">),(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">255</span><span class="p">),</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">cv</span><span class="p">.</span><span class="nf">putText</span><span class="p">(</span><span class="n">img</span><span class="p">,</span><span class="sh">'</span><span class="s">soccer</span><span class="sh">'</span><span class="p">,(</span><span class="mi">250</span><span class="p">,</span><span class="mi">150</span><span class="p">),</span><span class="n">cv</span><span class="p">.</span><span class="n">FONT_HERSHEY_SIMPLEX</span><span class="p">,</span><span class="mi">1</span><span class="p">,(</span><span class="mi">255</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">),</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="n">cv</span><span class="p">.</span><span class="nf">imshow</span><span class="p">(</span><span class="sh">'</span><span class="s">draws</span><span class="sh">'</span><span class="p">,</span><span class="n">img</span><span class="p">)</span>
+
+<span class="n">cv</span><span class="p">.</span><span class="nf">waitKey</span><span class="p">()</span>
+<span class="n">cv</span><span class="p">.</span><span class="nf">destroyAllWindows</span><span class="p">()</span>
+
+</code></pre></div></div>
+<p><code class="language-plaintext highlighter-rouge">rectangle()</code>에 대한 설명은 구글에서 찾아보면 바로 나오지만 위키피디아에서 퍼온 설명을 여기다가 적도록 하겠다</p>
+<hr />
+
+<p>cv2.rectangle(img, pt1, pt2, color[, thickness[, lineType[, shift]]])
+여기서 각 인자는 다음을 의미합니다:</p>
+
+<p>img: 사각형을 그릴 이미지입니다.<br />
+pt1: 사각형의 왼쪽 상단 꼭지점 좌표입니다. (x, y) 형식의 튜플이어야 합니다.<br />
+pt2: 사각형의 오른쪽 하단 꼭지점 좌표입니다. (x, y) 형식의 튜플이어야 합니다.<br />
+color: 사각형의 색상입니다. (B, G, R) 형식의 튜플이나 스칼라 값으로 지정할 수 있습니다.<br />
+thickness: 선택적으로 사각형의 선 두께를 지정합니다.<br />
+기본값은 1입니다. 음수 값을 전달하면 내부를 채웁니다.<br />
+lineType: 선택적으로 선의 형태를 지정합니다. 기본값은 cv2.LINE_8입니다.<br />
+shift: 선택적으로 좌표값의 소수 부분을 비트 시프트할 양을 지정합니다.</p>
+<hr />
+
+<p><code class="language-plaintext highlighter-rouge">cv.putText()</code>는 이미지 객체에 글을 적어 놓은걸로 ,cv.FONT_HERSHEY_SIMPLEX는 글자 타입, 1은 굵기, 마지막인자는 색을 의미한다.</p>
+
+  </div>
+</article>
+
+        </div>
+    </div>
+</body>
+</html>

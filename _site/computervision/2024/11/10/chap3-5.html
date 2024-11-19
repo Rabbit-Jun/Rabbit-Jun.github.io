@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>rabbitjun</title>
+    <link rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body>
+    <header class="site-header">
+        <div class="container">
+            <a href="/" class="blog-name">RabbitJun</a>
+        </div>
+        <hr> <!-- 전체 너비의 선 -->
+    </header>
+    <div class="container sidebar-content">
+        <div class="sidebar">
+    <!-- 프로필 정보 -->
+    <div class="profile">
+        <img src="/assets/images/profile.jpg" alt="프로필 이미지" class="profile-image">
+        <h2>juneon</h2>
+        <p>아직 모르는게 많아 열심히 공부중</p>
+    </div>
+    
+    <!-- 사이드바 카테고리 목록 -->
+    <div class="sidebar-categories">
+        <ul>
+            
+            <li><a href="/category/objectdetection">objectdetection</a></li>
+            
+            <li><a href="/category/webcrawling">webcrawling</a></li>
+            
+            <li><a href="/category/linear_algebra">linear_algebra</a></li>
+            
+            <li><a href="/category/diary">diary</a></li>
+            
+            <li><a href="/category/computervision">computervision</a></li>
+            
+            <li><a href="/category/deeplearning">deeplearning</a></li>
+            
+            <li><a href="/category/preferences">preferences</a></li>
+            
+            <li><a href="/category/hnv">hnv</a></li>
+            
+            <li><a href="/category/network_program">network_program</a></li>
+            
+            <li><a href="/category/computer_structure">computer_structure</a></li>
+            
+        </ul>
+        
+    </div>
+</div>
+
+        <div class="content">
+            <article class="post-box">
+  <div class="post-header">
+    <h1>Geometric operations</h1>
+    <p class="post-date">Nov 10, 2024</p>
+  </div>
+  <div class="post-content">
+    <p><img src="image-27.png" alt="alt text" /><br />
+영상의 크기를 조절하거나 영상을 회전하려면 위 그림 처럼 멀리 있는 화소에서 값을 가져올 수 있어야 한다.<br />
+기하 연산은 이런 경우를 다룬다.</p>
+
+<h3 id="동차-좌표와-동차-행렬">동차 좌표와 동차 행렬</h3>
+<p><strong>동차 좌표</strong>는 2차원 점의 위치 (x,y)에 1을 추가해 3차원 벡터p^-로 표현한다.<br />
+<img src="image-28.png" alt="alt text" /><br />
+동차 좌표에서는 3개 요소에 값을 곱하면 같은 좌표를 나타낸다.<br />
+(<em>Ex (-2,4,1), (-4, 8, 2), (-1, 2, 0.5)는 모두 (-2, 4)점에 해당한다</em>)<br />
+<img src="image-29.png" alt="alt text" /></p>
+
+<p><img src="image-30.png" alt="alt text" /></p>
+
+<h2 id="예시">예시</h2>
+<p>행 벡터 p_1 =(1, 3, 1)<br />
+<img src="image-31.png" alt="alt text" /><br />
+x 방향으로 2, y 방향으로 -1만큼 이동한 다음 반 시계 방향으로 30도 회전 <br />
+<img src="image-32.png" alt="alt text" /></p>
+
+<p><img src="image-33.png" alt="alt text" /></p>
+
+<p><img src="image-34.png" alt="alt text" /></p>
+
+<p>(<em>행렬 곱셈에서는 결합 법칙이 성립하기 때문에 어떤 순서로 곱하든 같은 결과를 얻는다</em>)</p>
+
+<p><img src="image-35.png" alt="alt text" /></p>
+
+<p>변환 행렬에서 아무리 여러 개를 곱해도 직선은 직선으로 평행인 선은 평행을 유지하는 이유는 동차 행렬의 3행이 (0 0 1)이기 때문이다.</p>
+
+<p>이런 성질을 가진 변환을 <strong>어파인 변환</strong>이라고 한다.<br />
+(<em>ex 투영은 멀리 있는 물체가 작게 보이기 때문에 평행을 유지하지 못하는 변환으로 어파인 변환이 아님</em>)</p>
+
+<h3 id="영상의-기하-변환">영상의 기하 변환</h3>
+
+<p>화소에 동차 변환을 적용해 영상을 회전하거나 크기를 조정할 수 있다.<br />
+(<em>화소: 영상을 구성하는 점</em>)<br />
+<strong>그런데</strong> 화소 위치를 정수로 지정하면 문제가 생긴다.<br />
+그림 3-20에서 점(1,3)이 (3.598, 0.232)로 변환되었는데 변환된 위치를 어떤 화소에 배정할까?</p>
+
+<p><img src="image-36.png" alt="alt text" /></p>
+
+<p>그림 3-21은 동차 행렬 A로 원래 영상을 새로운 영상으로 변환하는 과정이다.<br />
+빨간색으로 표시된 화소는  A에 의해 변환 영상의 해당 화소로 매칭된다.<br />
+이때 실수 좌표를 정수로 반올림하면 ?로 표시된 화소처럼 값을 받지 못하는 경우가 발생한다!!</p>
+
+<p>결과적으로 곳곳에 구멍이 뚫린 이상한 영상이 되는데 이런 현상을 <strong>에일리어싱</strong>이라 하고 에일리어싱을 누그러뜨리는 방법을 <strong>안티 에일리어싱</strong>이라 한다.</p>
+
+<p>안티 에일리어싱을 할려면 그림 b처럼 변환 영상이 원래 영상의 해당 화소를 찾는 <strong>후방 변환</strong>을 사용하면 된다.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>왜 빈 공간(?)이 발생하는가?
+전방 변환에서는 각 원래 화소가 변환 후의 위치로 이동하게 되는데, 이 위치가 실수 좌표로 이동할 수 있기 때문에 반올림을 통해 정수 좌표에 할당하게 됩니다. 이 과정에서 몇몇 정수 좌표는 어떤 화소로부터도 이동되지 않게 되어 빈 공간이 생기게 됩니다.
+
+즉 동차 행렬을 하면 실수 예를 들면 6.5 같은게 만들어 질 수 있는데 이걸 반올림 하여 7로 바꾸면 6.5가 있어야 할 자리에 어떤 화소도 안들어가 구멍이 뚫린다는 것!
+
+</code></pre></div></div>
+
+<h2 id="예시-설정">예시 설정</h2>
+<p>원래 영상: 
+5×5 크기의 간단한 격자 형태의 이미지라고 가정하겠습니다.</p>
+
+<p>변환 행렬 
+A: 오른쪽으로 2칸 이동하는 변환을 표현하는 동차 변환 행렬을 사용합니다.
+<img src="image-37.png" alt="alt text" /></p>
+
+<p>역행렬 : 이 변환을 후방 변환으로 수행할 것이므로, 변환 행렬의 <strong>역행렬</strong>을 사용합니다. 역행렬은 다음과 같습니다.</p>
+
+<p><img src="image-41.png" alt="alt text" /></p>
+
+<p>변환 후 영상의 각 픽셀을 순회하며 원래 영상에서 값을 가져오는 과정:<br />
+<img src="image-39.png" alt="alt text" /></p>
+
+<h3 id="역행렬-구하기">역행렬 구하기</h3>
+
+<ol>
+  <li>단순 이동 행렬
+    <ul>
+      <li>이동 거리의 부호를 반대로 적용 
+ <img src="image-37.png" alt="alt text" /><br />
+ <img src="image-41.png" alt="alt text" /></li>
+    </ul>
+  </li>
+  <li>
+    <p>2*2 변환 행렬의 경우 
+<img src="image-42.png" alt="alt text" /><br />
+<img src="image-43.png" alt="alt text" /><br />
+*단, 행렬식 ad-bc != 0, 행렬식이 0이면 역행렬이 존재 하지 않음 *</p>
+  </li>
+  <li>3*3 행렬</li>
+  <li><img src="image-44.png" alt="alt text" /></li>
+  <li>행렬식 계산
+    <ul>
+      <li><img src="image-45.png" alt="alt text" /></li>
+    </ul>
+  </li>
+  <li>여인자(*cofactor) 행렬 구하기
+    <ul>
+      <li><img src="image-46.png" alt="alt text" /></li>
+    </ul>
+  </li>
+  <li>여인자 행렬을 전치하여 수반(adjugate) 행렬 구하기
+    <ul>
+      <li><img src="image-47.png" alt="alt text" /></li>
+    </ul>
+  </li>
+  <li>역행렬 계산
+    <ul>
+      <li><img src="image-48.png" alt="alt text" /></li>
+    </ul>
+  </li>
+</ol>
+
+<p><em>여인자는 특정 원소가 속하지 않는 나머지 행렬의 행렬식에 부호를 적용한 값입니다.</em></p>
+
+<p><em>예시를 들자면 위 행렬에서 “원소 a의 여인자는, 원소 a가 속한 첫 번째 행과 첫 번째 열을 제외한 나머지 원소들 e,f,h,i로 구성된 작은 2x2 행렬의 행렬식에 부호를 적용한 값입니다:”</em><br />
+<img src="image-49.png" alt="alt text" /></p>
+
+<p><em>여기서 부호는 원소의 위치에 따라 다릅니다. 위치에 따른 부호는 체스판 패턴을 따라 결정됩니다:</em>
+<img src="image-50.png" alt="alt text" /></p>
+
+<p><em>수반 행렬은 여인자 행렬을 전치한 행렬</em></p>
+
+  </div>
+</article>
+
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>rabbitjun</title>
+    <link rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body>
+    <header class="site-header">
+        <div class="container">
+            <a href="/" class="blog-name">RabbitJun</a>
+        </div>
+        <hr> <!-- 전체 너비의 선 -->
+    </header>
+    <div class="container sidebar-content">
+        <div class="sidebar">
+    <!-- 프로필 정보 -->
+    <div class="profile">
+        <img src="/assets/images/profile.jpg" alt="프로필 이미지" class="profile-image">
+        <h2>juneon</h2>
+        <p>아직 모르는게 많아 열심히 공부중</p>
+    </div>
+    
+    <!-- 사이드바 카테고리 목록 -->
+    <div class="sidebar-categories">
+        <ul>
+            
+            <li><a href="/category/objectdetection">objectdetection</a></li>
+            
+            <li><a href="/category/webcrawling">webcrawling</a></li>
+            
+            <li><a href="/category/linear_algebra">linear_algebra</a></li>
+            
+            <li><a href="/category/diary">diary</a></li>
+            
+            <li><a href="/category/computervision">computervision</a></li>
+            
+            <li><a href="/category/deeplearning">deeplearning</a></li>
+            
+            <li><a href="/category/preferences">preferences</a></li>
+            
+            <li><a href="/category/hnv">hnv</a></li>
+            
+            <li><a href="/category/network_program">network_program</a></li>
+            
+            <li><a href="/category/computer_structure">computer_structure</a></li>
+            
+        </ul>
+        
+    </div>
+</div>
+
+        <div class="content">
+            <article class="post-box">
+  <div class="post-header">
+    <h1>opencv5</h1>
+    <p class="post-date">Nov 3, 2024</p>
+  </div>
+  <div class="post-content">
+    <h1 id="마우스로-클릭한-곳에-직사각형-그리기">마우스로 클릭한 곳에 직사각형 그리기</h1>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">cv2</span> <span class="k">as</span> <span class="n">cv</span>
+<span class="kn">import</span> <span class="n">sys</span>
+
+<span class="n">img</span><span class="o">=</span><span class="n">cv</span><span class="p">.</span><span class="nf">imread</span><span class="p">(</span><span class="sh">'</span><span class="s">cap2.png</span><span class="sh">'</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="n">img</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+    <span class="n">sys</span><span class="p">.</span><span class="nf">exit</span><span class="p">(</span><span class="sh">'</span><span class="s">not found file</span><span class="sh">'</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">draw</span><span class="p">(</span><span class="n">event</span><span class="p">,</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">flags</span><span class="p">,</span><span class="n">param</span><span class="p">):</span>
+    <span class="k">global</span> <span class="n">ix</span><span class="p">,</span><span class="n">iy</span>
+    <span class="k">if</span> <span class="n">event</span> <span class="o">==</span><span class="n">cv</span><span class="p">.</span><span class="n">EVENT_LBUTTONDOWN</span><span class="p">:</span>
+        <span class="n">ix</span><span class="p">,</span><span class="n">iy</span><span class="o">=</span><span class="n">x</span><span class="p">,</span><span class="n">y</span>
+    <span class="k">elif</span> <span class="n">event</span> <span class="o">==</span><span class="n">cv</span><span class="p">.</span><span class="n">EVENT_RBUTTONDOWN</span><span class="p">:</span>
+        <span class="n">cv</span><span class="p">.</span><span class="nf">rectangle</span><span class="p">(</span><span class="n">img</span><span class="p">,(</span><span class="n">ix</span><span class="p">,</span><span class="n">iy</span><span class="p">),(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">),(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">255</span><span class="p">),</span><span class="mi">2</span><span class="p">)</span>
+
+    <span class="n">cv</span><span class="p">.</span><span class="nf">imshow</span><span class="p">(</span><span class="sh">'</span><span class="s">Drawing</span><span class="sh">'</span><span class="p">,</span> <span class="n">img</span><span class="p">)</span>   
+
+<span class="n">cv</span><span class="p">.</span><span class="nf">namedWindow</span><span class="p">(</span><span class="sh">'</span><span class="s">Drawing</span><span class="sh">'</span><span class="p">)</span>
+<span class="n">cv</span><span class="p">.</span><span class="nf">imshow</span><span class="p">(</span><span class="sh">'</span><span class="s">Drawing</span><span class="sh">'</span><span class="p">,</span> <span class="n">img</span><span class="p">)</span>
+
+<span class="n">cv</span><span class="p">.</span><span class="nf">setMouseCallback</span><span class="p">(</span><span class="sh">'</span><span class="s">Drawing</span><span class="sh">'</span><span class="p">,</span><span class="n">draw</span><span class="p">)</span>
+
+<span class="nf">while</span><span class="p">(</span><span class="bp">True</span><span class="p">):</span>
+     <span class="k">if</span> <span class="n">cv</span><span class="p">.</span><span class="nf">waitKey</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">==</span><span class="nf">ord</span><span class="p">(</span><span class="sh">'</span><span class="s">q</span><span class="sh">'</span><span class="p">):</span>
+          <span class="n">cv</span><span class="p">.</span><span class="nf">destroyAllWindows</span><span class="p">()</span>
+          <span class="k">break</span>
+</code></pre></div></div>
+<p><code class="language-plaintext highlighter-rouge">cv.setMouseCallback('Drawing',draw)</code>은 Drawing 이라는 이름의 윈도웨서 마우스 이벤트가 발생하면 draw라는 콜백 함수를 호출하라고 등록한다.<br />
+마우스 이벤트는 버튼 클릭하기, 버튼에서 손 놓기, 커서 이동 휠 돌리기를 하면 발생한다.<br />
+(<em>여기서 flags랑 param은 사용하지 않지만 cv.setMouseCallback함수가 5개의 인자를 건내주기에 draw에는 작성해줘야 한다, flags랑 param은 다음기회에 설명해 주겠다</em>)</p>
+
+<p><code class="language-plaintext highlighter-rouge">global ix,iy</code>를 하는 이유는 지역변수로 설정하면 함수가 끝날 때 소멸하여 좌표값을 유지할 수 없기 때문이다.</p>
+
+<p>콜백 함수가 있는 경우 프로그램이 순차적으로 진행되는 것이 아니라, 이벤트가 발생할 때마다 해당 이벤트를 처리하기 위해 콜백 함수가 실행됩니다.<br />
+이를 <strong>이벤트 기반 프로그래밍(event-driven programming)</strong> 이라고 합니다.</p>
+
+  </div>
+</article>
+
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>rabbitjun</title>
+    <link rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body>
+    <header class="site-header">
+        <div class="container">
+            <a href="/" class="blog-name">RabbitJun</a>
+        </div>
+        <hr> <!-- 전체 너비의 선 -->
+    </header>
+    <div class="container sidebar-content">
+        <div class="sidebar">
+    <!-- 프로필 정보 -->
+    <div class="profile">
+        <img src="/assets/images/profile.jpg" alt="프로필 이미지" class="profile-image">
+        <h2>juneon</h2>
+        <p>아직 모르는게 많아 열심히 공부중</p>
+    </div>
+    
+    <!-- 사이드바 카테고리 목록 -->
+    <div class="sidebar-categories">
+        <ul>
+            
+            <li><a href="/category/objectdetection">objectdetection</a></li>
+            
+            <li><a href="/category/webcrawling">webcrawling</a></li>
+            
+            <li><a href="/category/linear_algebra">linear_algebra</a></li>
+            
+            <li><a href="/category/diary">diary</a></li>
+            
+            <li><a href="/category/computervision">computervision</a></li>
+            
+            <li><a href="/category/deeplearning">deeplearning</a></li>
+            
+            <li><a href="/category/preferences">preferences</a></li>
+            
+            <li><a href="/category/hnv">hnv</a></li>
+            
+            <li><a href="/category/network_program">network_program</a></li>
+            
+            <li><a href="/category/computer_structure">computer_structure</a></li>
+            
+        </ul>
+        
+    </div>
+</div>
+
+        <div class="content">
+            <article class="post-box">
+  <div class="post-header">
+    <h1>preprocessing_data2</h1>
+    <p class="post-date">Nov 4, 2024</p>
+  </div>
+  <div class="post-content">
+    <h3 id="csv에-레이블을-넣어보자">csv에 레이블을 넣어보자</h3>
+<p>각 csv에 해당하는 레이블은 디렉터리의 이름이다.<br />
+즉, 디렉터리의 이름 값을 csv의 마지막 행에 넣어주면 되는 것!<br />
+.<br />
+.<br />
+.<br />
+이라고 생각을 했으나 생각해보니 많이 이상하다… <br />
+csv가 약 300개정도로 이루어져 있고 그 행들이 다 합쳐 하나의 동작인데 csv에 label을 넣고 각 행에 nomal, error의 값을 넣는다는게 말이 안됨<br />
+(<em>어떤 관절 포인트가 정상 또는 비정상이 아니라 관절 포인트가 다른 관절포인트와의 상호작용으로 알아내는것이니 하나의 행으로는 정상과 비정상을 알 수가 없음</em>)</p>
+
+<p>그럼 어찌해야 하냐…</p>
+<h1 id="csv의-경로를-이용하여-csv의-이름-바꾸자">csv의 경로를 이용하여 csv의 이름 바꾸자!</h1>
+<p>주의 깊게 본 사람은 알겠지만<br />
+내 csv파일은</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>filename=['arm_posture_errors',  'chest_and_hip_joint_errors',  'hip_joint_movement_errors', 'normal']
+</code></pre></div></div>
+<p>의 이름의 디렉터리 안에 있다.<br />
+그리고</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>['../data/train/arm_posture_errors/CA01_Motion2-1.csv', '../data/train/arm_posture_errors/CA01_Motion2-2.csv', '../data/train/arm_posture_errors/CA01_Motion2-3.csv', '../data/train/arm_posture_errors/CA01_Motion2-4.csv',
+</code></pre></div></div>
+<p>이러한 경로 안에 있다.<br />
+즉, 경로에서 4번째 인자값과 5번째 인자값을 합하여 새로운 이름으로 만들고 4번째 인자값으로 레이블로 인식하게 분류기를 작성하면 되는 것!<br />
+(<em>처음 데이터를 복사할 때 여기까지 생각할 수 있었으면 좋았을 텐데ㅠ.ㅜ</em>)<br />
+<strong>%후에 분류기에서 4번째와 5번째를 구별할 수 있게끔 특별한 기호같은걸 넣어주는 걸 잊지 말자</strong></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">os</span>
+<span class="kn">import</span> <span class="n">glob</span>
+<span class="kn">import</span> <span class="n">shutil</span>
+
+
+<span class="n">filename</span> <span class="o">=</span> <span class="p">[</span><span class="sh">'</span><span class="s">arm_posture_errors</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">chest_and_hip_joint_errors</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">hip_joint_movement_errors</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">normal</span><span class="sh">'</span><span class="p">]</span>
+<span class="n">train_paths</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="sh">'</span><span class="s">../data/train/</span><span class="si">{</span><span class="nb">file</span><span class="si">}</span><span class="s">/*.csv</span><span class="sh">'</span> <span class="k">for</span> <span class="nb">file</span> <span class="ow">in</span> <span class="n">filename</span><span class="p">]</span>
+<span class="n">train_data_path</span> <span class="o">=</span> <span class="sh">'</span><span class="s">../data/train</span><span class="sh">'</span>
+<span class="n">csv_files</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">train_paths</span><span class="p">:</span>
+    <span class="n">csv_files</span><span class="p">.</span><span class="nf">extend</span><span class="p">(</span><span class="n">glob</span><span class="p">.</span><span class="nf">glob</span><span class="p">(</span><span class="n">path</span><span class="p">))</span>
+
+<span class="k">for</span> <span class="n">file_path</span> <span class="ow">in</span> <span class="n">csv_files</span><span class="p">:</span>
+    <span class="n">parts</span> <span class="o">=</span> <span class="n">file_path</span><span class="p">.</span><span class="nf">split</span><span class="p">(</span><span class="sh">'</span><span class="s">/</span><span class="sh">'</span><span class="p">)</span>
+    <span class="n">label</span> <span class="o">=</span> <span class="n">parts</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+    <span class="n">original_filename</span> <span class="o">=</span> <span class="n">parts</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span>
+
+    <span class="n">new_filename</span> <span class="o">=</span> <span class="sa">f</span><span class="sh">"</span><span class="si">{</span><span class="n">label</span><span class="si">}</span><span class="s">@</span><span class="si">{</span><span class="n">original_filename</span><span class="si">}</span><span class="sh">"</span>
+    <span class="nf">print</span><span class="p">(</span><span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="nf">dirname</span><span class="p">(</span><span class="n">file_path</span><span class="p">))</span>
+
+
+    <span class="n">new_file_path</span> <span class="o">=</span> <span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="nf">join</span><span class="p">(</span><span class="n">train_data_path</span><span class="p">,</span> <span class="n">new_filename</span><span class="p">)</span>
+
+    <span class="n">shutil</span><span class="p">.</span><span class="nf">move</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="n">new_file_path</span><span class="p">)</span>
+</code></pre></div></div>
+<p>하고 같은 방식으로 val도 옮겨 준다</p>
+
+  </div>
+</article>
+
+        </div>
+    </div>
+</body>
+</html>

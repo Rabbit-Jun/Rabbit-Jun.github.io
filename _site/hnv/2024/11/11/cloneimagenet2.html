@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>rabbitjun</title>
+    <link rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body>
+    <header class="site-header">
+        <div class="container">
+            <a href="/" class="blog-name">RabbitJun</a>
+        </div>
+        <hr> <!-- 전체 너비의 선 -->
+    </header>
+    <div class="container sidebar-content">
+        <div class="sidebar">
+    <!-- 프로필 정보 -->
+    <div class="profile">
+        <img src="/assets/images/profile.jpg" alt="프로필 이미지" class="profile-image">
+        <h2>juneon</h2>
+        <p>아직 모르는게 많아 열심히 공부중</p>
+    </div>
+    
+    <!-- 사이드바 카테고리 목록 -->
+    <div class="sidebar-categories">
+        <ul>
+            
+            <li><a href="/category/objectdetection">objectdetection</a></li>
+            
+            <li><a href="/category/webcrawling">webcrawling</a></li>
+            
+            <li><a href="/category/linear_algebra">linear_algebra</a></li>
+            
+            <li><a href="/category/diary">diary</a></li>
+            
+            <li><a href="/category/computervision">computervision</a></li>
+            
+            <li><a href="/category/deeplearning">deeplearning</a></li>
+            
+            <li><a href="/category/preferences">preferences</a></li>
+            
+            <li><a href="/category/hnv">hnv</a></li>
+            
+            <li><a href="/category/network_program">network_program</a></li>
+            
+            <li><a href="/category/computer_structure">computer_structure</a></li>
+            
+        </ul>
+        
+    </div>
+</div>
+
+        <div class="content">
+            <article class="post-box">
+  <div class="post-header">
+    <h1>Readme2</h1>
+    <p class="post-date">Nov 11, 2024</p>
+  </div>
+  <div class="post-content">
+    <h1 id="readme를-읽어보자2">Readme를 읽어보자2</h1>
+
+<h3 id="훈련">훈련</h3>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">python train.py -m your_device -dc "your_image_path -g "0" </code>이렇게 인자를 전달
+(<em>이게 argparse인듯 하다</em>)</li>
+  <li>model(필수): 사용할 모델 선택 (vgg or resnet or efficientnet)</li>
+  <li>device(선택): 훈련에 사용할 디바이스 선택 (cpu or cuda)</li>
+  <li>나머지 인자는 코드에서 확인</li>
+</ul>
+
+<h3 id="예측">예측</h3>
+<ul>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">python predict.py -m your_device -dc "your_image_path -g "0" --image_path "your_image_path</code></p>
+  </li>
+  <li>ip, image_path(필수): 예측할 이미지 파일 선택</li>
+  <li>m, model(필수): 사용할 모델 선택 (vgg or resnet or efficientnet)</li>
+  <li>dc, device(선택): 훈련에 사용할 디바이스 선택 (cpu or gpu)</li>
+  <li>g, gpus(선택): 훈련에 사용할 gpu개수 선택</li>
+  <li>나머지 인자는 코드에서 확인</li>
+</ul>
+
+  </div>
+</article>
+
+        </div>
+    </div>
+</body>
+</html>

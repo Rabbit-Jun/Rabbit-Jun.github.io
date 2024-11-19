@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>rabbitjun</title>
+    <link rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body>
+    <header class="site-header">
+        <div class="container">
+            <a href="/" class="blog-name">RabbitJun</a>
+        </div>
+        <hr> <!-- 전체 너비의 선 -->
+    </header>
+    <div class="container sidebar-content">
+        <div class="sidebar">
+    <!-- 프로필 정보 -->
+    <div class="profile">
+        <img src="/assets/images/profile.jpg" alt="프로필 이미지" class="profile-image">
+        <h2>juneon</h2>
+        <p>아직 모르는게 많아 열심히 공부중</p>
+    </div>
+    
+    <!-- 사이드바 카테고리 목록 -->
+    <div class="sidebar-categories">
+        <ul>
+            
+            <li><a href="/category/objectdetection">objectdetection</a></li>
+            
+            <li><a href="/category/webcrawling">webcrawling</a></li>
+            
+            <li><a href="/category/linear_algebra">linear_algebra</a></li>
+            
+            <li><a href="/category/diary">diary</a></li>
+            
+            <li><a href="/category/computervision">computervision</a></li>
+            
+            <li><a href="/category/deeplearning">deeplearning</a></li>
+            
+            <li><a href="/category/preferences">preferences</a></li>
+            
+            <li><a href="/category/hnv">hnv</a></li>
+            
+            <li><a href="/category/network_program">network_program</a></li>
+            
+            <li><a href="/category/computer_structure">computer_structure</a></li>
+            
+        </ul>
+        
+    </div>
+</div>
+
+        <div class="content">
+            <article class="post-box">
+  <div class="post-header">
+    <h1>notice_area</h1>
+    <p class="post-date">Nov 11, 2024</p>
+  </div>
+  <div class="post-content">
+    <h1 id="교통약자-보호구역-알림">교통약자 보호구역 알림</h1>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">cv2</span> <span class="k">as</span> <span class="n">cv</span>
+<span class="kn">import</span> <span class="n">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">from</span> <span class="n">PyQt6.QtWidgets</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">import</span> <span class="n">sys</span>
+<span class="kn">import</span> <span class="n">winsound</span>
+
+<span class="k">class</span> <span class="nc">TrafficWeak</span><span class="p">(</span><span class="n">QMainWindow</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="n">self</span><span class="p">):</span>
+        <span class="nf">super</span><span class="p">().</span><span class="nf">__init__</span><span class="p">()</span>
+        <span class="n">self</span><span class="p">.</span><span class="nf">setWindowTitle</span><span class="p">(</span><span class="sh">'</span><span class="s">교통약자 보호</span><span class="sh">'</span><span class="p">)</span>
+        <span class="n">self</span><span class="p">.</span><span class="nf">setGeometry</span><span class="p">(</span><span class="mi">200</span><span class="p">,</span><span class="mi">200</span><span class="p">,</span><span class="mi">700</span><span class="p">,</span><span class="mi">200</span><span class="p">)</span>
+
+        <span class="n">signButton</span><span class="o">=</span><span class="nc">QPushButton</span><span class="p">(</span><span class="sh">'</span><span class="s">표지판 등록</span><span class="sh">'</span><span class="p">,</span> <span class="n">self</span><span class="p">)</span>
+        <span class="n">roadButton</span><span class="o">=</span><span class="nc">QPushButton</span><span class="p">(</span><span class="sh">'</span><span class="s">도로 영상 불러옴</span><span class="sh">'</span><span class="p">,</span> <span class="n">self</span><span class="p">)</span>
+        <span class="n">recognitionButton</span><span class="o">=</span><span class="nc">QPushButton</span><span class="p">(</span><span class="sh">'</span><span class="s">인식</span><span class="sh">'</span><span class="p">,</span> <span class="n">self</span><span class="p">)</span>
+        <span class="n">quitButton</span><span class="o">=</span><span class="nc">QPushButton</span><span class="p">(</span><span class="sh">'</span><span class="s">나가기</span><span class="sh">'</span><span class="p">,</span><span class="n">self</span><span class="p">)</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">label</span><span class="o">=</span><span class="nc">QLabel</span><span class="p">(</span><span class="sh">'</span><span class="s">welcome!</span><span class="sh">'</span><span class="p">,</span><span class="n">self</span><span class="p">)</span>
+
+        <span class="n">signButton</span><span class="p">.</span><span class="nf">setGeometry</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">100</span><span class="p">,</span><span class="mi">30</span><span class="p">)</span>
+        <span class="n">roadButton</span><span class="p">.</span><span class="nf">setGeometry</span><span class="p">(</span><span class="mi">110</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">100</span><span class="p">,</span><span class="mi">30</span><span class="p">)</span>
+        <span class="n">recognitionButton</span><span class="p">.</span><span class="nf">setGeometry</span><span class="p">(</span><span class="mi">210</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">100</span><span class="p">,</span><span class="mi">30</span><span class="p">)</span>
+        <span class="n">quitButton</span><span class="p">.</span><span class="nf">setGeometry</span><span class="p">(</span><span class="mi">510</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">100</span><span class="p">,</span><span class="mi">30</span><span class="p">)</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">label</span><span class="p">.</span><span class="nf">setGeometry</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">40</span><span class="p">,</span><span class="mi">600</span><span class="p">,</span><span class="mi">170</span><span class="p">)</span>
+
+        <span class="n">signButton</span><span class="p">.</span><span class="n">clicked</span><span class="p">.</span><span class="nf">connect</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">signFunction</span><span class="p">)</span>
+        <span class="n">roadButton</span><span class="p">.</span><span class="n">clicked</span><span class="p">.</span><span class="nf">connect</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">roadFunction</span><span class="p">)</span>
+        <span class="n">recognitionButton</span><span class="p">.</span><span class="n">clicked</span><span class="p">.</span><span class="nf">connect</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">recognitionFunction</span><span class="p">)</span>
+        <span class="n">quitButton</span><span class="p">.</span><span class="n">clicked</span><span class="p">.</span><span class="nf">connect</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">quitFunction</span><span class="p">)</span>
+
+        <span class="n">self</span><span class="p">.</span><span class="n">signFiles</span><span class="o">=</span><span class="p">[[</span><span class="sh">'</span><span class="s">child.png</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">child</span><span class="sh">'</span><span class="p">],[</span><span class="sh">'</span><span class="s">elder.png</span><span class="sh">'</span><span class="p">,</span><span class="sh">'</span><span class="s">elder</span><span class="sh">'</span><span class="p">],[</span><span class="sh">'</span><span class="s">disabled.png</span><span class="sh">'</span><span class="p">,</span><span class="sh">'</span><span class="s">disabled</span><span class="sh">'</span><span class="p">]]</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">signImgs</span><span class="o">=</span><span class="p">[]</span>
+    
+    <span class="k">def</span> <span class="nf">signFunction</span><span class="p">(</span><span class="n">self</span><span class="p">):</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">label</span><span class="p">.</span><span class="nf">clear</span><span class="p">()</span> <span class="c1"># 레이블을 깨끗이 지움
+</span>        <span class="n">self</span><span class="p">.</span><span class="n">label</span><span class="p">.</span><span class="nf">setText</span><span class="p">(</span><span class="sh">'</span><span class="s">교통약자 표지판을 등록합니다</span><span class="sh">'</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">fname</span><span class="p">,</span><span class="n">_</span> <span class="ow">in</span> <span class="n">self</span><span class="p">.</span><span class="n">signFiles</span><span class="p">:</span>
+            <span class="n">self</span><span class="p">.</span><span class="n">signImgs</span><span class="p">.</span><span class="nf">append</span><span class="p">(</span><span class="n">cv</span><span class="p">.</span><span class="nf">imread</span><span class="p">(</span><span class="n">fname</span><span class="p">))</span>  <span class="c1"># cv.imread는 기본적으로 이미지를 NumPy 배열 형태로 반환
+</span>            <span class="n">cv</span><span class="p">.</span><span class="nf">imshow</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span><span class="n">self</span><span class="p">.</span><span class="n">signImgs</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>  <span class="c1"># 방금 추가한 영상을 fname이라는 제목 표시줄을 가진 윈도우에 디스플레이
+</span>    
+    <span class="k">def</span> <span class="nf">roadFunction</span><span class="p">(</span><span class="n">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">self</span><span class="p">.</span><span class="n">signImgs</span><span class="o">==</span><span class="p">[]:</span>
+            <span class="n">self</span><span class="p">.</span><span class="n">label</span><span class="p">.</span><span class="nf">setText</span><span class="p">(</span><span class="sh">'</span><span class="s">먼저 표지판을 등록하세요.</span><span class="sh">'</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">fname</span><span class="o">=</span><span class="n">QFileDialog</span><span class="p">.</span><span class="nf">getOpenFileName</span><span class="p">(</span><span class="n">self</span><span class="p">,</span><span class="sh">'</span><span class="s">read file</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">./</span><span class="sh">'</span><span class="p">)</span>  <span class="c1"># 사용자가 폴더를 브라우징하면서 도로영상을 선택할 수 있게 한다
+</span>            <span class="n">self</span><span class="p">.</span><span class="n">roadImg</span><span class="o">=</span><span class="n">cv</span><span class="p">.</span><span class="nf">imread</span><span class="p">(</span><span class="n">fname</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="k">if</span> <span class="n">self</span><span class="p">.</span><span class="n">roadImg</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span> <span class="n">sys</span><span class="p">.</span><span class="nf">exit</span><span class="p">(</span><span class="sh">'</span><span class="s">file not found</span><span class="sh">'</span><span class="p">)</span>
+
+            <span class="n">cv</span><span class="p">.</span><span class="nf">imshow</span><span class="p">(</span><span class="sh">'</span><span class="s">Road scene</span><span class="sh">'</span><span class="p">,</span><span class="n">self</span><span class="p">.</span><span class="n">roadImg</span><span class="p">)</span>
+    
+    <span class="k">def</span> <span class="nf">recognitionFunction</span><span class="p">(</span><span class="n">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">self</span><span class="p">.</span><span class="n">roadImg</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">self</span><span class="p">.</span><span class="n">label</span><span class="p">.</span><span class="nf">setText</span><span class="p">(</span><span class="sh">'</span><span class="s">먼저 도로 영상을 입력하세요</span><span class="sh">'</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">sift</span><span class="o">=</span><span class="n">cv</span><span class="p">.</span><span class="nc">SIFT_create</span><span class="p">()</span>  <span class="c1"># 이미지에서 특징점(keypoint)를 감지하고 설명자(descriptor)를 생성하는 알고리즘
+</span>
+            <span class="n">KD</span><span class="o">=</span><span class="p">[]</span>
+            <span class="k">for</span> <span class="n">img</span> <span class="ow">in</span> <span class="n">self</span><span class="p">.</span><span class="n">signImgs</span><span class="p">:</span>
+                <span class="n">gray</span><span class="o">=</span><span class="n">cv</span><span class="p">.</span><span class="nf">cvtColor</span><span class="p">(</span><span class="n">img</span><span class="p">,</span><span class="n">cv</span><span class="p">.</span><span class="n">COLOR_BGR2GRAY</span><span class="p">)</span>
+                <span class="n">KD</span><span class="p">.</span><span class="nf">append</span><span class="p">(</span><span class="n">sift</span><span class="p">.</span><span class="nf">detectAndCompute</span><span class="p">(</span><span class="n">gray</span><span class="p">,</span><span class="bp">None</span><span class="p">))</span>  <span class="c1"># detectAndCompute 함수를 통해 9특징점, 기술자] 정보를 획득
+</span>            
+            <span class="n">grayRoad</span><span class="o">=</span><span class="n">cv</span><span class="p">.</span><span class="nf">cvtColor</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">roadImg</span><span class="p">,</span><span class="n">cv</span><span class="p">.</span><span class="n">COLOR_BGR2GRAY</span><span class="p">)</span>  <span class="c1"># 명암으로 변환
+</span>            <span class="n">road_kp</span><span class="p">,</span><span class="n">road_des</span><span class="o">=</span><span class="n">sift</span><span class="p">.</span><span class="nf">detectAndCompute</span><span class="p">(</span><span class="n">grayRoad</span><span class="p">,</span><span class="bp">None</span><span class="p">)</span>  <span class="c1"># 키포인트와 기술자 추출
+</span>
+            <span class="n">matcher</span><span class="o">=</span><span class="n">cv</span><span class="p">.</span><span class="nc">DescriptorMatcher_create</span><span class="p">(</span><span class="n">cv</span><span class="p">.</span><span class="n">DescriptorMatcher_FLANNBASED</span><span class="p">)</span>  <span class="c1"># FLANN 기반 매칭을 해주는 matcher 객체를 생ㅇ성
+</span>            <span class="n">GM</span><span class="o">=</span><span class="p">[]</span>  <span class="c1"># 여러 표지판 영상의 good match를 저장
+</span>            <span class="k">for</span> <span class="n">sign_kp</span><span class="p">,</span><span class="n">sign_des</span> <span class="ow">in</span> <span class="n">KD</span><span class="p">:</span>
+                <span class="n">knn_match</span><span class="o">=</span><span class="n">matcher</span><span class="p">.</span><span class="nf">knnMatch</span><span class="p">(</span><span class="n">sign_des</span><span class="p">,</span><span class="n">road_des</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>  <span class="c1"># sign_de를 road_des와 매칭하여 특징점마다 최근접 이웃 2개를 찾는다.
+</span>                <span class="n">T</span><span class="o">=</span><span class="mf">0.7</span>
+                <span class="n">good_match</span><span class="o">=</span><span class="p">[]</span>
+                <span class="k">for</span> <span class="n">nearest1</span><span class="p">,</span><span class="n">nearest2</span> <span class="ow">in</span> <span class="n">knn_match</span><span class="p">:</span>  <span class="c1"># knnMatch 함수에서 k=2로 설정했기 때문에 nearest1과 nearest2로 가장 가까운 두 개의 매칭 결과를 반환
+</span>                    <span class="nf">if </span><span class="p">(</span><span class="n">nearest1</span><span class="p">.</span><span class="n">distance</span><span class="o">/</span><span class="n">nearest2</span><span class="p">.</span><span class="n">distance</span><span class="p">)</span><span class="o">&lt;</span><span class="n">T</span><span class="p">:</span> <span class="c1"># nearest1.distance는 각 특징점과 가장 가까운 이웃의 거리이고, nearest2.distance는 그 다음으로 가까운 이웃의 거리
+</span>                        <span class="n">good_match</span><span class="p">.</span><span class="nf">append</span><span class="p">(</span><span class="n">nearest1</span><span class="p">)</span>
+                <span class="n">GM</span><span class="p">.</span><span class="nf">append</span><span class="p">(</span><span class="n">good_match</span><span class="p">)</span>
+            
+            <span class="n">best</span><span class="o">=</span><span class="n">GM</span><span class="p">.</span><span class="nf">index</span><span class="p">(</span><span class="nf">max</span><span class="p">(</span><span class="n">GM</span><span class="p">,</span><span class="n">key</span><span class="o">=</span><span class="nb">len</span><span class="p">))</span>  <span class="c1"># 매칭 쌍 개수가 최대인 표지판 찾기
+</span>
+            <span class="k">if</span> <span class="nf">len</span><span class="p">(</span><span class="n">GM</span><span class="p">[</span><span class="n">best</span><span class="p">])</span><span class="o">&lt;</span><span class="mi">4</span><span class="p">:</span>
+                <span class="n">self</span><span class="p">.</span><span class="n">label</span><span class="p">.</span><span class="nf">setText</span><span class="p">(</span><span class="sh">'</span><span class="s">표지판이 없습니다</span><span class="sh">'</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">sign_kp</span><span class="o">=</span><span class="n">KD</span><span class="p">[</span><span class="n">best</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+                <span class="n">good_match</span><span class="o">=</span><span class="n">GM</span><span class="p">[</span><span class="n">best</span><span class="p">]</span>
+
+                <span class="n">points1</span><span class="o">=</span><span class="n">np</span><span class="p">.</span><span class="nf">float32</span><span class="p">([</span><span class="n">sign_kp</span><span class="p">[</span><span class="n">gm</span><span class="p">.</span><span class="n">queryIdx</span><span class="p">].</span><span class="n">pt</span> <span class="k">for</span> <span class="n">gm</span> <span class="ow">in</span> <span class="n">good_match</span><span class="p">])</span>
+                <span class="n">points2</span><span class="o">=</span><span class="n">np</span><span class="p">.</span><span class="nf">float32</span><span class="p">([</span><span class="n">road_kp</span><span class="p">[</span><span class="n">gm</span><span class="p">.</span><span class="n">trainIdx</span><span class="p">].</span><span class="n">pt</span> <span class="k">for</span> <span class="n">gm</span> <span class="ow">in</span> <span class="n">good_match</span><span class="p">])</span>
+
+                <span class="n">H</span><span class="p">,</span><span class="n">_</span><span class="o">=</span><span class="n">cv</span><span class="p">.</span><span class="nf">findHomography</span><span class="p">(</span><span class="n">points1</span><span class="p">,</span><span class="n">points2</span><span class="p">,</span><span class="n">cv</span><span class="p">.</span><span class="n">RANSAC</span><span class="p">)</span>
+
+                <span class="n">h1</span><span class="p">,</span><span class="n">w1</span><span class="o">=</span><span class="n">self</span><span class="p">.</span><span class="n">signImgs</span><span class="p">[</span><span class="n">best</span><span class="p">].</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">self</span><span class="p">.</span><span class="n">signImgs</span><span class="p">[</span><span class="n">best</span><span class="p">].</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="c1"># 표지판 영상의 크기
+</span>                <span class="n">h2</span><span class="p">,</span><span class="n">w2</span><span class="o">=</span><span class="n">self</span><span class="p">.</span><span class="n">roadImg</span><span class="p">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">self</span><span class="p">.</span><span class="n">roadImg</span><span class="p">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>  <span class="c1"># 도로 영상의 크기
+</span>
+                <span class="n">box1</span><span class="o">=</span><span class="n">np</span><span class="p">.</span><span class="nf">float32</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="mi">0</span><span class="p">,</span><span class="n">h1</span><span class="o">-</span><span class="mi">1</span><span class="p">],[</span><span class="n">w1</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="n">h1</span><span class="o">-</span><span class="mi">1</span><span class="p">],[</span><span class="n">w1</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">]]).</span><span class="nf">reshape</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+                <span class="n">box2</span><span class="o">=</span><span class="n">cv</span><span class="p">.</span><span class="nf">perspectiveTransform</span><span class="p">(</span><span class="n">box1</span><span class="p">,</span><span class="n">H</span><span class="p">)</span>
+
+                <span class="n">self</span><span class="p">.</span><span class="n">roadImg</span><span class="o">=</span><span class="n">cv</span><span class="p">.</span><span class="nf">polylines</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">roadImg</span><span class="p">,[</span><span class="n">np</span><span class="p">.</span><span class="nf">int32</span><span class="p">(</span><span class="n">box2</span><span class="p">)],</span><span class="bp">True</span><span class="p">,(</span><span class="mi">0</span><span class="p">,</span><span class="mi">255</span><span class="p">,</span><span class="mi">0</span><span class="p">),</span><span class="mi">4</span><span class="p">)</span>
+
+                <span class="n">img_match</span><span class="o">=</span><span class="n">np</span><span class="p">.</span><span class="nf">empty</span><span class="p">((</span><span class="nf">max</span><span class="p">(</span><span class="n">h1</span><span class="p">,</span><span class="n">h2</span><span class="p">),</span><span class="n">w1</span><span class="o">+</span><span class="n">w2</span><span class="p">,</span><span class="mi">3</span><span class="p">),</span><span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="p">.</span><span class="n">uint8</span><span class="p">)</span>
+                <span class="n">cv</span><span class="p">.</span><span class="nf">drawMatches</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">signImgs</span><span class="p">[</span><span class="n">best</span><span class="p">],</span><span class="n">sign_kp</span><span class="p">,</span><span class="n">self</span><span class="p">.</span><span class="n">roadImg</span><span class="p">,</span><span class="n">road_kp</span><span class="p">,</span><span class="n">good_match</span><span class="p">,</span><span class="n">img_match</span><span class="p">)</span>
+                <span class="n">cv</span><span class="p">.</span><span class="nf">imshow</span><span class="p">(</span><span class="sh">'</span><span class="s">Matches and Homography</span><span class="sh">'</span><span class="p">,</span><span class="n">img_match</span><span class="p">)</span>
+
+                <span class="n">self</span><span class="p">.</span><span class="n">label</span><span class="p">.</span><span class="nf">setText</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">signFiles</span><span class="p">[</span><span class="n">best</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="sh">'</span><span class="s">보호구역입니다</span><span class="sh">'</span><span class="p">)</span>
+                <span class="n">winsound</span><span class="p">.</span><span class="nc">Beep</span><span class="p">(</span><span class="mi">3000</span><span class="p">,</span><span class="mi">500</span><span class="p">)</span>
+            
+    <span class="k">def</span> <span class="nf">quitFunction</span><span class="p">(</span><span class="n">self</span><span class="p">):</span>
+        <span class="n">cv</span><span class="p">.</span><span class="nf">destroyAllWindows</span><span class="p">()</span>
+        <span class="n">self</span><span class="p">.</span><span class="nf">close</span><span class="p">()</span>
+
+<span class="n">app</span><span class="o">=</span><span class="nc">QApplication</span><span class="p">(</span><span class="n">sys</span><span class="p">.</span><span class="n">argv</span><span class="p">)</span>
+<span class="n">win</span><span class="o">=</span><span class="nc">TrafficWeak</span><span class="p">()</span>
+<span class="n">win</span><span class="p">.</span><span class="nf">show</span><span class="p">()</span>
+<span class="n">app</span><span class="p">.</span><span class="nf">exec</span><span class="p">()</span>
+    
+
+    
+</code></pre></div></div>
+
+<p>첫 시도 실행이 안됐다.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="k">def</span> <span class="nf">quitFunction</span><span class="p">(</span><span class="n">self</span><span class="p">):</span>
+        <span class="n">cv</span><span class="p">.</span><span class="nf">destroyAllWindows</span><span class="p">()</span>
+        <span class="n">self</span><span class="p">.</span><span class="nf">close</span><span class="p">()</span>
+
+<span class="n">app</span><span class="o">=</span><span class="nc">QApplication</span><span class="p">(</span><span class="n">sys</span><span class="p">.</span><span class="n">argv</span><span class="p">)</span>
+<span class="n">win</span><span class="o">=</span><span class="nc">TrafficWeak</span><span class="p">()</span>
+<span class="n">win</span><span class="p">.</span><span class="nf">show</span><span class="p">()</span>
+<span class="n">app</span><span class="p">.</span><span class="k">exec</span>
+</code></pre></div></div>
+<p>행간을 맞추자…</p>
+
+<p><del><code class="language-plaintext highlighter-rouge">app.exec</code></del>  -&gt; app.exec() 젭알….</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>        <span class="n">signButton</span><span class="p">.</span><span class="nf">setGeometry</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">100</span><span class="p">,</span><span class="mi">30</span><span class="p">)</span>
+        <span class="n">roadButton</span><span class="p">.</span><span class="nf">setGeometry</span><span class="p">(</span><span class="mi">110</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">100</span><span class="p">,</span><span class="mi">30</span><span class="p">)</span>
+        <span class="n">recognitionButton</span><span class="p">.</span><span class="nf">setGeometry</span><span class="p">(</span><span class="mi">210</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">100</span><span class="p">,</span><span class="mi">30</span><span class="p">)</span>
+        <span class="n">quitButton</span><span class="p">.</span><span class="nf">setGeometry</span><span class="p">(</span><span class="mi">510</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">100</span><span class="p">,</span><span class="mi">30</span><span class="p">)</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">label</span><span class="p">.</span><span class="nf">setGeometry</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">40</span><span class="p">,</span><span class="mi">600</span><span class="p">,</span><span class="mi">170</span><span class="p">)</span>
+</code></pre></div></div>
+<p>좌표…</p>
+
+<p><del><code class="language-plaintext highlighter-rouge">quertIdx</code></del> -&gt;<code class="language-plaintext highlighter-rouge">queryIdx</code> …</p>
+
+<p><code class="language-plaintext highlighter-rouge">drawMatches()</code>에서 flags를 어찌 해야 할지 모르겠어서 일단 뻄
+| https://docs.opencv.org/3.4/d4/d5d/group__features2d__draw.html</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">keypoints</span><span class="p">,</span> <span class="n">descriptors</span> <span class="o">=</span> <span class="n">sift</span><span class="p">.</span><span class="nf">detectAndCompute</span><span class="p">(</span><span class="n">gray</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
+<span class="n">gray</span><span class="p">:</span> <span class="n">특징점과</span> <span class="n">설명자를</span> <span class="n">감지할</span> <span class="n">입력</span> <span class="n">이미지입니다</span><span class="p">.</span> <span class="n">일반적으로</span> <span class="n">SIFT는</span> <span class="n">그레이스케일</span> <span class="n">이미지에서</span> <span class="n">작동하므로</span> <span class="n">컬러</span> <span class="n">이미지를</span> <span class="n">cv</span><span class="p">.</span><span class="nf">cvtColor</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">cv</span><span class="p">.</span><span class="n">COLOR_BGR2GRAY</span><span class="p">)</span><span class="n">로</span> <span class="n">변환해</span> <span class="n">입력합니다</span><span class="p">.</span>
+<span class="bp">None</span><span class="p">:</span> <span class="n">마스크</span> <span class="n">값입니다</span><span class="p">.</span> <span class="n">None을</span> <span class="n">사용하면</span> <span class="n">이미지</span> <span class="n">전체에서</span> <span class="n">특징점을</span> <span class="n">찾고</span><span class="p">,</span> <span class="n">특정</span> <span class="n">영역에만</span> <span class="n">특징점을</span> <span class="n">찾고</span> <span class="n">싶다면</span> <span class="n">해당</span> <span class="n">영역에</span> <span class="n">맞는</span> <span class="n">마스크를</span> <span class="n">전달할</span> <span class="n">수</span> <span class="n">있습니다</span><span class="p">.</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>FLANNBASED: FLANN(Fast Library for Approximate Nearest Neighbors)은 대용량 데이터 세트에서 빠르게 유사한 설명자를 찾기 위한 라이브러리입니다. 
+</code></pre></div></div>
+
+<p><img src="image-54.png" alt="alt text" /></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>queryIdx: 첫 번째 이미지의 특징점 인덱스입니다. knnMatch를 호출할 때, knnMatch(descriptors1, descriptors2, k=2)와 같이 호출하게 되면 descriptors1의 각 특징점이 queryIdx에 해당됩니다.
+
+trainIdx: 두 번째 이미지의 특징점 인덱스입니다. knnMatch에서 descriptors2의 특징점 인덱스를 가리킵니다.
+</code></pre></div></div>
+
+<h2 id="예제">예제</h2>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>예를 들어, 다음과 같은 매칭이 있다고 가정해 보겠습니다.
+
+sign_des에 있는 특징점 중 5번째 (sign_kp[5])가 road_des의 특징점 중 8번째 (road_kp[8])와 매칭된 경우:
+이 경우, DMatch 객체의 queryIdx는 5, trainIdx는 8이 됩니다.
+</code></pre></div></div>
+
+  </div>
+</article>
+
+        </div>
+    </div>
+</body>
+</html>

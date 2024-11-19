@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>rabbitjun</title>
+    <link rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body>
+    <header class="site-header">
+        <div class="container">
+            <a href="/" class="blog-name">RabbitJun</a>
+        </div>
+        <hr> <!-- 전체 너비의 선 -->
+    </header>
+    <div class="container sidebar-content">
+        <div class="sidebar">
+    <!-- 프로필 정보 -->
+    <div class="profile">
+        <img src="/assets/images/profile.jpg" alt="프로필 이미지" class="profile-image">
+        <h2>juneon</h2>
+        <p>아직 모르는게 많아 열심히 공부중</p>
+    </div>
+    
+    <!-- 사이드바 카테고리 목록 -->
+    <div class="sidebar-categories">
+        <ul>
+            
+            <li><a href="/category/objectdetection">objectdetection</a></li>
+            
+            <li><a href="/category/webcrawling">webcrawling</a></li>
+            
+            <li><a href="/category/linear_algebra">linear_algebra</a></li>
+            
+            <li><a href="/category/diary">diary</a></li>
+            
+            <li><a href="/category/computervision">computervision</a></li>
+            
+            <li><a href="/category/deeplearning">deeplearning</a></li>
+            
+            <li><a href="/category/preferences">preferences</a></li>
+            
+            <li><a href="/category/hnv">hnv</a></li>
+            
+            <li><a href="/category/network_program">network_program</a></li>
+            
+            <li><a href="/category/computer_structure">computer_structure</a></li>
+            
+        </ul>
+        
+    </div>
+</div>
+
+        <div class="content">
+            <article class="post-box">
+  <div class="post-header">
+    <h1>paranoma</h1>
+    <p class="post-date">Nov 13, 2024</p>
+  </div>
+  <div class="post-content">
+    <h1 id="환경-설정하기-poetry">환경 설정하기 (poetry)</h1>
+<ol>
+  <li>conda로 가상환경을 만들어준다</li>
+  <li>활성화된 가상환경에서 <code class="language-plaintext highlighter-rouge">pip install poetry</code></li>
+  <li><code class="language-plaintext highlighter-rouge">poetry config virtualenvs.create false</code> poetry의 가상환경 생성 기능 비활성화</li>
+  <li><code class="language-plaintext highlighter-rouge">poetry init</code></li>
+  <li><code class="language-plaintext highlighter-rouge">poetry add opencv-python PyQt6</code></li>
+</ol>
+
+<h1 id="환경-설정하기-conda">환경 설정하기 (conda)</h1>
+<ol>
+  <li>수동으로 <code class="language-plaintext highlighter-rouge">enviroment.yml</code>을 작성</li>
+  <li><code class="language-plaintext highlighter-rouge">conda env create -f environment.yaml</code> 를 해주면 됨</li>
+</ol>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>poetry add pyinstaller(visionagent) PS C:\Users\junun\documents\visionproject\projects\visionagent&gt; poetry add pyinstaller
+Using version ^6.11.1 for pyinstaller
+
+Updating dependencies
+Resolving dependencies... (0.2s)
+
+The current project's supported Python range (&gt;=3.10,&lt;4.0) is not compatible with some of the required packages Python requirement:
+  - pyinstaller requires Python &lt;3.14,&gt;=3.8, so it will not be satisfied for Python &gt;=3.14,&lt;4.0
+
+Because no versions of pyinstaller match &gt;6.11.1,&lt;7.0.0
+ and pyinstaller (6.11.1) requires Python &lt;3.14,&gt;=3.8, pyinstaller is forbidden.
+So, because vision depends on pyinstaller (^6.11.1), version solving failed.
+
+  • Check your dependencies Python requirement: The Python requirement can be specified via the python or markers properties
+
+    For pyinstaller, a possible solution would be to set the python property to "&gt;=3.10,&lt;3.14"
+
+    https://python-poetry.org/docs/dependency-specification/#python-restricted-dependencies,
+    https://python-poetry.org/docs/dependency-specification/#using-environment-markers
+</code></pre></div></div>
+<p>하면서 python의 버전이 맞지 않는 다는 에러가 발생했다.</p>
+
+<h3 id="해결-방법">해결 방법</h3>
+<ol>
+  <li><code class="language-plaintext highlighter-rouge">toml</code> 파일에서 python 버전 범위를 바꿔줬다</li>
+  <li><code class="language-plaintext highlighter-rouge">poetry lock</code>을 통해 의존성 파일 업데이트</li>
+  <li><code class="language-plaintext highlighter-rouge">poetry install</code> 의존성을 다시 설치</li>
+</ol>
+
+<p>만약 poetry로 안했다면 뭐가 문제인지 한참을 해맸을까… 무섭다…</p>
+
+<h3 id="pyinstaller-설치">pyinstaller 설치</h3>
+<ol>
+  <li><code class="language-plaintext highlighter-rouge">pip install pyinstaller</code> (<em>poetry add  pyinstaller</em>)</li>
+  <li><code class="language-plaintext highlighter-rouge">pyinstaller --onefile src/paranoma.py</code></li>
+  <li>생성된  dist 폴더에서 실행 <code class="language-plaintext highlighter-rouge">dist/paranoma.exe</code></li>
+</ol>
+
+
+  </div>
+</article>
+
+        </div>
+    </div>
+</body>
+</html>

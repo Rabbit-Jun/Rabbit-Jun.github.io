@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>rabbitjun</title>
+    <link rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body>
+    <header class="site-header">
+        <div class="container">
+            <a href="/" class="blog-name">RabbitJun</a>
+        </div>
+        <hr> <!-- 전체 너비의 선 -->
+    </header>
+    <div class="container sidebar-content">
+        <div class="sidebar">
+    <!-- 프로필 정보 -->
+    <div class="profile">
+        <img src="/assets/images/profile.jpg" alt="프로필 이미지" class="profile-image">
+        <h2>juneon</h2>
+        <p>아직 모르는게 많아 열심히 공부중</p>
+    </div>
+    
+    <!-- 사이드바 카테고리 목록 -->
+    <div class="sidebar-categories">
+        <ul>
+            
+            <li><a href="/category/objectdetection">objectdetection</a></li>
+            
+            <li><a href="/category/webcrawling">webcrawling</a></li>
+            
+            <li><a href="/category/linear_algebra">linear_algebra</a></li>
+            
+            <li><a href="/category/diary">diary</a></li>
+            
+            <li><a href="/category/computervision">computervision</a></li>
+            
+            <li><a href="/category/deeplearning">deeplearning</a></li>
+            
+            <li><a href="/category/preferences">preferences</a></li>
+            
+            <li><a href="/category/hnv">hnv</a></li>
+            
+            <li><a href="/category/network_program">network_program</a></li>
+            
+            <li><a href="/category/computer_structure">computer_structure</a></li>
+            
+        </ul>
+        
+    </div>
+</div>
+
+        <div class="content">
+            <article class="post-box">
+  <div class="post-header">
+    <h1>preprocessing_data3</h1>
+    <p class="post-date">Nov 5, 2024</p>
+  </div>
+  <div class="post-content">
+    <h1 id="필요없는-특징-제거하기">필요없는 특징 제거하기!</h1>
+<p>얼굴의 포인트에서 움직임을 알아 볼수만 있게 눈의 포인트값을 뺀 나머지는 제거해 버리자!</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># 데이터 경로와 제거할 열 목록 설정
+</span><span class="n">train_data_path</span> <span class="o">=</span> <span class="sh">'</span><span class="s">../data/train</span><span class="sh">'</span>
+<span class="n">columns_to_drop</span> <span class="o">=</span> <span class="p">[</span><span class="sh">'</span><span class="s">image_filename</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">Nose_x</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">Nose_y</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">LEar_x</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">LEar_y</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">REar_x</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">REar_y</span><span class="sh">'</span><span class="p">]</span>
+
+<span class="c1"># 각 파일을 순회하며 처리
+</span><span class="k">for</span> <span class="n">file_name</span> <span class="ow">in</span> <span class="n">os</span><span class="p">.</span><span class="nf">listdir</span><span class="p">(</span><span class="n">train_data_path</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">file_name</span><span class="p">.</span><span class="nf">endswith</span><span class="p">(</span><span class="sh">'</span><span class="s">.csv</span><span class="sh">'</span><span class="p">):</span>
+        <span class="n">file_path</span> <span class="o">=</span> <span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="nf">join</span><span class="p">(</span><span class="n">train_data_path</span><span class="p">,</span> <span class="n">file_name</span><span class="p">)</span>
+
+        <span class="c1"># 파일 경로 출력
+</span>        <span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="s">Processing file: </span><span class="si">{</span><span class="n">file_path</span><span class="si">}</span><span class="sh">"</span><span class="p">)</span>
+        
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># CSV 파일 불러오기
+</span>            <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nf">read_csv</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span>
+            <span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="s">Columns before drop: </span><span class="si">{</span><span class="n">df</span><span class="p">.</span><span class="n">columns</span><span class="p">.</span><span class="nf">tolist</span><span class="p">()</span><span class="si">}</span><span class="sh">"</span><span class="p">)</span>  <span class="c1"># 열 확인
+</span>
+            <span class="c1"># 지정된 열 제거
+</span>            <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="p">.</span><span class="nf">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="n">columns_to_drop</span><span class="p">,</span> <span class="n">errors</span><span class="o">=</span><span class="sh">'</span><span class="s">ignore</span><span class="sh">'</span><span class="p">)</span>
+            <span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="s">Columns after drop: </span><span class="si">{</span><span class="n">df</span><span class="p">.</span><span class="n">columns</span><span class="p">.</span><span class="nf">tolist</span><span class="p">()</span><span class="si">}</span><span class="sh">"</span><span class="p">)</span>  <span class="c1"># 열 확인
+</span>
+            <span class="c1"># 동일한 경로에 저장
+</span>            <span class="n">df</span><span class="p">.</span><span class="nf">to_csv</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+            <span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="s">File saved successfully: </span><span class="si">{</span><span class="n">file_path</span><span class="si">}</span><span class="se">\n</span><span class="sh">"</span><span class="p">)</span>
+
+        <span class="k">except</span> <span class="nb">FileNotFoundError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="s">FileNotFoundError: 파일을 찾을 수 없습니다 - </span><span class="si">{</span><span class="n">file_path</span><span class="si">}</span><span class="sh">"</span><span class="p">)</span>
+        <span class="k">except</span> <span class="nb">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="s">Error processing file </span><span class="si">{</span><span class="n">file_path</span><span class="si">}</span><span class="s">: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="sh">"</span><span class="p">)</span>
+</code></pre></div></div>
+<p>를 했는데 파일 하나가 문제가 생겼다.</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Processing file: ../data/train/chest_and_hip_joint_errors@CI02_Motion2-5.csv
+FileNotFoundError: 파일을 찾을 수 없습니다 - ../data/train/chest_and_hip_joint_errors@CI02_Motion2-5.csv
+</code></pre></div></div>
+<p>파일이 분명히 있는데도 찾을 수 없다길래 여러가지 손을 썼지만 이유를 알 수 없었다<br />
+직접 봐보니 안에 특징은 제거가 되어 있다.<br />
+다른건 다 되는데 이것만 안되니깐 환장할 노릇 ㅜ.ㅜ<br />
+vscode를 껐다 키니 잘 됐다…<br />
+아직도 이유를 모르겠다.</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Index(['LEye_x', 'LEye_y', 'REye_x', 'REye_y', 'LShoulder_x', 'LShoulder_y',
+       'RShoulder_x', 'RShoulder_y', 'LElbow_x', 'LElbow_y', 'RElbow_x',
+       'RElbow_y', 'LWrist_x', 'LWrist_y', 'RWrist_x', 'RWrist_y', 'LHip_x',
+       'LHip_y', 'RHip_x', 'RHip_y', 'LKnee_x', 'LKnee_y', 'RKnee_x',
+       'RKnee_y', 'LAnkle_x', 'LAnkle_y', 'RAnkle_x', 'RAnkle_y', 'Head_x',
+       'Head_y', 'Neck_x', 'Neck_y', 'Hip_x', 'Hip_y', 'LBigToe_x',
+       'LBigToe_y', 'RBigToe_x', 'RBigToe_y', 'LSmallToe_x', 'LSmallToe_y',
+       'RSmallToe_x', 'RSmallToe_y', 'LHeel_x', 'LHeel_y', 'RHeel_x',
+       'RHeel_y'],
+      dtype='object')
+</code></pre></div></div>
+
+<h3 id="이제-우리에게-남은-일을-중간-check">이제 우리에게 남은 일을 중간 check!!</h3>
+<ol>
+  <li><del>레이블을 csv에 넣기</del> -&gt; <del>csv파일명 변경하기</del></li>
+  <li><del>필요 없는 특징 제거</del></li>
+  <li>가까운 관절끼리의 각도 계산 값</li>
+</ol>
+
+<p>다음은 관절끼리의 각도를 계산 해 보도록 하자!</p>
+
+  </div>
+</article>
+
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>rabbitjun</title>
+    <link rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body>
+    <header class="site-header">
+        <div class="container">
+            <a href="/" class="blog-name">RabbitJun</a>
+        </div>
+        <hr> <!-- 전체 너비의 선 -->
+    </header>
+    <div class="container sidebar-content">
+        <div class="sidebar">
+    <!-- 프로필 정보 -->
+    <div class="profile">
+        <img src="/assets/images/profile.jpg" alt="프로필 이미지" class="profile-image">
+        <h2>juneon</h2>
+        <p>아직 모르는게 많아 열심히 공부중</p>
+    </div>
+    
+    <!-- 사이드바 카테고리 목록 -->
+    <div class="sidebar-categories">
+        <ul>
+            
+            <li><a href="/category/objectdetection">objectdetection</a></li>
+            
+            <li><a href="/category/webcrawling">webcrawling</a></li>
+            
+            <li><a href="/category/linear_algebra">linear_algebra</a></li>
+            
+            <li><a href="/category/diary">diary</a></li>
+            
+            <li><a href="/category/computervision">computervision</a></li>
+            
+            <li><a href="/category/deeplearning">deeplearning</a></li>
+            
+            <li><a href="/category/preferences">preferences</a></li>
+            
+            <li><a href="/category/hnv">hnv</a></li>
+            
+            <li><a href="/category/network_program">network_program</a></li>
+            
+            <li><a href="/category/computer_structure">computer_structure</a></li>
+            
+        </ul>
+        
+    </div>
+</div>
+
+        <div class="content">
+            <article class="post-box">
+  <div class="post-header">
+    <h1>opencv</h1>
+    <p class="post-date">Oct 30, 2024</p>
+  </div>
+  <div class="post-content">
+    <h1 id="opencv-시작하기">OpenCV 시작하기</h1>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">cv2</span> <span class="k">as</span> <span class="n">cv</span>
+<span class="kn">import</span> <span class="n">sys</span>
+<span class="kn">import</span> <span class="n">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+
+
+<span class="n">img</span><span class="o">=</span> <span class="n">cv</span><span class="p">.</span><span class="nf">imread</span><span class="p">(</span><span class="sh">'</span><span class="s">img/soccer.jpg</span><span class="sh">'</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="n">img</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+    <span class="n">sys</span><span class="p">.</span><span class="nf">exit</span><span class="p">(</span><span class="sh">'</span><span class="s">file not found</span><span class="sh">'</span><span class="p">);</span>
+
+<span class="n">img_rgb</span> <span class="o">=</span> <span class="n">cv</span><span class="p">.</span><span class="nf">cvtColor</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">cv</span><span class="p">.</span><span class="n">COLOR_BGR2RGB</span><span class="p">)</span> 
+
+<span class="n">plt</span><span class="p">.</span><span class="nf">imshow</span><span class="p">(</span><span class="n">img_rgb</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="nf">axis</span><span class="p">(</span><span class="sh">'</span><span class="s">off</span><span class="sh">'</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="nf">savefig</span><span class="p">(</span><span class="sh">'</span><span class="s">soccer.jpg</span><span class="sh">'</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>공식 문서에 따라 opencv를 다운받을려면 조금 많이 귀찮다.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">pip</span> <span class="n">install</span> <span class="n">opencv</span><span class="o">-</span><span class="n">python</span>
+</code></pre></div></div>
+<p>이 명령어를 사용하면 간단하게 설치가 되니 이걸 이용하자 (<em>제대로 하고 싶은분은 구글링을 해서 깔아보자!</em>)<br />
+<code class="language-plaintext highlighter-rouge">print(cv.__version__)</code> 를 이용하면 제대로 깔렸는지 확인이 가능하다.<br />
+<code class="language-plaintext highlighter-rouge">cv.imread()</code>를 이용해서 해당 경로의 이미지 파일을 읽어서 객체에 담아둔다. (<em>이미지가 배열의 형태로 img에 담긴다</em>)<br />
+그리고 윈도우라면 바로 <code class="language-plaintext highlighter-rouge">cv.imshow()</code>를 이용하여 창을 하나 뛰워서 보겠지만 아쉽게도 나는 우분투에만 환경을 설정해 놔서… <br />
+matplotlib을 이용해야 하니 BGR배열을 RGB배열로 바꿔준다. (<em>opencv는 BGR로 읽어들인다</em>)<br />
+그리고 <code class="language-plaintext highlighter-rouge">plt.imshow()</code>로 배열을 이미지를 버퍼에 담아둔다. 여기서 윈도우였으면 바로 <code class="language-plaintext highlighter-rouge">plt.show()</code>해서 화면에 출력하면 되겠지만<br />
+우리는 gui기능이 없으니 저장을 해야한다… (<em>사실 matplotlib은 주피터 노트북으로 볼 수 있긴 하다</em>)<br />
+<code class="language-plaintext highlighter-rouge">plt.axis()</code>는 축에 관한 내용이므로 꺼주고 <code class="language-plaintext highlighter-rouge">plt.savefig()</code>를 이용하여 현재 디렉토리에 저장해준다.<br />
+이러면 우리가 저장한 이미지를 볼수 있다…<br />
+. <br />
+. <br />
+. <br />
+. <br />
+. <br />
+윈도우 환경에도 빨리 설정해놔야지ㅠ.ㅜ</p>
+
+  </div>
+</article>
+
+        </div>
+    </div>
+</body>
+</html>

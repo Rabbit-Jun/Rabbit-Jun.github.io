@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>rabbitjun</title>
+    <link rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body>
+    <header class="site-header">
+        <div class="container">
+            <a href="/" class="blog-name">RabbitJun</a>
+        </div>
+        <hr> <!-- 전체 너비의 선 -->
+    </header>
+    <div class="container sidebar-content">
+        <div class="sidebar">
+    <!-- 프로필 정보 -->
+    <div class="profile">
+        <img src="/assets/images/profile.jpg" alt="프로필 이미지" class="profile-image">
+        <h2>juneon</h2>
+        <p>아직 모르는게 많아 열심히 공부중</p>
+    </div>
+    
+    <!-- 사이드바 카테고리 목록 -->
+    <div class="sidebar-categories">
+        <ul>
+            
+            <li><a href="/category/objectdetection">objectdetection</a></li>
+            
+            <li><a href="/category/webcrawling">webcrawling</a></li>
+            
+            <li><a href="/category/linear_algebra">linear_algebra</a></li>
+            
+            <li><a href="/category/diary">diary</a></li>
+            
+            <li><a href="/category/computervision">computervision</a></li>
+            
+            <li><a href="/category/deeplearning">deeplearning</a></li>
+            
+            <li><a href="/category/preferences">preferences</a></li>
+            
+            <li><a href="/category/hnv">hnv</a></li>
+            
+            <li><a href="/category/network_program">network_program</a></li>
+            
+            <li><a href="/category/computer_structure">computer_structure</a></li>
+            
+        </ul>
+        
+    </div>
+</div>
+
+        <div class="content">
+            <article class="post-box">
+  <div class="post-header">
+    <h1>dot operation</h1>
+    <p class="post-date">Nov 8, 2024</p>
+  </div>
+  <div class="post-content">
+    <h1 id="점-연산">점 연산~~</h1>
+<p>화소 입장에서 바라본 영상 처리 연산이란 화소가 새로운 값을 받는 과정이다.<br />
+이 새로운 값을 어디에서 받느냐에 따라 점 연산, 영역 연산, 기하 연산의 세 종류로 구분할 수 있다.</p>
+
+<ul>
+  <li>점 연산에서는 자기 자신으로부터 값을 받는다.</li>
+  <li>영역 연산에서는 이웃 화소의 값을 보고 새로운 값을 결정한다.</li>
+  <li>기하 연산에서는 기하학적 변환에 따라 다른 곳으로부터 값을 받는다.<br />
+(<em>오츄 이진화는 점 연산, 모폴로지는 영역 연산에 속함</em>)<br />
+<img src="image-14.png" alt="alt text" /></li>
+</ul>
+
+<h3 id="명암-조절">명암 조절</h3>
+<p><img src="image-15.png" alt="alt text" /></p>
+
+<ol>
+  <li>맨 위 식은 원래 영상에 양수 a를 더해 밝게 만드는데, 화소가 가질 수 있는 최댓값 L -1을 넘지 않게 min을 취한다.</li>
+  <li>가운데 식은 원래 영상에 a르 빼서 어둡게 만드는데 max를 취해 음수를 방지한다.</li>
+  <li>마지막 식은 L-1에서 원래 명암값을 빼서 반전 시킨다.</li>
+</ol>
+
+<p>식(3.4)는 모두 선형 연산이다.<br />
+선형 연산이란 상수를 곱해서 더하기만 하는 연산이다.</p>
+
+<p><img src="image-16.png" alt="alt text" /><br />
+인간의 눈은 빛의 밝기 변화에 비선형적으로 반응한다.<br />
+예를 들면 명암 10에서 20으로 올랐렸을 때와 120을 130으로 올렸을 때 인간이 느끼는 밝아지는 정도를 다르게 느낀다.<br />
+식(3.5)의 감마 보정은 이런 비선형적인 시각 반응을 수학적으로 표현한다. 
+(<em>감마 보벙은 이미지나 비디오의 밝기와 색상을 인간의 시각 특성에 맞게 조정하는 기술</em>) 
+f ‘  = [0,L-1] 범위의 화소의 값을 L-1로 나누어 [0,1]범위로 정규화한 영상<br />
+y는 사용자가 조정하는 값<br />
+(<em>y =1 -&gt; 유지, y&lt;1 -&gt;밝아짐, y&gt;1 - &gt; 어두워짐</em> )</p>
+
+<p>실습</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">cv2</span> <span class="k">as</span> <span class="n">cv</span>
+<span class="kn">import</span> <span class="n">numpy</span> <span class="k">as</span> <span class="n">np</span>
+
+<span class="n">img</span><span class="o">=</span><span class="n">cv</span><span class="p">.</span><span class="nf">imread</span><span class="p">(</span><span class="sh">'</span><span class="s">soccer.jpg</span><span class="sh">'</span><span class="p">)</span>
+<span class="n">img</span><span class="o">=</span><span class="n">cv</span><span class="p">.</span><span class="nf">resize</span><span class="p">(</span><span class="n">img</span><span class="p">,</span><span class="n">dsize</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">),</span> <span class="n">fx</span><span class="o">=</span><span class="mf">0.25</span><span class="p">,</span> <span class="n">fy</span><span class="o">=</span><span class="mf">0.25</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">gamma</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="n">gamma</span><span class="o">=</span><span class="mf">1.0</span><span class="p">):</span>
+    <span class="n">f1</span><span class="o">=</span><span class="n">f</span><span class="o">/</span><span class="mf">255.0</span>
+    <span class="k">return</span> <span class="n">np</span><span class="p">.</span><span class="nf">uint8</span><span class="p">(</span><span class="mi">255</span><span class="o">*</span><span class="p">(</span><span class="n">f1</span><span class="o">**</span><span class="n">gamma</span><span class="p">))</span>
+
+<span class="n">gc</span><span class="o">=</span><span class="n">np</span><span class="p">.</span><span class="nf">hstack</span><span class="p">((</span><span class="nf">gamma</span><span class="p">(</span><span class="n">img</span><span class="p">,</span><span class="mf">0.5</span><span class="p">),</span><span class="nf">gamma</span><span class="p">(</span><span class="n">img</span><span class="p">,</span><span class="mf">0.75</span><span class="p">),</span><span class="nf">gamma</span><span class="p">(</span><span class="n">img</span><span class="p">,</span><span class="mf">1.0</span><span class="p">),</span><span class="nf">gamma</span><span class="p">(</span><span class="n">img</span><span class="p">,</span><span class="mf">2.0</span><span class="p">),</span><span class="nf">gamma</span><span class="p">(</span><span class="n">img</span><span class="p">,</span><span class="mf">3.0</span><span class="p">)))</span>
+
+<span class="n">cv</span><span class="p">.</span><span class="nf">imshow</span><span class="p">(</span><span class="sh">'</span><span class="s">gamma</span><span class="sh">'</span><span class="p">,</span> <span class="n">gc</span><span class="p">)</span>
+
+<span class="n">cv</span><span class="p">.</span><span class="nf">waitKey</span><span class="p">()</span>
+<span class="n">cv</span><span class="p">.</span><span class="nf">destroyAllWindows</span><span class="p">()</span>
+</code></pre></div></div>
+<p>uint8은 Unsigned Integer 8-bit의 약자</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>TypeError: hstack() takes 1 positional argument but 5 were given
+</code></pre></div></div>
+
+<p>왜 책에서 괄호를 이렇게 쓰나 했다 -.-<br />
+(<em>우리 모두 함수의 사용법을 잘 숙지하도록 하자</em>)</p>
+
+<p><code class="language-plaintext highlighter-rouge">def gamma(f,gamma=1.0):</code> 의 <strong>첫 번째 매개변수</strong>는 감마 보정할 영상이고 <strong>두 번째 매개변수</strong>는 식(3.5)의 y다.<br />
+<code class="language-plaintext highlighter-rouge">f1=f/255.0</code>는 f를 256이라 가정하고 255.0으로 나누어 [0,1] 범위의 영상으로 정규화 한것.</p>
+
+<p><code class="language-plaintext highlighter-rouge">np.uint8(255*(f1**gamma))</code> 8비트 정수형으로 바꿔 전환</p>
+
+<p><code class="language-plaintext highlighter-rouge">gc=np.hstack((gamma(img,0.5),gamma(img,0.75),gamma(img,1.0),gamma(img,2.0),gamma(img,3.0)))</code> gamma를 적용한 영상 5개를 <code class="language-plaintext highlighter-rouge">hstack</code>를 이용해 하나로 붙여준다.</p>
+
+<h3 id="히스토그램-평활화">히스토그램 평활화</h3>
+<p>히스토그램 평활화는 히스토그램이 평평하게 되도록 영상을 조작해 영상의 명암 대비를 높이는 기법.<br />
+(<em>명암 대비가 높아지면 영상에 있는 물체를 더 잘 식별할 수 있다</em>)</p>
+
+<p><img src="image-17.png" alt="alt text" /><br />
+모든 칸의 값을 더하면 1.0이 되는 정규화 히스토그램 h^’와<br />
+i 번 칸은 0~i번 칸을 더한 값을 가진 누적 정규화 히스토그램 h^’‘를 가지고 식 (3.6)을 수행한다.<br />
+(<em>l= 원래 명암값, l^’ 평활화로 얻은 새로운 명암값</em>)</p>
+
+<p><img src="image-18.png" alt="alt text" /></p>
+
+<p><img src="image-19.png" alt="alt text" /></p>
+
+<p><img src="image-20.png" alt="alt text" /></p>
+
+<h2 id="실습">실습</h2>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">cv2</span> <span class="k">as</span> <span class="n">cv</span>
+<span class="kn">import</span> <span class="n">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+
+<span class="n">img</span><span class="o">=</span><span class="n">cv</span><span class="p">.</span><span class="nf">imread</span><span class="p">(</span><span class="sh">'</span><span class="s">mistyroad.jpg</span><span class="sh">'</span><span class="p">)</span>
+
+<span class="n">gray</span><span class="o">=</span><span class="n">cv</span><span class="p">.</span><span class="nf">cvtColor</span><span class="p">(</span><span class="n">img</span><span class="p">,</span><span class="n">cv</span><span class="p">.</span><span class="n">COLOR_BGR2GRAY</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="nf">imshow</span><span class="p">(</span><span class="n">gray</span><span class="p">,</span><span class="n">cmap</span><span class="o">=</span><span class="sh">'</span><span class="s">gray</span><span class="sh">'</span><span class="p">),</span> <span class="n">plt</span><span class="p">.</span><span class="nf">xticks</span><span class="p">([]),</span> <span class="n">plt</span><span class="p">.</span><span class="nf">yticks</span><span class="p">([]),</span> <span class="n">plt</span><span class="p">.</span><span class="nf">show</span><span class="p">()</span>
+
+<span class="n">h</span><span class="o">=</span><span class="n">cv</span><span class="p">.</span><span class="nf">calcHist</span><span class="p">([</span><span class="n">gray</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="bp">None</span><span class="p">,[</span><span class="mi">256</span><span class="p">],[</span><span class="mi">0</span><span class="p">,</span><span class="mi">256</span><span class="p">])</span>
+<span class="n">plt</span><span class="p">.</span><span class="nf">plot</span><span class="p">(</span><span class="n">h</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="sh">'</span><span class="s">r</span><span class="sh">'</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="nf">show</span><span class="p">()</span>
+
+<span class="n">equal</span><span class="o">=</span><span class="n">cv</span><span class="p">.</span><span class="nf">equualizeHist</span><span class="p">(</span><span class="n">gray</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="nf">imshow</span><span class="p">(</span><span class="n">equal</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="sh">'</span><span class="s">gray</span><span class="sh">'</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="nf">xticks</span><span class="p">([]),</span><span class="n">plt</span><span class="p">.</span><span class="nf">show</span><span class="p">()</span>
+
+<span class="n">h</span><span class="o">=</span><span class="n">cv</span><span class="p">.</span><span class="nf">calcHist</span><span class="p">([</span><span class="n">equal</span><span class="p">],[</span><span class="mi">0</span><span class="p">],</span><span class="bp">None</span><span class="p">,[</span><span class="mi">256</span><span class="p">],[</span><span class="mi">0</span><span class="p">,</span><span class="mi">256</span><span class="p">])</span>
+<span class="n">plt</span><span class="p">.</span><span class="nf">plot</span><span class="p">(</span><span class="n">h</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="sh">'</span><span class="s">r</span><span class="sh">'</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span> <span class="n">plt</span><span class="p">.</span><span class="nf">show</span><span class="p">()</span>
+
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cv2.error: OpenCV(4.10.0) D:\a\opencv-python\opencv-python\opencv\modules\imgproc\src\color.cpp:196: error: (-215:Assertion failed) !_src.empty() in function 'cv::cvtColor'
+</code></pre></div></div>
+<p>이미지의 소스를 찾지 못해서 생긴 오류, 우리 모두 경로를 잘 보도록 하자…</p>
+
+
+  </div>
+</article>
+
+        </div>
+    </div>
+</body>
+</html>
