@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>rabbitjun</title>
+    <link rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body>
+    <header class="site-header">
+        <div class="container">
+            <a href="/" class="blog-name">RabbitJun</a>
+        </div>
+        <hr> <!-- 전체 너비의 선 -->
+    </header>
+    <div class="container sidebar-content">
+        <div class="sidebar">
+    <!-- 프로필 정보 -->
+    <div class="profile">
+        <img src="/assets/images/profile.jpg" alt="프로필 이미지" class="profile-image">
+        <h2>juneon</h2>
+        <p>아직 모르는게 많아 열심히 공부중</p>
+    </div>
+    
+    <!-- 사이드바 카테고리 목록 -->
+    <div class="sidebar-categories">
+        <ul>
+            
+            <li><a href="/category/objectdetection">objectdetection</a></li>
+            
+            <li><a href="/category/webcrawling">webcrawling</a></li>
+            
+            <li><a href="/category/linear_algebra">linear_algebra</a></li>
+            
+            <li><a href="/category/diary">diary</a></li>
+            
+            <li><a href="/category/computervision">computervision</a></li>
+            
+            <li><a href="/category/deeplearning">deeplearning</a></li>
+            
+            <li><a href="/category/preferences">preferences</a></li>
+            
+            <li><a href="/category/hnv">hnv</a></li>
+            
+            <li><a href="/category/network_program">network_program</a></li>
+            
+            <li><a href="/category/computer_structure">computer_structure</a></li>
+            
+        </ul>
+        
+    </div>
+</div>
+
+        <div class="content">
+            <article class="post-box">
+  <div class="post-header">
+    <h1>wandb</h1>
+    <p class="post-date">Nov 20, 2024</p>
+  </div>
+  <div class="post-content">
+    <h1 id="wandb를-사용하자">wandb를 사용하자</h1>
+<p>먼저 wandb에 회원 가입한 후에
+<code class="language-plaintext highlighter-rouge">pip install wandb</code>를 해주고
+<code class="language-plaintext highlighter-rouge">wandb login</code> 후에 홈페이지에 있는 api를 복사해서 넣어주면 된다.
+터미널에 입력할 때 키가 보이지 않느데 잉때 너무 당황하지 말자</p>
+
+<h3 id="wandb-초기화">Wandb 초기화</h3>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">wandb</span><span class="p">.</span><span class="nf">init</span><span class="p">(</span><span class="n">project</span><span class="o">=</span><span class="sh">"</span><span class="s">mlp-binary-classification</span><span class="sh">"</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="sh">"</span><span class="s">binary_classification_experiment</span><span class="sh">"</span><span class="p">)</span>
+</code></pre></div></div>
+<h3 id="모델-하이퍼파라미터-로깅">모델 하이퍼파라미터 로깅</h3>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">wandb</span><span class="p">.</span><span class="n">config</span><span class="p">.</span><span class="nf">update</span><span class="p">({</span>
+    <span class="sh">"</span><span class="s">epochs</span><span class="sh">"</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+    <span class="sh">"</span><span class="s">batch_size</span><span class="sh">"</span><span class="p">:</span> <span class="mi">32</span><span class="p">,</span>
+    <span class="sh">"</span><span class="s">learning_rate</span><span class="sh">"</span><span class="p">:</span> <span class="mf">0.001</span><span class="p">,</span>
+    <span class="sh">"</span><span class="s">hidden_size</span><span class="sh">"</span><span class="p">:</span> <span class="mi">64</span><span class="p">,</span>
+    <span class="sh">"</span><span class="s">input_size</span><span class="sh">"</span><span class="p">:</span> <span class="n">train_x</span><span class="p">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+    <span class="sh">"</span><span class="s">output_size</span><span class="sh">"</span><span class="p">:</span> <span class="mi">2</span>
+<span class="p">})</span>
+</code></pre></div></div>
+
+<h3 id="wandb-로그-기록">Wandb 로그 기록</h3>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">wandb</span><span class="p">.</span><span class="nf">log</span><span class="p">({</span>
+    <span class="sh">"</span><span class="s">epoch</span><span class="sh">"</span><span class="p">:</span> <span class="n">epoch</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="sh">"</span><span class="s">train_loss</span><span class="sh">"</span><span class="p">:</span> <span class="n">train_loss</span><span class="p">,</span>
+    <span class="sh">"</span><span class="s">val_loss</span><span class="sh">"</span><span class="p">:</span> <span class="n">val_loss</span><span class="p">,</span>
+    <span class="sh">"</span><span class="s">train_accuracy</span><span class="sh">"</span><span class="p">:</span> <span class="n">train_accuracy</span><span class="p">,</span>
+    <span class="sh">"</span><span class="s">val_accuracy</span><span class="sh">"</span><span class="p">:</span> <span class="n">val_accuracy</span>
+<span class="p">})</span>
+</code></pre></div></div>
+
+<p>전체 코드</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Wandb 초기화
+</span><span class="n">wandb</span><span class="p">.</span><span class="nf">init</span><span class="p">(</span><span class="n">project</span><span class="o">=</span><span class="sh">"</span><span class="s">mlp-binary-classification</span><span class="sh">"</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="sh">"</span><span class="s">binary_classification_experiment</span><span class="sh">"</span><span class="p">)</span>
+
+<span class="c1"># 모델 하이퍼파라미터 로깅
+</span><span class="n">wandb</span><span class="p">.</span><span class="n">config</span><span class="p">.</span><span class="nf">update</span><span class="p">({</span>
+    <span class="sh">"</span><span class="s">epochs</span><span class="sh">"</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+    <span class="sh">"</span><span class="s">batch_size</span><span class="sh">"</span><span class="p">:</span> <span class="mi">32</span><span class="p">,</span>
+    <span class="sh">"</span><span class="s">learning_rate</span><span class="sh">"</span><span class="p">:</span> <span class="mf">0.001</span><span class="p">,</span>
+    <span class="sh">"</span><span class="s">hidden_size</span><span class="sh">"</span><span class="p">:</span> <span class="mi">64</span><span class="p">,</span>
+    <span class="sh">"</span><span class="s">input_size</span><span class="sh">"</span><span class="p">:</span> <span class="n">train_x</span><span class="p">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+    <span class="sh">"</span><span class="s">output_size</span><span class="sh">"</span><span class="p">:</span> <span class="mi">2</span>
+<span class="p">})</span>
+
+<span class="c1"># 훈련 함수 수정
+</span><span class="k">def</span> <span class="nf">train_model</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">train_loader</span><span class="p">,</span> <span class="n">val_loader</span><span class="p">,</span> <span class="n">criterion</span><span class="p">,</span> <span class="n">optimizer</span><span class="p">,</span> <span class="n">device</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
+    <span class="n">model</span><span class="p">.</span><span class="nf">train</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="n">epochs</span><span class="p">):</span>
+        <span class="n">running_loss</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="n">correct_train</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">total_train</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="c1"># Training loop
+</span>        <span class="k">for</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">labels</span> <span class="ow">in</span> <span class="n">train_loader</span><span class="p">:</span>
+            <span class="n">inputs</span><span class="p">,</span> <span class="n">labels</span> <span class="o">=</span> <span class="n">inputs</span><span class="p">.</span><span class="nf">to</span><span class="p">(</span><span class="n">device</span><span class="p">),</span> <span class="n">labels</span><span class="p">.</span><span class="nf">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+
+            <span class="n">optimizer</span><span class="p">.</span><span class="nf">zero_grad</span><span class="p">()</span>
+            <span class="n">outputs</span> <span class="o">=</span> <span class="nf">model</span><span class="p">(</span><span class="n">inputs</span><span class="p">)</span>
+            <span class="n">loss</span> <span class="o">=</span> <span class="nf">criterion</span><span class="p">(</span><span class="n">outputs</span><span class="p">,</span> <span class="n">labels</span><span class="p">)</span>
+            <span class="n">loss</span><span class="p">.</span><span class="nf">backward</span><span class="p">()</span>
+            <span class="n">optimizer</span><span class="p">.</span><span class="nf">step</span><span class="p">()</span>
+
+            <span class="n">running_loss</span> <span class="o">+=</span> <span class="n">loss</span><span class="p">.</span><span class="nf">item</span><span class="p">()</span>
+
+            <span class="c1"># Accuracy 계산
+</span>            <span class="n">_</span><span class="p">,</span> <span class="n">predicted</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="nf">max</span><span class="p">(</span><span class="n">outputs</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="n">correct_train</span> <span class="o">+=</span> <span class="p">(</span><span class="n">predicted</span> <span class="o">==</span> <span class="n">labels</span><span class="p">).</span><span class="nf">sum</span><span class="p">().</span><span class="nf">item</span><span class="p">()</span>
+            <span class="n">total_train</span> <span class="o">+=</span> <span class="n">labels</span><span class="p">.</span><span class="nf">size</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+        <span class="n">train_loss</span> <span class="o">=</span> <span class="n">running_loss</span> <span class="o">/</span> <span class="nf">len</span><span class="p">(</span><span class="n">train_loader</span><span class="p">)</span>
+        <span class="n">train_accuracy</span> <span class="o">=</span> <span class="n">correct_train</span> <span class="o">/</span> <span class="n">total_train</span>
+
+        <span class="c1"># Validation loop
+</span>        <span class="n">val_loss</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="n">correct_val</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">total_val</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">model</span><span class="p">.</span><span class="nf">eval</span><span class="p">()</span>
+        <span class="k">with</span> <span class="n">torch</span><span class="p">.</span><span class="nf">no_grad</span><span class="p">():</span>
+            <span class="k">for</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">labels</span> <span class="ow">in</span> <span class="n">val_loader</span><span class="p">:</span>
+                <span class="n">inputs</span><span class="p">,</span> <span class="n">labels</span> <span class="o">=</span> <span class="n">inputs</span><span class="p">.</span><span class="nf">to</span><span class="p">(</span><span class="n">device</span><span class="p">),</span> <span class="n">labels</span><span class="p">.</span><span class="nf">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+                <span class="n">outputs</span> <span class="o">=</span> <span class="nf">model</span><span class="p">(</span><span class="n">inputs</span><span class="p">)</span>
+                <span class="n">loss</span> <span class="o">=</span> <span class="nf">criterion</span><span class="p">(</span><span class="n">outputs</span><span class="p">,</span> <span class="n">labels</span><span class="p">)</span>
+                <span class="n">val_loss</span> <span class="o">+=</span> <span class="n">loss</span><span class="p">.</span><span class="nf">item</span><span class="p">()</span>
+
+                <span class="c1"># Accuracy 계산
+</span>                <span class="n">_</span><span class="p">,</span> <span class="n">predicted</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="nf">max</span><span class="p">(</span><span class="n">outputs</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+                <span class="n">correct_val</span> <span class="o">+=</span> <span class="p">(</span><span class="n">predicted</span> <span class="o">==</span> <span class="n">labels</span><span class="p">).</span><span class="nf">sum</span><span class="p">().</span><span class="nf">item</span><span class="p">()</span>
+                <span class="n">total_val</span> <span class="o">+=</span> <span class="n">labels</span><span class="p">.</span><span class="nf">size</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+        <span class="n">val_loss</span> <span class="o">/=</span> <span class="nf">len</span><span class="p">(</span><span class="n">val_loader</span><span class="p">)</span>
+        <span class="n">val_accuracy</span> <span class="o">=</span> <span class="n">correct_val</span> <span class="o">/</span> <span class="n">total_val</span>
+
+        <span class="c1"># 에포크별 출력
+</span>        <span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="s">Epoch [</span><span class="si">{</span><span class="n">epoch</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s">/</span><span class="si">{</span><span class="n">epochs</span><span class="si">}</span><span class="s">], Training Loss: </span><span class="si">{</span><span class="n">train_loss</span><span class="si">:</span><span class="p">.</span><span class="mi">4</span><span class="n">f</span><span class="si">}</span><span class="s">, Validation Loss: </span><span class="si">{</span><span class="n">val_loss</span><span class="si">:</span><span class="p">.</span><span class="mi">4</span><span class="n">f</span><span class="si">}</span><span class="sh">"</span><span class="p">)</span>
+        <span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="s">Training Accuracy: </span><span class="si">{</span><span class="n">train_accuracy</span><span class="si">:</span><span class="p">.</span><span class="mi">4</span><span class="n">f</span><span class="si">}</span><span class="s">, Validation Accuracy: </span><span class="si">{</span><span class="n">val_accuracy</span><span class="si">:</span><span class="p">.</span><span class="mi">4</span><span class="n">f</span><span class="si">}</span><span class="sh">"</span><span class="p">)</span>
+
+        <span class="c1"># Wandb 로그 기록
+</span>        <span class="n">wandb</span><span class="p">.</span><span class="nf">log</span><span class="p">({</span>
+            <span class="sh">"</span><span class="s">epoch</span><span class="sh">"</span><span class="p">:</span> <span class="n">epoch</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span>
+            <span class="sh">"</span><span class="s">train_loss</span><span class="sh">"</span><span class="p">:</span> <span class="n">train_loss</span><span class="p">,</span>
+            <span class="sh">"</span><span class="s">val_loss</span><span class="sh">"</span><span class="p">:</span> <span class="n">val_loss</span><span class="p">,</span>
+            <span class="sh">"</span><span class="s">train_accuracy</span><span class="sh">"</span><span class="p">:</span> <span class="n">train_accuracy</span><span class="p">,</span>
+            <span class="sh">"</span><span class="s">val_accuracy</span><span class="sh">"</span><span class="p">:</span> <span class="n">val_accuracy</span>
+        <span class="p">})</span>
+</code></pre></div></div>
+
+  </div>
+</article>
+
+        </div>
+    </div>
+</body>
+</html>

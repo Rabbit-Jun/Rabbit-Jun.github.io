@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>rabbitjun</title>
+    <link rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body>
+    <header class="site-header">
+        <div class="container">
+            <a href="/" class="blog-name">RabbitJun</a>
+        </div>
+        <hr> <!-- 전체 너비의 선 -->
+    </header>
+    <div class="container sidebar-content">
+        <div class="sidebar">
+    <!-- 프로필 정보 -->
+    <div class="profile">
+        <img src="/assets/images/profile.jpg" alt="프로필 이미지" class="profile-image">
+        <h2>juneon</h2>
+        <p>아직 모르는게 많아 열심히 공부중</p>
+    </div>
+    
+    <!-- 사이드바 카테고리 목록 -->
+    <div class="sidebar-categories">
+        <ul>
+            
+            <li><a href="/category/objectdetection">objectdetection</a></li>
+            
+            <li><a href="/category/webcrawling">webcrawling</a></li>
+            
+            <li><a href="/category/linear_algebra">linear_algebra</a></li>
+            
+            <li><a href="/category/diary">diary</a></li>
+            
+            <li><a href="/category/computervision">computervision</a></li>
+            
+            <li><a href="/category/deeplearning">deeplearning</a></li>
+            
+            <li><a href="/category/preferences">preferences</a></li>
+            
+            <li><a href="/category/hnv">hnv</a></li>
+            
+            <li><a href="/category/network_program">network_program</a></li>
+            
+            <li><a href="/category/computer_structure">computer_structure</a></li>
+            
+        </ul>
+        
+    </div>
+</div>
+
+        <div class="content">
+            <article class="post-box">
+  <div class="post-header">
+    <h1>dataload</h1>
+    <p class="post-date">Nov 20, 2024</p>
+  </div>
+  <div class="post-content">
+    <h1 id="이진-분류로-바꿔-보자">이진 분류로 바꿔 보자</h1>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">label</span> <span class="o">=</span> <span class="n">filename</span><span class="p">.</span><span class="nf">split</span><span class="p">(</span><span class="sh">'</span><span class="s">@</span><span class="sh">'</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">label</span> <span class="o">=</span> <span class="sh">'</span><span class="s">normal</span><span class="sh">'</span> <span class="k">if</span> <span class="n">label</span> <span class="o">==</span> <span class="sh">'</span><span class="s">normal</span><span class="sh">'</span> <span class="k">else</span> <span class="sh">'</span><span class="s">error</span><span class="sh">'</span>
+</code></pre></div></div>
+<p>@ 앞에 어쩌고저쩌고 에러 또는 normal이 있던걸 if문을 통해 노말 또는 에러로 바꾸고<br />
+train.py 에서는  output 사이즈를 2로 바꾸고</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="n">precision</span> <span class="o">=</span> <span class="nf">precision_score</span><span class="p">(</span><span class="n">all_labels</span><span class="p">,</span> <span class="n">all_predictions</span><span class="p">,</span> <span class="n">average</span><span class="o">=</span><span class="sh">'</span><span class="s">binary</span><span class="sh">'</span><span class="p">)</span>
+    <span class="n">recall</span> <span class="o">=</span> <span class="nf">recall_score</span><span class="p">(</span><span class="n">all_labels</span><span class="p">,</span> <span class="n">all_predictions</span><span class="p">,</span> <span class="n">average</span><span class="o">=</span><span class="sh">'</span><span class="s">binary</span><span class="sh">'</span><span class="p">)</span>
+    <span class="n">f1</span> <span class="o">=</span> <span class="nf">f1_score</span><span class="p">(</span><span class="n">all_labels</span><span class="p">,</span> <span class="n">all_predictions</span><span class="p">,</span> <span class="n">average</span><span class="o">=</span><span class="sh">'</span><span class="s">binary</span><span class="sh">'</span><span class="p">)</span>
+</code></pre></div></div>
+<p>average를 binary로 바꾸면 끝</p>
+
+  </div>
+</article>
+
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>rabbitjun</title>
+    <link rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body>
+    <header class="site-header">
+        <div class="container">
+            <a href="/" class="blog-name">RabbitJun</a>
+        </div>
+        <hr> <!-- 전체 너비의 선 -->
+    </header>
+    <div class="container sidebar-content">
+        <div class="sidebar">
+    <!-- 프로필 정보 -->
+    <div class="profile">
+        <img src="/assets/images/profile.jpg" alt="프로필 이미지" class="profile-image">
+        <h2>juneon</h2>
+        <p>아직 모르는게 많아 열심히 공부중</p>
+    </div>
+    
+    <!-- 사이드바 카테고리 목록 -->
+    <div class="sidebar-categories">
+        <ul>
+            
+            <li><a href="/category/objectdetection">objectdetection</a></li>
+            
+            <li><a href="/category/webcrawling">webcrawling</a></li>
+            
+            <li><a href="/category/linear_algebra">linear_algebra</a></li>
+            
+            <li><a href="/category/diary">diary</a></li>
+            
+            <li><a href="/category/computervision">computervision</a></li>
+            
+            <li><a href="/category/deeplearning">deeplearning</a></li>
+            
+            <li><a href="/category/preferences">preferences</a></li>
+            
+            <li><a href="/category/hnv">hnv</a></li>
+            
+            <li><a href="/category/network_program">network_program</a></li>
+            
+            <li><a href="/category/computer_structure">computer_structure</a></li>
+            
+        </ul>
+        
+    </div>
+</div>
+
+        <div class="content">
+            <article class="post-box">
+  <div class="post-header">
+    <h1>correlation2</h1>
+    <p class="post-date">Nov 20, 2024</p>
+  </div>
+  <div class="post-content">
+    <h1 id="gpu로-상관관계분석">GPU로 상관관계분석</h1>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">torch</span>
+<span class="kn">import</span> <span class="n">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="kn">import</span> <span class="n">seaborn</span> <span class="k">as</span> <span class="n">sns</span>
+<span class="kn">import</span> <span class="n">pandas</span> <span class="k">as</span> <span class="n">pd</span>
+<span class="kn">from</span> <span class="n">dataload</span> <span class="kn">import</span> <span class="n">load_data</span>
+<span class="kn">import</span> <span class="n">numpy</span> <span class="k">as</span> <span class="n">np</span>  <span class="c1"># 랜덤 샘플링에 사용
+</span>
+<span class="c1"># 데이터 로드
+</span><span class="n">train_x</span><span class="p">,</span> <span class="n">train_y</span><span class="p">,</span> <span class="n">test_x</span><span class="p">,</span> <span class="n">test_y</span><span class="p">,</span> <span class="n">val_x</span><span class="p">,</span> <span class="n">val_y</span> <span class="o">=</span> <span class="nf">load_data</span><span class="p">(</span><span class="sh">'</span><span class="s">../data/train</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">../data/test</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">../data/val</span><span class="sh">'</span><span class="p">)</span>
+
+<span class="c1"># 훈련 데이터를 DataFrame으로 변환
+</span><span class="n">train_df</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nc">DataFrame</span><span class="p">(</span><span class="n">val_x</span><span class="p">)</span>
+<span class="n">train_df</span><span class="p">[</span><span class="sh">'</span><span class="s">label</span><span class="sh">'</span><span class="p">]</span> <span class="o">=</span> <span class="n">val_y</span>  <span class="c1"># 레이블 추가
+</span>
+<span class="c1"># 랜덤으로 10개 샘플 선택
+</span><span class="n">sampled_df</span> <span class="o">=</span> <span class="n">train_df</span><span class="p">.</span><span class="nf">sample</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>  <span class="c1"># random_state로 재현성 유지
+</span>
+<span class="c1"># 샘플 데이터를 GPU 텐서로 변환
+</span><span class="n">sampled_tensor</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="nf">tensor</span><span class="p">(</span><span class="n">sampled_df</span><span class="p">.</span><span class="n">values</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="sh">'</span><span class="s">cuda</span><span class="sh">'</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="p">.</span><span class="n">float32</span><span class="p">)</span>
+
+<span class="c1"># 각 열의 평균과 표준편차 계산
+</span><span class="n">mean</span> <span class="o">=</span> <span class="n">sampled_tensor</span><span class="p">.</span><span class="nf">mean</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">keepdim</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">std</span> <span class="o">=</span> <span class="n">sampled_tensor</span><span class="p">.</span><span class="nf">std</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">keepdim</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+<span class="c1"># 정규화 (Z-score)
+</span><span class="n">normalized_data</span> <span class="o">=</span> <span class="p">(</span><span class="n">sampled_tensor</span> <span class="o">-</span> <span class="n">mean</span><span class="p">)</span> <span class="o">/</span> <span class="n">std</span>
+
+<span class="c1"># 상관계수 계산
+</span><span class="n">correlation_matrix</span> <span class="o">=</span> <span class="p">(</span><span class="n">normalized_data</span><span class="p">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">normalized_data</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">normalized_data</span><span class="p">.</span><span class="nf">size</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+
+<span class="c1"># CPU로 다시 변환 및 Pandas DataFrame으로 변환
+</span><span class="n">correlation_matrix_cpu</span> <span class="o">=</span> <span class="n">correlation_matrix</span><span class="p">.</span><span class="nf">cpu</span><span class="p">().</span><span class="nf">numpy</span><span class="p">()</span>
+<span class="n">correlation_df</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nc">DataFrame</span><span class="p">(</span><span class="n">correlation_matrix_cpu</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">sampled_df</span><span class="p">.</span><span class="n">columns</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">sampled_df</span><span class="p">.</span><span class="n">columns</span><span class="p">)</span>
+
+<span class="c1"># 상관계수 히트맵 시각화
+</span><span class="n">plt</span><span class="p">.</span><span class="nf">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
+<span class="n">sns</span><span class="p">.</span><span class="nf">heatmap</span><span class="p">(</span><span class="n">correlation_df</span><span class="p">,</span> <span class="n">annot</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">fmt</span><span class="o">=</span><span class="sh">"</span><span class="s">.2f</span><span class="sh">"</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="sh">"</span><span class="s">coolwarm</span><span class="sh">"</span><span class="p">,</span> <span class="n">cbar</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="nf">title</span><span class="p">(</span><span class="sh">"</span><span class="s">Correlation Matrix of Randomly Sampled Features and Label (GPU Accelerated)</span><span class="sh">"</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="nf">savefig</span><span class="p">(</span><span class="sh">"</span><span class="s">correlation_matrix_sampled_gpu_heatmap.png</span><span class="sh">"</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">bbox_inches</span><span class="o">=</span><span class="sh">"</span><span class="s">tight</span><span class="sh">"</span><span class="p">)</span>
+
+<span class="c1"># 레이블과 각 변수 간의 상관계수 추출
+</span><span class="n">label_correlation</span> <span class="o">=</span> <span class="n">correlation_df</span><span class="p">[</span><span class="sh">'</span><span class="s">label</span><span class="sh">'</span><span class="p">].</span><span class="nf">sort_values</span><span class="p">(</span><span class="n">ascending</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">Correlation of features with label (GPU Accelerated):</span><span class="sh">"</span><span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="n">label_correlation</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h2 id="실패">실패</h2>
+<p>자원을 엄청 잡아먹더니<br />
+상관관계 분석이 안된다…</p>
+
+  </div>
+</article>
+
+        </div>
+    </div>
+</body>
+</html>

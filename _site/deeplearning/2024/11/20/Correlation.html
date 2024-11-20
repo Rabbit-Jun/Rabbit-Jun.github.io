@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>rabbitjun</title>
+    <link rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body>
+    <header class="site-header">
+        <div class="container">
+            <a href="/" class="blog-name">RabbitJun</a>
+        </div>
+        <hr> <!-- 전체 너비의 선 -->
+    </header>
+    <div class="container sidebar-content">
+        <div class="sidebar">
+    <!-- 프로필 정보 -->
+    <div class="profile">
+        <img src="/assets/images/profile.jpg" alt="프로필 이미지" class="profile-image">
+        <h2>juneon</h2>
+        <p>아직 모르는게 많아 열심히 공부중</p>
+    </div>
+    
+    <!-- 사이드바 카테고리 목록 -->
+    <div class="sidebar-categories">
+        <ul>
+            
+            <li><a href="/category/objectdetection">objectdetection</a></li>
+            
+            <li><a href="/category/webcrawling">webcrawling</a></li>
+            
+            <li><a href="/category/linear_algebra">linear_algebra</a></li>
+            
+            <li><a href="/category/diary">diary</a></li>
+            
+            <li><a href="/category/computervision">computervision</a></li>
+            
+            <li><a href="/category/deeplearning">deeplearning</a></li>
+            
+            <li><a href="/category/preferences">preferences</a></li>
+            
+            <li><a href="/category/hnv">hnv</a></li>
+            
+            <li><a href="/category/network_program">network_program</a></li>
+            
+            <li><a href="/category/computer_structure">computer_structure</a></li>
+            
+        </ul>
+        
+    </div>
+</div>
+
+        <div class="content">
+            <article class="post-box">
+  <div class="post-header">
+    <h1>correlation</h1>
+    <p class="post-date">Nov 20, 2024</p>
+  </div>
+  <div class="post-content">
+    <h1 id="상관관계">상관관계</h1>
+<p>두 변수 간의 연관성을 나타내는 통계적 개념<br />
+우리는 좌표와 0과 1 의 관계를 살펴 볼 것임</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="kn">import</span> <span class="n">seaborn</span> <span class="k">as</span> <span class="n">sns</span>
+<span class="kn">import</span> <span class="n">pandas</span> <span class="k">as</span> <span class="n">pd</span>
+<span class="kn">from</span> <span class="n">dataload</span> <span class="kn">import</span> <span class="n">load_data</span>
+
+<span class="kn">import</span> <span class="n">numpy</span> <span class="k">as</span> <span class="n">np</span>  <span class="c1"># 랜덤 샘플링에 사용
+</span>
+<span class="c1"># 데이터 로드
+</span><span class="n">train_x</span><span class="p">,</span> <span class="n">train_y</span><span class="p">,</span> <span class="n">test_x</span><span class="p">,</span> <span class="n">test_y</span><span class="p">,</span> <span class="n">val_x</span><span class="p">,</span> <span class="n">val_y</span> <span class="o">=</span> <span class="nf">load_data</span><span class="p">(</span><span class="sh">'</span><span class="s">../data/train</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">../data/test</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">../data/val</span><span class="sh">'</span><span class="p">)</span>
+
+<span class="c1"># 훈련 데이터를 DataFrame으로 변환
+</span><span class="n">train_df</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nc">DataFrame</span><span class="p">(</span><span class="n">val_x</span><span class="p">)</span>
+<span class="n">train_df</span><span class="p">[</span><span class="sh">'</span><span class="s">label</span><span class="sh">'</span><span class="p">]</span> <span class="o">=</span> <span class="n">val_y</span>  <span class="c1"># 레이블 추가
+</span>
+<span class="c1"># 랜덤으로 50개 샘플 선택
+</span><span class="n">sampled_df</span> <span class="o">=</span> <span class="n">train_df</span><span class="p">.</span><span class="nf">sample</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>  <span class="c1"># random_state로 재현성 유지
+</span>
+<span class="c1"># 상관계수 계산
+</span><span class="n">correlation_matrix</span> <span class="o">=</span> <span class="n">sampled_df</span><span class="p">.</span><span class="nf">corr</span><span class="p">()</span>
+
+<span class="c1"># 상관계수 히트맵 시각화
+</span><span class="n">plt</span><span class="p">.</span><span class="nf">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
+<span class="n">sns</span><span class="p">.</span><span class="nf">heatmap</span><span class="p">(</span><span class="n">correlation_matrix</span><span class="p">,</span> <span class="n">annot</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">fmt</span><span class="o">=</span><span class="sh">"</span><span class="s">.2f</span><span class="sh">"</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="sh">"</span><span class="s">coolwarm</span><span class="sh">"</span><span class="p">,</span> <span class="n">cbar</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="nf">title</span><span class="p">(</span><span class="sh">"</span><span class="s">Correlation Matrix of Randomly Sampled Features and Label</span><span class="sh">"</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="nf">savefig</span><span class="p">(</span><span class="sh">"</span><span class="s">correlation_matrix_sampled_heatmap.png</span><span class="sh">"</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">bbox_inches</span><span class="o">=</span><span class="sh">"</span><span class="s">tight</span><span class="sh">"</span><span class="p">)</span>
+
+<span class="c1"># 레이블과 각 변수 간의 상관계수 추출
+</span><span class="n">label_correlation</span> <span class="o">=</span> <span class="n">correlation_matrix</span><span class="p">[</span><span class="sh">'</span><span class="s">label</span><span class="sh">'</span><span class="p">].</span><span class="nf">sort_values</span><span class="p">(</span><span class="n">ascending</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">Correlation of features with label (sampled data):</span><span class="sh">"</span><span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="n">label_correlation</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">correlation_matrix = combined_data.corr()</code>는 <code class="language-plaintext highlighter-rouge">pandas</code>에서 제공하는 메서드</p>
+<ul>
+  <li>데이터프레임의 각 열(컬럼) 간의 <strong>상관관계(coefficient of correlation)</strong>를 계산합니다.</li>
+  <li>이 상관계수는 두 변수 간의 선형 관계를 나타내며, 값은 -1에서 1 사이입니다.</li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>1: 완벽한 양의 상관관계 (하나가 증가하면 다른 하나도 증가)
+-1: 완벽한 음의 상관관계 (하나가 증가하면 다른 하나는 감소)
+0: 상관관계 없음 (변수 간에 선형 관계가 없음)
+</code></pre></div></div>
+
+<h3 id="중요한-점"><strong>중요한 점</strong></h3>
+<p><code class="language-plaintext highlighter-rouge">combined_data.corr()</code>는 기본적으로 숫자형 데이터만 사용합니다.<br />
+따라서, CSV 파일의 이름이나 좌표(특정 텍스트 또는 범주형 데이터)가 포함된 경우, 이를 수치 데이터로 변환하거나 그룹핑 작업을 수행해야 상관관계를 분석할 수 있습니다.</p>
+
+<h2 id="실패">실패</h2>
+<p>자원을 엄청 잡아먹더니<br />
+상관관계 분석이 안된다…</p>
+
+  </div>
+</article>
+
+        </div>
+    </div>
+</body>
+</html>
