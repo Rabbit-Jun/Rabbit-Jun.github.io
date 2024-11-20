@@ -1,57 +1,10 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2024-11-20T12:49:31+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">RabbitJun’s Blog</title><subtitle>Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.</subtitle><entry><title type="html">correlation</title><link href="http://localhost:4000/deeplearning/2024/11/20/Correlation.html" rel="alternate" type="text/html" title="correlation" /><published>2024-11-20T00:00:00+09:00</published><updated>2024-11-20T00:00:00+09:00</updated><id>http://localhost:4000/deeplearning/2024/11/20/Correlation</id><content type="html" xml:base="http://localhost:4000/deeplearning/2024/11/20/Correlation.html"><![CDATA[<h1 id="상관관계">상관관계</h1>
-<p>두 변수 간의 연관성을 나타내는 통계적 개념<br />
-우리는 좌표와 0과 1 의 관계를 살펴 볼 것임</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2024-11-20T13:48:42+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">RabbitJun’s Blog</title><subtitle>Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.</subtitle><entry><title type="html">control_unit_structure</title><link href="http://localhost:4000/computer_structure/2024/11/20/control_unit_structure.html" rel="alternate" type="text/html" title="control_unit_structure" /><published>2024-11-20T00:00:00+09:00</published><updated>2024-11-20T00:00:00+09:00</updated><id>http://localhost:4000/computer_structure/2024/11/20/control_unit_structure</id><content type="html" xml:base="http://localhost:4000/computer_structure/2024/11/20/control_unit_structure.html"><![CDATA[<h1 id="제어-유니트의-구조">제어 유니트의 구조</h1>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
-<span class="kn">import</span> <span class="n">seaborn</span> <span class="k">as</span> <span class="n">sns</span>
-<span class="kn">import</span> <span class="n">pandas</span> <span class="k">as</span> <span class="n">pd</span>
-<span class="kn">from</span> <span class="n">dataload</span> <span class="kn">import</span> <span class="n">load_data</span>
-
-<span class="kn">import</span> <span class="n">numpy</span> <span class="k">as</span> <span class="n">np</span>  <span class="c1"># 랜덤 샘플링에 사용
-</span>
-<span class="c1"># 데이터 로드
-</span><span class="n">train_x</span><span class="p">,</span> <span class="n">train_y</span><span class="p">,</span> <span class="n">test_x</span><span class="p">,</span> <span class="n">test_y</span><span class="p">,</span> <span class="n">val_x</span><span class="p">,</span> <span class="n">val_y</span> <span class="o">=</span> <span class="nf">load_data</span><span class="p">(</span><span class="sh">'</span><span class="s">../data/train</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">../data/test</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">../data/val</span><span class="sh">'</span><span class="p">)</span>
-
-<span class="c1"># 훈련 데이터를 DataFrame으로 변환
-</span><span class="n">train_df</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nc">DataFrame</span><span class="p">(</span><span class="n">val_x</span><span class="p">)</span>
-<span class="n">train_df</span><span class="p">[</span><span class="sh">'</span><span class="s">label</span><span class="sh">'</span><span class="p">]</span> <span class="o">=</span> <span class="n">val_y</span>  <span class="c1"># 레이블 추가
-</span>
-<span class="c1"># 랜덤으로 50개 샘플 선택
-</span><span class="n">sampled_df</span> <span class="o">=</span> <span class="n">train_df</span><span class="p">.</span><span class="nf">sample</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>  <span class="c1"># random_state로 재현성 유지
-</span>
-<span class="c1"># 상관계수 계산
-</span><span class="n">correlation_matrix</span> <span class="o">=</span> <span class="n">sampled_df</span><span class="p">.</span><span class="nf">corr</span><span class="p">()</span>
-
-<span class="c1"># 상관계수 히트맵 시각화
-</span><span class="n">plt</span><span class="p">.</span><span class="nf">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
-<span class="n">sns</span><span class="p">.</span><span class="nf">heatmap</span><span class="p">(</span><span class="n">correlation_matrix</span><span class="p">,</span> <span class="n">annot</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">fmt</span><span class="o">=</span><span class="sh">"</span><span class="s">.2f</span><span class="sh">"</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="sh">"</span><span class="s">coolwarm</span><span class="sh">"</span><span class="p">,</span> <span class="n">cbar</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-<span class="n">plt</span><span class="p">.</span><span class="nf">title</span><span class="p">(</span><span class="sh">"</span><span class="s">Correlation Matrix of Randomly Sampled Features and Label</span><span class="sh">"</span><span class="p">)</span>
-<span class="n">plt</span><span class="p">.</span><span class="nf">savefig</span><span class="p">(</span><span class="sh">"</span><span class="s">correlation_matrix_sampled_heatmap.png</span><span class="sh">"</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">bbox_inches</span><span class="o">=</span><span class="sh">"</span><span class="s">tight</span><span class="sh">"</span><span class="p">)</span>
-
-<span class="c1"># 레이블과 각 변수 간의 상관계수 추출
-</span><span class="n">label_correlation</span> <span class="o">=</span> <span class="n">correlation_matrix</span><span class="p">[</span><span class="sh">'</span><span class="s">label</span><span class="sh">'</span><span class="p">].</span><span class="nf">sort_values</span><span class="p">(</span><span class="n">ascending</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
-<span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">Correlation of features with label (sampled data):</span><span class="sh">"</span><span class="p">)</span>
-<span class="nf">print</span><span class="p">(</span><span class="n">label_correlation</span><span class="p">)</span>
-</code></pre></div></div>
-
-<p><code class="language-plaintext highlighter-rouge">correlation_matrix = combined_data.corr()</code>는 <code class="language-plaintext highlighter-rouge">pandas</code>에서 제공하는 메서드</p>
-<ul>
-  <li>데이터프레임의 각 열(컬럼) 간의 <strong>상관관계(coefficient of correlation)</strong>를 계산합니다.</li>
-  <li>이 상관계수는 두 변수 간의 선형 관계를 나타내며, 값은 -1에서 1 사이입니다.</li>
-</ul>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>1: 완벽한 양의 상관관계 (하나가 증가하면 다른 하나도 증가)
--1: 완벽한 음의 상관관계 (하나가 증가하면 다른 하나는 감소)
-0: 상관관계 없음 (변수 간에 선형 관계가 없음)
-</code></pre></div></div>
-
-<h3 id="중요한-점"><strong>중요한 점</strong></h3>
-<p><code class="language-plaintext highlighter-rouge">combined_data.corr()</code>는 기본적으로 숫자형 데이터만 사용합니다.<br />
-따라서, CSV 파일의 이름이나 좌표(특정 텍스트 또는 범주형 데이터)가 포함된 경우, 이를 수치 데이터로 변환하거나 그룹핑 작업을 수행해야 상관관계를 분석할 수 있습니다.</p>
-
-<h2 id="실패">실패</h2>
-<p>자원을 엄청 잡아먹더니<br />
-상관관계 분석이 안된다…</p>]]></content><author><name></name></author><category term="deeplearning" /><summary type="html"><![CDATA[상관관계 두 변수 간의 연관성을 나타내는 통계적 개념 우리는 좌표와 0과 1 의 관계를 살펴 볼 것임]]></summary></entry><entry><title type="html">wandb</title><link href="http://localhost:4000/deeplearning/2024/11/20/wandb.html" rel="alternate" type="text/html" title="wandb" /><published>2024-11-20T00:00:00+09:00</published><updated>2024-11-20T00:00:00+09:00</updated><id>http://localhost:4000/deeplearning/2024/11/20/wandb</id><content type="html" xml:base="http://localhost:4000/deeplearning/2024/11/20/wandb.html"><![CDATA[<h1 id="wandb를-사용하자">wandb를 사용하자</h1>
+<p><img src="image-15.png" alt="alt text" /><br />
+<strong>명령어 해독기(instruction decoder)</strong>: 명령어 레지스터(IR)로부터 들어오는 명령ㅇ어의 연산 코드를 해독하여 해당 연산을 수행하기 위한 루틴의 시작 주소를 결정한다.<br />
+<strong>제어 주소 레지스터(control address register: CAR)</strong>: 다음에 실행할 마이크로명령어의 주소를 저장하는 레지스터. (<em>이 주소는 제어 기억장치의 특정 위치를 가리킨다.</em>)<br />
+<strong>제어 기억장치(control memory)</strong>: 마이크로명령어들로 이루어진 마이크로프로그램을 저장하는 내부 기억장치<br />
+<strong>제어 버퍼 레지스터(control buffer register: CBR)</strong>: 제어 기억장치로부터 읽혀진 마이크로명령어를 일시적으로 저장하는 레지스터</p>]]></content><author><name></name></author><category term="computer_structure" /><summary type="html"><![CDATA[제어 유니트의 구조]]></summary></entry><entry><title type="html">wandb</title><link href="http://localhost:4000/deeplearning/2024/11/20/wandb.html" rel="alternate" type="text/html" title="wandb" /><published>2024-11-20T00:00:00+09:00</published><updated>2024-11-20T00:00:00+09:00</updated><id>http://localhost:4000/deeplearning/2024/11/20/wandb</id><content type="html" xml:base="http://localhost:4000/deeplearning/2024/11/20/wandb.html"><![CDATA[<h1 id="wandb를-사용하자">wandb를 사용하자</h1>
 <p>먼저 wandb에 회원 가입한 후에
 <code class="language-plaintext highlighter-rouge">pip install wandb</code>를 해주고
 <code class="language-plaintext highlighter-rouge">wandb login</code> 후에 홈페이지에 있는 api를 복사해서 넣어주면 된다.
@@ -215,7 +168,60 @@ train.py 에서는  output 사이즈를 2로 바꾸고</p>
 
 <h2 id="실패">실패</h2>
 <p>자원을 엄청 잡아먹더니<br />
-상관관계 분석이 안된다…</p>]]></content><author><name></name></author><category term="deeplearning" /><summary type="html"><![CDATA[GPU로 상관관계분석 ```python import torch import matplotlib.pyplot as plt import seaborn as sns import pandas as pd from dataload import load_data import numpy as np # 랜덤 샘플링에 사용]]></summary></entry><entry><title type="html">multy</title><link href="http://localhost:4000/computer_structure/2024/11/19/multy.html" rel="alternate" type="text/html" title="multy" /><published>2024-11-19T00:00:00+09:00</published><updated>2024-11-19T00:00:00+09:00</updated><id>http://localhost:4000/computer_structure/2024/11/19/multy</id><content type="html" xml:base="http://localhost:4000/computer_structure/2024/11/19/multy.html"><![CDATA[<h1 id="2진-부동소수점-곱셈-과정">2진 부동소수점 곱셈 과정</h1>
+상관관계 분석이 안된다…</p>]]></content><author><name></name></author><category term="deeplearning" /><summary type="html"><![CDATA[GPU로 상관관계분석 ```python import torch import matplotlib.pyplot as plt import seaborn as sns import pandas as pd from dataload import load_data import numpy as np # 랜덤 샘플링에 사용]]></summary></entry><entry><title type="html">correlation</title><link href="http://localhost:4000/deeplearning/2024/11/20/Correlation.html" rel="alternate" type="text/html" title="correlation" /><published>2024-11-20T00:00:00+09:00</published><updated>2024-11-20T00:00:00+09:00</updated><id>http://localhost:4000/deeplearning/2024/11/20/Correlation</id><content type="html" xml:base="http://localhost:4000/deeplearning/2024/11/20/Correlation.html"><![CDATA[<h1 id="상관관계">상관관계</h1>
+<p>두 변수 간의 연관성을 나타내는 통계적 개념<br />
+우리는 좌표와 0과 1 의 관계를 살펴 볼 것임</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="kn">import</span> <span class="n">seaborn</span> <span class="k">as</span> <span class="n">sns</span>
+<span class="kn">import</span> <span class="n">pandas</span> <span class="k">as</span> <span class="n">pd</span>
+<span class="kn">from</span> <span class="n">dataload</span> <span class="kn">import</span> <span class="n">load_data</span>
+
+<span class="kn">import</span> <span class="n">numpy</span> <span class="k">as</span> <span class="n">np</span>  <span class="c1"># 랜덤 샘플링에 사용
+</span>
+<span class="c1"># 데이터 로드
+</span><span class="n">train_x</span><span class="p">,</span> <span class="n">train_y</span><span class="p">,</span> <span class="n">test_x</span><span class="p">,</span> <span class="n">test_y</span><span class="p">,</span> <span class="n">val_x</span><span class="p">,</span> <span class="n">val_y</span> <span class="o">=</span> <span class="nf">load_data</span><span class="p">(</span><span class="sh">'</span><span class="s">../data/train</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">../data/test</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">../data/val</span><span class="sh">'</span><span class="p">)</span>
+
+<span class="c1"># 훈련 데이터를 DataFrame으로 변환
+</span><span class="n">train_df</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nc">DataFrame</span><span class="p">(</span><span class="n">val_x</span><span class="p">)</span>
+<span class="n">train_df</span><span class="p">[</span><span class="sh">'</span><span class="s">label</span><span class="sh">'</span><span class="p">]</span> <span class="o">=</span> <span class="n">val_y</span>  <span class="c1"># 레이블 추가
+</span>
+<span class="c1"># 랜덤으로 50개 샘플 선택
+</span><span class="n">sampled_df</span> <span class="o">=</span> <span class="n">train_df</span><span class="p">.</span><span class="nf">sample</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>  <span class="c1"># random_state로 재현성 유지
+</span>
+<span class="c1"># 상관계수 계산
+</span><span class="n">correlation_matrix</span> <span class="o">=</span> <span class="n">sampled_df</span><span class="p">.</span><span class="nf">corr</span><span class="p">()</span>
+
+<span class="c1"># 상관계수 히트맵 시각화
+</span><span class="n">plt</span><span class="p">.</span><span class="nf">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
+<span class="n">sns</span><span class="p">.</span><span class="nf">heatmap</span><span class="p">(</span><span class="n">correlation_matrix</span><span class="p">,</span> <span class="n">annot</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">fmt</span><span class="o">=</span><span class="sh">"</span><span class="s">.2f</span><span class="sh">"</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="sh">"</span><span class="s">coolwarm</span><span class="sh">"</span><span class="p">,</span> <span class="n">cbar</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="nf">title</span><span class="p">(</span><span class="sh">"</span><span class="s">Correlation Matrix of Randomly Sampled Features and Label</span><span class="sh">"</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="nf">savefig</span><span class="p">(</span><span class="sh">"</span><span class="s">correlation_matrix_sampled_heatmap.png</span><span class="sh">"</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">bbox_inches</span><span class="o">=</span><span class="sh">"</span><span class="s">tight</span><span class="sh">"</span><span class="p">)</span>
+
+<span class="c1"># 레이블과 각 변수 간의 상관계수 추출
+</span><span class="n">label_correlation</span> <span class="o">=</span> <span class="n">correlation_matrix</span><span class="p">[</span><span class="sh">'</span><span class="s">label</span><span class="sh">'</span><span class="p">].</span><span class="nf">sort_values</span><span class="p">(</span><span class="n">ascending</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">Correlation of features with label (sampled data):</span><span class="sh">"</span><span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="n">label_correlation</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">correlation_matrix = combined_data.corr()</code>는 <code class="language-plaintext highlighter-rouge">pandas</code>에서 제공하는 메서드</p>
+<ul>
+  <li>데이터프레임의 각 열(컬럼) 간의 <strong>상관관계(coefficient of correlation)</strong>를 계산합니다.</li>
+  <li>이 상관계수는 두 변수 간의 선형 관계를 나타내며, 값은 -1에서 1 사이입니다.</li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>1: 완벽한 양의 상관관계 (하나가 증가하면 다른 하나도 증가)
+-1: 완벽한 음의 상관관계 (하나가 증가하면 다른 하나는 감소)
+0: 상관관계 없음 (변수 간에 선형 관계가 없음)
+</code></pre></div></div>
+
+<h3 id="중요한-점"><strong>중요한 점</strong></h3>
+<p><code class="language-plaintext highlighter-rouge">combined_data.corr()</code>는 기본적으로 숫자형 데이터만 사용합니다.<br />
+따라서, CSV 파일의 이름이나 좌표(특정 텍스트 또는 범주형 데이터)가 포함된 경우, 이를 수치 데이터로 변환하거나 그룹핑 작업을 수행해야 상관관계를 분석할 수 있습니다.</p>
+
+<h2 id="실패">실패</h2>
+<p>자원을 엄청 잡아먹더니<br />
+상관관계 분석이 안된다…</p>]]></content><author><name></name></author><category term="deeplearning" /><summary type="html"><![CDATA[상관관계 두 변수 간의 연관성을 나타내는 통계적 개념 우리는 좌표와 0과 1 의 관계를 살펴 볼 것임]]></summary></entry><entry><title type="html">multy</title><link href="http://localhost:4000/computer_structure/2024/11/19/multy.html" rel="alternate" type="text/html" title="multy" /><published>2024-11-19T00:00:00+09:00</published><updated>2024-11-19T00:00:00+09:00</updated><id>http://localhost:4000/computer_structure/2024/11/19/multy</id><content type="html" xml:base="http://localhost:4000/computer_structure/2024/11/19/multy.html"><![CDATA[<h1 id="2진-부동소수점-곱셈-과정">2진 부동소수점 곱셈 과정</h1>
 <ol>
   <li>가수들을 곱한다(<em>부호를 고려해야 함, 곱셈 결과 길이가 승수나 피승수의 두배가 됨</em>)</li>
   <li>지수들을 더한다(<em>바이어스가 있다면 지수들을 더하 합의 바이어스 값은 두 배가 되므로 그 합으로부터 바이어스 값을 한 번 빼야한다, 나눗셈이면 더해야 함</em>)</li>
@@ -317,18 +323,5 @@ N=(-1)^1 * 2^130-127<br />
 
 <p>M의 범위가 0.5보다 크거나 같고 1-2^-23보다 작거나 같아야 할것 같은데 왜 <strong>2^-24</strong>보다 작거나 같은지 이해가 안가네</p>
 
-<h3 id="이유">이유</h3>
-<p>히든 비트가 있으니깐 24비트로 표현 가능</p>]]></content><author><name></name></author><category term="computer_structure" /><summary type="html"><![CDATA[바이어스?]]></summary></entry><entry><title type="html">add</title><link href="http://localhost:4000/computer_structure/2024/11/19/add.html" rel="alternate" type="text/html" title="add" /><published>2024-11-19T00:00:00+09:00</published><updated>2024-11-19T00:00:00+09:00</updated><id>http://localhost:4000/computer_structure/2024/11/19/add</id><content type="html" xml:base="http://localhost:4000/computer_structure/2024/11/19/add.html"><![CDATA[<h1 id="덧샘과-뺄셈">덧샘과 뺄셈</h1>
-
-<ol>
-  <li>두 수의 소수점 위치를 일치시킨다.(<em>두 수들중에서 더 작은 수를 우측으로 시프트</em>)</li>
-  <li>가수들 간에 더하기를 수행</li>
-  <li>결과를 정규화 시킨다.</li>
-</ol>
-
-<h3 id="문제-부동소수점-수들-간의-덧셈0110100--23--011110025을-수행하라">문제: 부동소수점 수들 간의 덧셈(0.110100 * 2^3 + 0.111100*2^5)을 수행하라.</h3>
-
-<h2 id="풀이">풀이</h2>
-<p><img src="image-12.png" alt="alt text" /></p>
-
-<p>뺄셈도 같은 방법으로 처리 가능(<em>감수를 2의 보수로 변환하여 더해야 한다</em>)</p>]]></content><author><name></name></author><category term="computer_structure" /><summary type="html"><![CDATA[덧샘과 뺄셈]]></summary></entry></feed>
+<h3 id="2-24-설명">2^-24 설명</h3>
+<p>히든 비트가 있으니깐 24비트로 표현 가능</p>]]></content><author><name></name></author><category term="computer_structure" /><summary type="html"><![CDATA[바이어스?]]></summary></entry></feed>

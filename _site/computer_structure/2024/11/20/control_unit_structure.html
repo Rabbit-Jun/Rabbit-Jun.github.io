@@ -53,32 +53,17 @@
         <div class="content">
             <article class="post-box">
   <div class="post-header">
-    <h1>biased.md</h1>
-    <p class="post-date">Nov 19, 2024</p>
+    <h1>control_unit_structure</h1>
+    <p class="post-date">Nov 20, 2024</p>
   </div>
   <div class="post-content">
-    <h1 id="바이어스">바이어스?</h1>
+    <h1 id="제어-유니트의-구조">제어 유니트의 구조</h1>
 
-<p>우리가 정규화된 표현을 쓸 때 <strong>정수0</strong>에 대해서 문제가 발생함</p>
-
-<p>컴퓨터는 <strong>zero-test</strong>를 수시로 해서 이게 0인지 아닌지 판별을 하는데, 이 컴퓨터가 0은 모든 비트들이 0이다라는걸 기본적으로 깔고 감<br />
-<img src="image-3.png" alt="alt text" /><br />
-이렇게 하면 아주 이상적</p>
-
-<p>이제 지수가 음수 일때를 생각해보자.<br />
-지수가 음수면 일단 지수에도 부호를 넣어줘야 함 -&gt; 비트 낭비하기 싫음 -&gt; 음수를 양수로 처리해서 쓰자 -&gt; 바이어스 등장!!<br />
-(<em>그리고 지수가 한 없이 큰 음수이면 언더플로우나 정밀도 손실이 발생할 수 있다</em>)</p>
-
-<p>ex) 바이어스가 127이면 지수 비트에 01111111을 더해주면 끝</p>
-
-<p><img src="image-4.png" alt="alt text" /></p>
-
-<p><img src="image-5.png" alt="alt text" /></p>
-
-<p>M의 범위가 0.5보다 크거나 같고 1-2^-23보다 작거나 같아야 할것 같은데 왜 <strong>2^-24</strong>보다 작거나 같은지 이해가 안가네</p>
-
-<h3 id="2-24-설명">2^-24 설명</h3>
-<p>히든 비트가 있으니깐 24비트로 표현 가능</p>
+<p><img src="image-15.png" alt="alt text" /><br />
+<strong>명령어 해독기(instruction decoder)</strong>: 명령어 레지스터(IR)로부터 들어오는 명령ㅇ어의 연산 코드를 해독하여 해당 연산을 수행하기 위한 루틴의 시작 주소를 결정한다.<br />
+<strong>제어 주소 레지스터(control address register: CAR)</strong>: 다음에 실행할 마이크로명령어의 주소를 저장하는 레지스터. (<em>이 주소는 제어 기억장치의 특정 위치를 가리킨다.</em>)<br />
+<strong>제어 기억장치(control memory)</strong>: 마이크로명령어들로 이루어진 마이크로프로그램을 저장하는 내부 기억장치<br />
+<strong>제어 버퍼 레지스터(control buffer register: CBR)</strong>: 제어 기억장치로부터 읽혀진 마이크로명령어를 일시적으로 저장하는 레지스터</p>
 
   </div>
 </article>
