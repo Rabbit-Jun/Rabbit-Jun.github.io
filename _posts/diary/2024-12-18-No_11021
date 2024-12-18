@@ -1,0 +1,42 @@
+---
+title: No.11021
+date: 2024-12-18
+layout: post
+category: baekjoon
+---
+문제
+--
+두 정수 A와 B를 입력받은 다음, A+B를 출력하는 프로그램을 작성하시오.
+
+입력
+--
+첫째 줄에 테스트 케이스의 개수 T가 주어진다.
+
+각 테스트 케이스는 한 줄로 이루어져 있으며, 각 줄에 A와 B가 주어진다. (0 < A, B < 10)  
+
+풀이
+--
+```python
+import sys
+T= int(sys.stdin.readline())
+for i in range(T):
+    print(f"Case #{i+1}: {sum([int(i) for i in sys.stdin.readline().split(' ')])}")
+```    
+
+근데 이렇게 한 것보다 
+```python
+import sys
+T= int(sys.stdin.readline().rstrip())
+for i in range(T):
+    A,B=map(int,sys.stdin.readline().split(' '))
+    print(f'Case #{i+1}:',A + B)
+```  
+
+그 이유는 리스트를 생성하는데 cpu 사용하고 sum() 함수로 리스트를 모두 순회해야 해서 그럼  
+그에 비해 map은 이터레이터를 반환함  
+
+이터레이터는 데이터를 필요할 때 즉시 변환하므로 메모리 사용량이 훨씬 적음  
+
+
+이렇게 한게 더 빨랐음   
+
