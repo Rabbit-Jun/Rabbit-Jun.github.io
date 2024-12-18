@@ -1,6 +1,8 @@
-title:15552번
+---
+title: No.1552
 date: 2024-12-18
-category: baekjoon
+category: baekjjon
+layout: post
 ---
 문제  
 --
