@@ -11,14 +11,15 @@ T는 최대 1,000,000이다.
 다음 T줄에는 각각 두 정수 A와 B가 주어진다.  
 A와 B는 1 이상, 1,000 이하이다.  
 
-답변
+풀이
 --
+```python
 import sys
 T = int(input()) 
 for _ in range(T):
     A,B = map(int, sys.stdin.readline().split(' '))
     print(A + B)
-
+```
 
 오랜만에 하는거라 map() 안에 int()라고 쓰기도 하고 입력을 어떻게 넣어야 하는지도 해맸지만 가장 문제가 된건 runtime error
 python에서는 input()을 사용하면 절대 이 runtime error의 벽을 넘을 수 없었는데 그 이유는 input은 한 줄마다 자동으로 있는 \n를 제거하고 각종 검증을 하기 때문이란다.  
